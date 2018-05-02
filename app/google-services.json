@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "415501639787",
+    "firebase_url": "https://sensen-64833.firebaseio.com",
+    "project_id": "sensen-64833",
+    "storage_bucket": "sensen-64833.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:415501639787:android:2ab56814225dd327",
+        "android_client_info": {
+          "package_name": "chandra.sensen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "415501639787-09kcp45ktqd63a3hangjebsh3j8483of.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "chandra.sensen",
+            "certificate_hash": "842e4b12e681d83b3ac25e41b6444ab9d67fa7df"
+          }
+        },
+        {
+          "client_id": "415501639787-evssvbte44no9bj91s77tfegkgnca46h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmqEEZwl8evDggP2GesoZ2al5cqJDJ17w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "415501639787-evssvbte44no9bj91s77tfegkgnca46h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

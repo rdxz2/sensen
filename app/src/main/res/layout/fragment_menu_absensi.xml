@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp"
+    tools:context=".MenuAbsensiFragment">
+
+<!--    <TextView
+        android:text="Cari Data Absen"
+        android:textAlignment="center"
+        android:textSize="25dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="15dp"/>-->
+
+    <TableRow>
+        <EditText
+            android:id="@+id/cari_edit"
+            android:hint="Kata Kunci"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+        <Button
+            android:id="@+id/cari_button"
+            android:text="cari"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </TableRow>
+    <TableRow>
+        <EditText
+            android:id="@+id/tanggal_awal_edit"
+            android:hint="Tanggal Awal"
+            android:clickable="true"
+            android:focusable="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"/>
+        <TextView
+            android:text="s/d"
+            android:textAlignment="center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+        <EditText
+            android:id="@+id/tanggal_akhir_edit"
+            android:hint="Tanggal Akhir"
+            android:clickable="true"
+            android:focusable="false"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"/>
+    </TableRow>
+</TableLayout>
