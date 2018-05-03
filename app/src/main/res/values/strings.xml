@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">SenSen</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_camera_permission">Tidak ada akses kamera</string>
     <string name="low_storage_error">Memori tidak cukup</string>
     <string name="ok">OK</string>
+    <string name="app_version">v1.0</string>
 </resources>

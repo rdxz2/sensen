@@ -42,6 +42,7 @@ public class MenuActivity extends AppCompatActivity implements
         return super.onCreateOptionsMenu(menu);
     }
 
+
     // handle button activities
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -57,14 +58,22 @@ public class MenuActivity extends AppCompatActivity implements
             View view = layoutInflater.inflate(R.layout.dialog_info, null, false);
             final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MenuActivity.this);
             alertDialogBuilder.setView(view);
-            alertDialogBuilder.setCancelable(false).setNegativeButton("Kembali", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
+//            alertDialogBuilder.setCancelable(false).setNegativeButton("Kembali", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
             final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
+
+            Button kembaliButton = (Button) view.findViewById(R.id.kembali_button);
+            kembaliButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.hide();
+                }
+            });
         }
         return super.onOptionsItemSelected(item);
     }
@@ -93,8 +102,8 @@ public class MenuActivity extends AppCompatActivity implements
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
                 tab.getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
+                viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -104,9 +113,11 @@ public class MenuActivity extends AppCompatActivity implements
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                tab.getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
             }
         });
+//        viewPager.setCurrentItem(1);
+//        viewPager.setCurrentItem(0);
 
     }
 

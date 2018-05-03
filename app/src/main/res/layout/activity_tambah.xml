@@ -106,6 +106,13 @@
         android:layout_height="10dp"/>
     <TableRow>
         <Button
+            android:id="@+id/batal_button"
+            android:text="batal"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+        <Button
             android:id="@+id/tambah_button"
             android:text="tambah"
             android:fontFamily="casual"
@@ -113,13 +120,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingRight="8dp"/>
-        <Button
-            android:id="@+id/batal_button"
-            android:text="batal"
-            android:fontFamily="casual"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
     </TableRow>
 
 </TableLayout>

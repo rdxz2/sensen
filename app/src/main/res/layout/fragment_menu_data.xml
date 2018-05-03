@@ -23,6 +23,8 @@
     <EditText
         android:id="@+id/cari_edit"
         android:hint="Kata Kunci"
+        android:drawableStart="@drawable/ic_search_black_24dp"
+        android:drawablePadding="8dp"
         android:fontFamily="casual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
