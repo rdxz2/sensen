@@ -14,87 +14,59 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:paddingBottom="20dp"
+        android:gravity="center"
         android:orientation="vertical">
         <ImageView
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
             android:src="@drawable/logo_sidharta"/>
-        <TableLayout
+        <Space
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TableRow
-                android:paddingTop="20dp"
-                android:paddingRight="60dp"
-                android:paddingLeft="60dp">
-                <ImageView
-                    android:src="@drawable/ic_person_black_24dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
-                <EditText
-                    android:id="@+id/username_edit"
-                    android:hint="Nama Pengguna"
-                    android:inputType="textEmailAddress"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            </TableRow>
-            <TableRow
-                android:paddingRight="60dp"
-                android:paddingLeft="60dp">
-                <ImageView
-                    android:src="@drawable/ic_lock_outline_black_24dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"/>
-                <EditText
-                    android:id="@+id/password_edit"
-                    android:hint="Kata Sandi"
-                    android:inputType="textPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"/>
-            </TableRow>
-            <TableRow
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp">
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
-                <CheckBox
-                    android:id="@+id/rememberme_checkbox"
-                    android:text="Ingat saya"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow>
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
-                <Button
-                    android:id="@+id/login_button"
-                    android:text=" masuk"
-                    android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
-                    android:paddingEnd="10dp"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"/>
+            android:layout_height="20dp" />
+        <EditText
+            android:id="@+id/username_edit"
+            android:hint="Nama Pengguna"
+            android:fontFamily="casual"
+            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:drawablePadding="8dp"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <EditText
+            android:id="@+id/password_edit"
+            android:hint="Kata Sandi"
+            android:fontFamily="casual"
+            android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+            android:drawablePadding="8dp"
+            android:inputType="textPassword"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <CheckBox
+            android:id="@+id/rememberme_checkbox"
+            android:text="Ingat saya"
+            android:fontFamily="casual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <Button
+            android:id="@+id/login_button"
+            android:text=" masuk"
+            android:fontFamily="casual"
+            android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
+            android:paddingEnd="10dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
 
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
-            </TableRow>
-        </TableLayout>
     </LinearLayout>
 
 </ScrollView>

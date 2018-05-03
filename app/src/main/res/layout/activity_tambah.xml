@@ -12,36 +12,111 @@
 
     <TextView
         android:text="Tambah Data"
+        android:fontFamily="casual"
         android:textAlignment="center"
         android:textSize="25dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"/>
-
+        android:layout_height="wrap_content"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
     <TableRow>
         <TextView
-            android:text="Username"
+            android:text="ID"
+            android:fontFamily="casual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:gravity="right"
+            android:layout_weight="1"
+            android:paddingRight="8dp"/>
+        <EditText
+            android:id="@+id/id_edit"
+            android:layout_width="0dp"
+            android:clickable="false"
+            android:editable="false"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="Nama Pengguna"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:paddingRight="8dp"/>
         <EditText
             android:id="@+id/username_edit"
+            android:fontFamily="casual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"/>
     </TableRow>
-
-
+    <TableRow>
+        <TextView
+            android:text="Kata Sandi"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:paddingRight="8dp"/>
+        <EditText
+            android:id="@+id/password_edit"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="Alamat"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:paddingRight="8dp"/>
+        <EditText
+            android:id="@+id/alamat_edit"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="No. Handphone"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:layout_weight="1"
+            android:paddingRight="8dp"/>
+        <EditText
+            android:id="@+id/nohp_edit"
+            android:fontFamily="casual"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"/>
+    </TableRow>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
     <TableRow>
         <Button
             android:id="@+id/tambah_button"
             android:text="tambah"
+            android:fontFamily="casual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:paddingRight="8dp"/>
         <Button
             android:id="@+id/batal_button"
             android:text="batal"
+            android:fontFamily="casual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>

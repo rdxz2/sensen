@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,6 +9,7 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
+    android:orientation="vertical"
     tools:context=".MenuAbsensiFragment">
 
 <!--    <TextView
@@ -22,6 +23,7 @@
     <EditText
         android:id="@+id/cari_edit"
         android:hint="Kata Kunci"
+        android:fontFamily="casual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -52,4 +54,4 @@
         android:paddingRight="30dp"
         android:paddingBottom="30dp" />
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

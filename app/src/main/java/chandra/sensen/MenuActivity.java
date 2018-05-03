@@ -65,11 +65,6 @@ public class MenuActivity extends AppCompatActivity implements
             });
             final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
-
-            final Button negativeButton = alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE);
-            LinearLayout.LayoutParams negativeButtonLL = (LinearLayout.LayoutParams) negativeButton.getLayoutParams();
-            negativeButtonLL.gravity = Gravity.CENTER;
-            negativeButton.setLayoutParams(negativeButtonLL);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -82,7 +77,7 @@ public class MenuActivity extends AppCompatActivity implements
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home_black_24dp).setText("Utama"));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_grid_on_black_24dp).setText("Absensi"));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_person_black_24dp).setText("Data"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_group_black_24dp).setText("Data"));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_settings_black_24dp).setText("Admin"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabTextColors(

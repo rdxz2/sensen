@@ -114,9 +114,18 @@ public class MenuUtamaFragment extends Fragment{
     EditText idEdit;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
+
+        idEdit = (EditText) v.findViewById(R.id.id_edit);
+
+        Button absenButton = (Button) v.findViewById(R.id.absen_button);
+        absenButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), idEdit.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Button qrButton = (Button) v.findViewById(R.id.qr_button);
         qrButton.setOnClickListener(new View.OnClickListener() {

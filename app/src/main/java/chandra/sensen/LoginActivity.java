@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(cursor.getCount() > 0){
                     cursor.moveToFirst();
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-//                    intent.putExtra("ID", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
+                    intent.putExtra("ID", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
 
                     SharedPreferences.Editor prefEdit = getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE).edit();
                     prefEdit.putString("ACCESS_LEVEL", "ADMIN");
@@ -61,13 +61,12 @@ public class LoginActivity extends AppCompatActivity {
                     prefEdit.putBoolean("REMEMBER_ME", remembermeCheckBox.isChecked());
                     prefEdit.commit();
 
+                    startActivity(intent);
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Masukkan nama pengguna dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                 }
 
-                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-//                startActivity(intent);
             }
         });
 

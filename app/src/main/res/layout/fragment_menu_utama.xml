@@ -23,12 +23,16 @@
         <EditText
             android:id="@+id/id_edit"
             android:hint="ID"
+            android:fontFamily="casual"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:drawableStart="@drawable/ic_credit_card_black_24dp"
+            android:drawablePadding="8dp"/>
         <Button
-            android:id="@+id/cari_button"
+            android:id="@+id/absen_button"
             android:text="absen"
+            android:fontFamily="casual"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
@@ -37,6 +41,7 @@
         <Button
             android:id="@+id/qr_button"
             android:text="qr code scan"
+            android:fontFamily="casual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>

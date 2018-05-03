@@ -11,6 +11,6 @@
         android:id="@+id/info_button"
         android:title=""
         app:showAsAction="always"
-        android:icon="@drawable/icon_info"
+        android:icon="@drawable/ic_info_black_24dp"
         />
 </menu>
