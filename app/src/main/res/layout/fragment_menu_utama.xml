@@ -46,15 +46,13 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:layout_gravity="center">
-        <SurfaceView
-            android:id="@+id/qr_surface"
-            android:layout_width="match_parent"
-            android:layout_height="300px"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            />
-
     </TableRow>
+    <!--<com.varvet.barcodereadersample.camera.CameraSourcePreview-->
+        <!--android:id="@+id/qr_preview"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1">-->
+    <!--</com.varvet.barcodereadersample.camera.CameraSourcePreview>-->
 
 
 </TableLayout>

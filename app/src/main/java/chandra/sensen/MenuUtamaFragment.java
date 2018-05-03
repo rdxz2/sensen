@@ -1,17 +1,35 @@
 package chandra.sensen;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.CameraSource;
+import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,12 +39,12 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
  * Use the {@link MenuUtamaFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenuUtamaFragment extends Fragment {
+public class MenuUtamaFragment extends Fragment{
 
-    SurfaceView surfaceView;
-    BarcodeDetector barcodeDetector;
-    CameraSource cameraSource;
-    int RequestCameraPermissionID = 1001;
+//    SurfaceView surfaceView;
+//    BarcodeDetector barcodeDetector;
+//    CameraSource cameraSource;
+//    final int RequestCameraPermissionID = 1001;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -71,11 +89,43 @@ public class MenuUtamaFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == BARCODE_READER_REQUEST_CODE){
+            if(resultCode == CommonStatusCodes.SUCCESS){
+                if(data != null){
+                    Barcode barcode = (Barcode) data.getParcelableExtra(BarcodeCaptureActivity.BarcodeObject);
+                    Point[] p = barcode.cornerPoints;
+                    idEdit.setText(barcode.displayValue);
+                }
+                else{
+                    idEdit.setText("QR Code belum terdeteksi");
+                }
+            }
+            else{
+                Toast.makeText(getActivity(), "Terjadi kesalahan saat membaca QR Code", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private int BARCODE_READER_REQUEST_CODE = 1;
+    EditText idEdit;
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
+        final View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
 
-
+        Button qrButton = (Button) v.findViewById(R.id.qr_button);
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                idEdit = (EditText) v.findViewById(R.id.id_edit);
+                startActivityForResult(new Intent(getActivity(), BarcodeCaptureActivity.class), BARCODE_READER_REQUEST_CODE);
+            }
+        });
         return v;
     }
 

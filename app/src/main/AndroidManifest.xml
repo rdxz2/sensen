@@ -3,8 +3,8 @@
     package="chandra.sensen">
 
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!--<uses-permission android:name="android.permission.VIBRATE"/>-->
+    <!--<uses-permission android:name="android.permission.INTERNET"/>-->
 
     <application
         android:allowBackup="true"
@@ -23,9 +23,8 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".TambahActivity" />
         <activity android:name=".UbahActivity" />
-        <activity android:name=".TambahAdminActivity"></activity>
-
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES" android:value="barcode"/>
+        <activity android:name=".TambahAdminActivity"/>
+        <activity android:name=".BarcodeCaptureActivity" android:theme="@style/AppTheme.NoActionBar"/>
 
     </application>
 
