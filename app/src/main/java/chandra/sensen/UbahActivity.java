@@ -12,7 +12,6 @@ public class UbahActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ubah);
 
-
         Button ubahButton = (Button) findViewById(R.id.ubah_button);
         ubahButton.setOnClickListener(new View.OnClickListener() {
             @Override

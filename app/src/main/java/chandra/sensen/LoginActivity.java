@@ -32,23 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-/*                if(usernameEdit.getText().toString().equals("admin") && passwordEdit.getText().toString().equals("admin")){
-                    SharedPreferences.Editor prefEdit = getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE).edit();
-                    prefEdit.putString("ACCESS_LEVEL", "admin");
-                    prefEdit.commit();
-                    prefEdit = getPreferences(MODE_PRIVATE).edit();
-                    if(remembermeCheckBox.isChecked()){
-                        prefEdit.putString("USERNAME", usernameEdit.getText().toString());
-                        prefEdit.putString("PASSWORD", passwordEdit.getText().toString());
-                    }
-                    else{
-                        prefEdit.clear();
-                    }
-                    prefEdit.putBoolean("REMEMBER_ME", remembermeCheckBox.isChecked());
-                    prefEdit.commit();
-
-                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
-                }*/
                 AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(LoginActivity.this);
                 SQLiteDatabase db = AdminDbHelper.getReadableDatabase();
 
@@ -64,15 +47,37 @@ public class LoginActivity extends AppCompatActivity {
                 if(cursor.getCount() > 0){
                     cursor.moveToFirst();
                     Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    intent.putExtra("ID", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
-                    startActivity(intent);
+//                    intent.putExtra("ID", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
+
+                    SharedPreferences.Editor prefEdit = getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE).edit();
+                    prefEdit.putString("ACCESS_LEVEL", "ADMIN");
+                    if(remembermeCheckBox.isChecked()){
+                        prefEdit.putString("USERNAME", usernameEdit.getText().toString());
+                        prefEdit.putString("PASSWORD", passwordEdit.getText().toString());
+                    }
+                    else{
+                        prefEdit.clear();
+                    }
+                    prefEdit.putBoolean("REMEMBER_ME", remembermeCheckBox.isChecked());
+                    prefEdit.commit();
+
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Masukkan nama pengguna dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                 }
 
+                startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+//                startActivity(intent);
             }
         });
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        SharedPreferences pref = getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE);
+        if(pref.getString("ACCESS_LEVEL", "").equals("ADMIN")) startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+    }
 }
