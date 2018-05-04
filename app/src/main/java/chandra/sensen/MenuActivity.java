@@ -93,6 +93,7 @@ public class MenuActivity extends AppCompatActivity implements
                 ContextCompat.getColor(this, android.R.color.black),
                 ContextCompat.getColor(this, android.R.color.white)
         );
+        tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.menu_pager);
         final chandra.sensen.PagerAdapter adapter = new chandra.sensen.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
@@ -116,54 +117,11 @@ public class MenuActivity extends AppCompatActivity implements
                 tab.getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
             }
         });
-//        viewPager.setCurrentItem(1);
-//        viewPager.setCurrentItem(0);
-
     }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
 
     }
-
-
-//    @Override
-//    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_menu);
-//
-//    }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//        fragmentTransaction.replace(R.id.menu_frame, new MenuUtamaFragment()).commit();
-//        TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab);
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//                switch (tab.getPosition()){
-//                    case 0: fragmentTransaction.replace(R.id.menu_frame, new MenuUtamaFragment()); break;
-//                    case 1: fragmentTransaction.replace(R.id.menu_frame, new MenuAbsensiFragment()); break;
-//                    case 2: fragmentTransaction.replace(R.id.menu_frame, new MenuDataFragment()); break;
-//                    case 3: fragmentTransaction.replace(R.id.menu_frame, new MenuAdminFragment()); break;
-//                }
-//                fragmentTransaction.commit();
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//    }
-
 
 }

@@ -15,8 +15,8 @@ public class AdminContract {
             "CREATE TABLE %s(%s, %s, %s)",
             AdminEntry.TABLE_NAME,
             String.format("%s INTEGER PRIMARY KEY AUTOINCREMENT", AdminEntry._ID),
-            String.format("%s VARCHAR(40)", AdminEntry.COLUMN_NAME_USERNAME),
-            String.format("%s VARCHAR(40)", AdminEntry.COLUMN_NAME_PASSWORD)
+            String.format("%s VARCHAR(20)", AdminEntry.COLUMN_NAME_USERNAME),
+            String.format("%s VARCHAR(20)", AdminEntry.COLUMN_NAME_PASSWORD)
     );
     public static final String SQL_DELETE_ACCOUNTS = String.format("DROP TABLE IF EXISTS %s", AdminEntry.TABLE_NAME);
 

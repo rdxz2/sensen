@@ -11,9 +11,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -89,24 +93,68 @@ public class MenuAdminFragment extends Fragment {
         String[] projection = {
                 AdminContract.AdminEntry._ID,
                 AdminContract.AdminEntry.COLUMN_NAME_USERNAME,
+                AdminContract.AdminEntry.COLUMN_NAME_PASSWORD
         };
+
         //ARRAY LIST
         ArrayList<String> str = new ArrayList();
-        Cursor cursor = db.query(AdminContract.AdminEntry.TABLE_NAME, projection, null, null, null, null, null);
+        final Cursor cursor = db.query(AdminContract.AdminEntry.TABLE_NAME, projection, null, null, null, null, null);
         cursor.moveToFirst();
         do {
-            str.add(String.format("%d: %s",
+            str.add(String.format("%d - %s",
                     cursor.getInt(cursor.getColumnIndex(AdminContract.AdminEntry._ID)),
-                    cursor.getInt(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME))
+                    cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME))
             ));
         } while (cursor.moveToNext());
         //ARRAY ADAPTER
         ArrayAdapter<String> strList = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1);
         for(int x=0; x<str.size(); x++) strList.add(str.get(x));
         ListView adminList = (ListView) v.findViewById(R.id.admin_list);
+        //SAAT ITEM DIKLIK
+        adminList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                //DIALOG BOX
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                final View view2 = layoutInflater.inflate(R.layout.dialog_edit_admin, null, false);
+                final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setView(view2);
+                final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+                //BUTTON LANJUT
+                Button lanjutButton = (Button) view2.findViewById(R.id.lanjut_button);
+                lanjutButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText usernameEdit = (EditText) view2.findViewById(R.id.username_edit);
+                        EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
+                        cursor.moveToPosition(position);
+                        if(usernameEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME))) && passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                            Intent intent = new Intent(getActivity(), EditAdminActicity.class);
+                            intent.putExtra("ID", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
+                            intent.putExtra("ADMIN_USERNAME", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME)));
+                            intent.putExtra("ADMIN_PASSWORD", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)));
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(getActivity(), "Masukkan nama pengguna dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+                //BUTTON BATAL
+                Button batalButton = (Button) view2.findViewById(R.id.batal_button);
+                batalButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.hide();
+                    }
+                });
+            }
+        });
         //TAMPILIN
         adminList.setAdapter(strList);
-        cursor.close();
+//        cursor.close();
 
         return v;
     }
