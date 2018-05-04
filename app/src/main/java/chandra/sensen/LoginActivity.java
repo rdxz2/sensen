@@ -2,8 +2,12 @@ package chandra.sensen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginButton = (Button) findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
                 AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(LoginActivity.this);
@@ -37,18 +42,16 @@ public class LoginActivity extends AppCompatActivity {
 
                 Cursor cursor = db.query(
                         AdminContract.AdminEntry.TABLE_NAME,
-                        new String[] {AdminContract.AdminEntry._ID},
+                        new String[] {AdminContract.AdminEntry.COLUMN_NAME_USERNAME, AdminContract.AdminEntry.COLUMN_NAME_PASSWORD},
                         String.format("%s = ? AND %s = ?", AdminContract.AdminEntry.COLUMN_NAME_USERNAME, AdminContract.AdminEntry.COLUMN_NAME_PASSWORD),
                         new String[] {usernameEdit.getText().toString(), passwordEdit.getText().toString()},
                         null,
                         null,
                         null
                 );
+
                 if(cursor.getCount() > 0){
                     cursor.moveToFirst();
-                    Intent intent = new Intent(LoginActivity.this, MenuActivity.class);
-                    intent.putExtra("ID", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
-
                     SharedPreferences.Editor prefEdit = getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE).edit();
                     prefEdit.putString("ACCESS_LEVEL", "ADMIN");
                     if(remembermeCheckBox.isChecked()){
@@ -60,16 +63,13 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     prefEdit.putBoolean("REMEMBER_ME", remembermeCheckBox.isChecked());
                     prefEdit.commit();
-
-                    startActivity(intent);
+                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                 }
                 else{
                     Toast.makeText(LoginActivity.this, "Masukkan nama pengguna dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
-
     }
 
     @Override
