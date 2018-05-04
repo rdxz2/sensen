@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,6 +8,7 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
+    android:orientation="vertical"
     tools:context=".MenuUtamaFragment">
 
 <!--    <TextView
@@ -17,41 +18,44 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15dp"/>-->
-    <TableRow
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_gravity="center"
+            android:paddingBottom="10dp">
+            <EditText
+                android:id="@+id/id_edit"
+                android:hint="ID"
+                android:fontFamily="casual"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:drawableStart="@drawable/ic_credit_card_black_24dp"
+                android:drawablePadding="8dp"/>
+            <Button
+                android:id="@+id/absen_button"
+                android:text="absen"
+                android:fontFamily="casual"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+        </TableRow>
+    </TableLayout>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <Button
+        android:id="@+id/qr_button"
+        android:drawableTop="@drawable/ic_icon_qr"
+        android:text="scan kode qr"
+        android:fontFamily="casual"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:paddingBottom="10dp">
-        <EditText
-            android:id="@+id/id_edit"
-            android:hint="ID"
-            android:fontFamily="casual"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:drawableStart="@drawable/ic_credit_card_black_24dp"
-            android:drawablePadding="8dp"/>
-        <Button
-            android:id="@+id/absen_button"
-            android:text="absen"
-            android:fontFamily="casual"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </TableRow>
-    <TableRow>
-        <Button
-            android:id="@+id/qr_button"
-            android:text="qr code scan"
-            android:fontFamily="casual"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-    </TableRow>
-    <TableRow
-        android:paddingTop="40dp"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
-        android:layout_gravity="center">
-    </TableRow>
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"/>
     <!--<com.varvet.barcodereadersample.camera.CameraSourcePreview-->
         <!--android:id="@+id/qr_preview"-->
         <!--android:layout_width="match_parent"-->
@@ -60,4 +64,4 @@
     <!--</com.varvet.barcodereadersample.camera.CameraSourcePreview>-->
 
 
-</TableLayout>
+</LinearLayout>

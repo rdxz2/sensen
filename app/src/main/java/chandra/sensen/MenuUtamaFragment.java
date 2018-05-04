@@ -98,11 +98,11 @@ public class MenuUtamaFragment extends Fragment{
                     idEdit.setText(barcode.displayValue);
                 }
                 else{
-                    idEdit.setText("QR Code belum terdeteksi");
+                    idEdit.setText("Kode QR belum terdeteksi");
                 }
             }
             else{
-                Toast.makeText(getActivity(), "Terjadi kesalahan saat membaca QR Code", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Terjadi kesalahan saat membaca kode QR", Toast.LENGTH_SHORT).show();
             }
         }
         else{

@@ -12,14 +12,6 @@
     android:orientation="vertical"
     tools:context=".MenuAbsensiFragment">
 
-<!--    <TextView
-        android:text="Data Pengguna"
-        android:textAlignment="center"
-        android:textSize="25dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"/>-->
-
     <EditText
         android:id="@+id/cari_edit"
         android:hint="Kata Kunci"
@@ -28,19 +20,11 @@
         android:fontFamily="casual"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-    <!--    <Button
-            android:id="@+id/cari_button"
-            android:text="cari"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>-->
-
     <ListView
         android:id="@+id/data_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="15dp"/>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/tambah_fab"
         android:layout_width="wrap_content"

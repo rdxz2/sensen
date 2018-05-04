@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="15dp"/>
-
     <TableRow>
         <TextView
             android:text="Username"
@@ -30,9 +29,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"/>
     </TableRow>
-
-
-
     <TableRow>
         <Button
             android:id="@+id/ubah_button"
