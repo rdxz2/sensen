@@ -33,12 +33,10 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class MenuAdminFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -56,7 +54,6 @@ public class MenuAdminFragment extends Fragment {
      * @param param2 Parameter 2.
      * @return A new instance of fragment MenuAdminFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MenuAdminFragment newInstance(String param1, String param2) {
         MenuAdminFragment fragment = new MenuAdminFragment();
         Bundle args = new Bundle();
@@ -141,6 +138,7 @@ public class MenuAdminFragment extends Fragment {
                         EditText passwordlamaEdit = (EditText) view2.findViewById(R.id.password_lama_edit);
                         EditText passwordbaruEdit = (EditText) view2.findViewById(R.id.password_baru_edit);
                         //PASSWORD BENER
+                        //TODO: password belom keubah
                         if(passwordlamaEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             ContentValues contentValues = new ContentValues();
                             contentValues.put(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD, passwordbaruEdit.getText().toString());
@@ -222,7 +220,6 @@ public class MenuAdminFragment extends Fragment {
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -257,7 +254,6 @@ public class MenuAdminFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
