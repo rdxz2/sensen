@@ -7,16 +7,6 @@
     android:orientation="vertical"
     tools:context="chandra.sensen.MenuActivity">
 
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/sensen_toolbar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="?attr/actionBarSize"-->
-        <!--android:background="?attr/colorPrimary"-->
-        <!--android:minHeight="?attr/actionBarSize"-->
-        <!--android:theme="@style/ThemeOverlay.AppCompat.ActionBar"-->
-        <!--app:popupTheme="@style/ThemeOverlay.AppCompat.Light">-->
-    <!--</android.support.v7.widget.Toolbar>-->
-
     <android.support.design.widget.TabLayout
         android:id="@+id/menu_tab"
         android:layout_width="match_parent"
@@ -25,56 +15,10 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
     </android.support.design.widget.TabLayout>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/menu_pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
     </android.support.v4.view.ViewPager>
-    <!--<TableLayout-->
-        <!--android:paddingTop="?attr/actionBarSize"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-        <!--<TableRow>-->
-            <!--<android.support.design.widget.TabLayout-->
-                <!--android:id="@+id/menu_tab"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content">-->
-                <!--<android.support.design.widget.TabItem-->
-                    <!--android:id="@+id/menu_utama_tab"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="utama"-->
-                    <!--android:icon="@drawable/ic_home_black_24dp"/>-->
-                <!--<android.support.design.widget.TabItem-->
-                    <!--android:id="@+id/menu_absensi_tab"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="absensi"-->
-                    <!--android:icon="@drawable/ic_grid_on_black_24dp"/>-->
-                <!--<android.support.design.widget.TabItem-->
-                    <!--android:id="@+id/menu_data_tab"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="data"-->
-                    <!--android:icon="@drawable/ic_group_black_24dp"/>-->
-                <!--<android.support.design.widget.TabItem-->
-                    <!--android:id="@+id/menu_admin_tab"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="admin"-->
-                    <!--android:icon="@drawable/ic_settings_black_24dp"/>-->
-            <!--</android.support.design.widget.TabLayout>-->
-        <!--</TableRow>-->
-        <!--<TableRow>-->
-            <!--<FrameLayout-->
-                <!--android:id="@+id/menu_frame"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"/>-->
-        <!--</TableRow>-->
-    <!--</TableLayout>-->
 
 </LinearLayout>

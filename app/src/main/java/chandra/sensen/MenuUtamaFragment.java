@@ -46,12 +46,10 @@ public class MenuUtamaFragment extends Fragment{
 //    CameraSource cameraSource;
 //    final int RequestCameraPermissionID = 1001;
 
-    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -69,7 +67,6 @@ public class MenuUtamaFragment extends Fragment{
      * @param param2 Parameter 2.
      * @return A new instance of fragment MenuUtamaFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static MenuUtamaFragment newInstance(String param1, String param2) {
         MenuUtamaFragment fragment = new MenuUtamaFragment();
         Bundle args = new Bundle();
@@ -98,11 +95,11 @@ public class MenuUtamaFragment extends Fragment{
                     idEdit.setText(barcode.displayValue);
                 }
                 else{
-                    idEdit.setText("QR Code belum terdeteksi");
+                    idEdit.setText("Kode QR belum terdeteksi");
                 }
             }
             else{
-                Toast.makeText(getActivity(), "Terjadi kesalahan saat membaca QR Code", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Terjadi kesalahan saat membaca kode QR", Toast.LENGTH_SHORT).show();
             }
         }
         else{
@@ -135,10 +132,10 @@ public class MenuUtamaFragment extends Fragment{
                 startActivityForResult(new Intent(getActivity(), BarcodeCaptureActivity.class), BARCODE_READER_REQUEST_CODE);
             }
         });
+
         return v;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -173,7 +170,6 @@ public class MenuUtamaFragment extends Fragment{
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

@@ -47,7 +47,7 @@
             </TableRow>
             <TableRow>
                 <TextView
-                    android:text="Nama Pengguna"
+                    android:text="Nama"
                     android:fontFamily="casual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -55,23 +55,7 @@
                     android:layout_weight="1"
                     android:paddingRight="8dp"/>
                 <EditText
-                    android:id="@+id/username_edit"
-                    android:fontFamily="casual"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
-            </TableRow>
-            <TableRow>
-                <TextView
-                    android:text="Kata Sandi"
-                    android:fontFamily="casual"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:layout_weight="1"
-                    android:paddingRight="8dp"/>
-                <EditText
-                    android:id="@+id/password_edit"
+                    android:id="@+id/nama_edit"
                     android:fontFamily="casual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -88,6 +72,8 @@
                     android:paddingRight="8dp"/>
                 <EditText
                     android:id="@+id/alamat_edit"
+                    android:inputType="textMultiLine"
+                    android:maxLines="3"
                     android:fontFamily="casual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

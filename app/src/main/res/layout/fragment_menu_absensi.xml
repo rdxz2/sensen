@@ -10,14 +10,6 @@
     android:paddingBottom="20dp"
     tools:context=".MenuAbsensiFragment">
 
-<!--    <TextView
-        android:text="Cari Data Absen"
-        android:textAlignment="center"
-        android:textSize="25dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="15dp"/>-->
-
     <TableRow>
         <EditText
             android:id="@+id/cari_edit"
@@ -66,4 +58,5 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"/>
     </TableRow>
+
 </TableLayout>

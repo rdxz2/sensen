@@ -43,7 +43,7 @@ public class TambahAdminActivity extends AppCompatActivity {
                     values.put(AdminContract.AdminEntry.COLUMN_NAME_USERNAME, usernameEdit.getText().toString());
                     values.put(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD, passwordEdit.getText().toString());
                     long newRowId = db.insert(AdminContract.AdminEntry.TABLE_NAME, null, values);
-                    Toast.makeText(TambahAdminActivity.this, "Admin " + usernameEdit.getText().toString() + " telah ditambahkan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TambahAdminActivity.this, "Admin '" + usernameEdit.getText().toString() + "' telah ditambahkan", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else{

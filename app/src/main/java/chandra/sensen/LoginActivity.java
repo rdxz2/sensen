@@ -6,14 +6,18 @@ import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -66,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(LoginActivity.this, MenuActivity.class));
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "Masukkan nama pengguna dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Masukkan nama admin dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                 }
             }
         });

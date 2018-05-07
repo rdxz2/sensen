@@ -31,7 +31,6 @@
         <activity
             android:name=".BarcodeCaptureActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".EditAdminActicity"></activity>
     </application>
 
 </manifest>

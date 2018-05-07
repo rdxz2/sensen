@@ -28,7 +28,7 @@
             android:id="@+id/username_edit"
             android:hint="Nama Admin"
             android:fontFamily="casual"
-            android:drawableStart="@drawable/ic_person_black_24dp"
+            android:drawableStart="@drawable/ic_person_outline_black_24dp"
             android:drawablePadding="8dp"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
@@ -59,14 +59,13 @@
             android:layout_height="10dp"/>
         <Button
             android:id="@+id/login_button"
-            android:text=" masuk"
+            android:text="masuk"
             android:fontFamily="casual"
             android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
             android:paddingEnd="10dp"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
-
     </LinearLayout>
 
 </ScrollView>
