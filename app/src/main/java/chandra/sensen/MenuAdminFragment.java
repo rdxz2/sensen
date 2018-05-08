@@ -209,6 +209,7 @@ public class MenuAdminFragment extends Fragment {
                             //TODO: hapus dari database
                             Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
                             alertDialog.hide();
+                            onResume();
                         }
                         //PASSWORD SALAH
                         else{
@@ -224,7 +225,6 @@ public class MenuAdminFragment extends Fragment {
                         alertDialog.hide();
                     }
                 });
-
                 return false;
             }
         });
