@@ -1,5 +1,6 @@
 package chandra.sensen;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,6 +89,15 @@ public class MenuAdminFragment extends Fragment {
             }
         });
 
+//        cursor.close();
+
+        return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         //SAMBUNG KE DB
         AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(getActivity());
         final SQLiteDatabase db = AdminDbHelper.getReadableDatabase();
@@ -111,7 +123,7 @@ public class MenuAdminFragment extends Fragment {
         //ARRAY ADAPTER
         ArrayAdapter<String> strList = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1);
         for(int x=0; x<str.size(); x++) strList.add(str.get(x));
-        ListView adminList = (ListView) v.findViewById(R.id.admin_list);
+        ListView adminList = (ListView) getActivity().findViewById(R.id.admin_list);
 
         //SAAT ITEM DIKLIK
         adminList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -138,15 +150,19 @@ public class MenuAdminFragment extends Fragment {
                         EditText passwordlamaEdit = (EditText) view2.findViewById(R.id.password_lama_edit);
                         EditText passwordbaruEdit = (EditText) view2.findViewById(R.id.password_baru_edit);
                         //PASSWORD BENER
-                        //TODO: password belom keubah
                         if(passwordlamaEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             ContentValues contentValues = new ContentValues();
                             contentValues.put(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD, passwordbaruEdit.getText().toString());
-
                             String selection = String.format("%s = ?", AdminContract.AdminEntry._ID);
-                            String[] selectionArgs = {AdminContract.AdminEntry._ID};
+                            String[] selectionArgs = {Integer.toString(cursor.getInt(cursor.getColumnIndex(AdminContract.AdminEntry._ID)))};
+                            Log.d("tag id", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
+                            Log.d("tag passwordlama", passwordlamaEdit.getText().toString());
+                            Log.d("tag passwordlamacursor", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)));
+                            Log.d("tag passwordbaru", contentValues.toString());
                             int count = db.update(AdminContract.AdminEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                             Toast.makeText(getActivity(), "Kata sandi telah berhasil diubah", Toast.LENGTH_SHORT).show();
+//                            Log.d("tag passwordbarucursor", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)));
+                            onResume();
                             alertDialog.hide();
                         }
                         //PASSWORD SALAH
@@ -190,8 +206,8 @@ public class MenuAdminFragment extends Fragment {
                         EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
                         //PASSWORD BENER
                         if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                            //TODO: hapus dari database
                             Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
-
                             alertDialog.hide();
                         }
                         //PASSWORD SALAH
@@ -215,9 +231,6 @@ public class MenuAdminFragment extends Fragment {
 
         //TAMPILIN LISTVIEW
         adminList.setAdapter(strList);
-//        cursor.close();
-
-        return v;
     }
 
     public void onButtonPressed(Uri uri) {
