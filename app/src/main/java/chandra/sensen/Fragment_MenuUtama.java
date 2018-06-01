@@ -2,24 +2,35 @@ package chandra.sensen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MenuDataFragment.OnFragmentInteractionListener} interface
+ * {@link Fragment_MenuUtama.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MenuDataFragment#newInstance} factory method to
+ * Use the {@link Fragment_MenuUtama#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MenuDataFragment extends Fragment {
+public class Fragment_MenuUtama extends Fragment{
+
+//    SurfaceView surfaceView;
+//    BarcodeDetector barcodeDetector;
+//    CameraSource cameraSource;
+//    final int RequestCameraPermissionID = 1001;
+
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -29,7 +40,7 @@ public class MenuDataFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public MenuDataFragment() {
+    public Fragment_MenuUtama() {
         // Required empty public constructor
     }
 
@@ -39,10 +50,10 @@ public class MenuDataFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MenuDataFragment.
+     * @return A new instance of fragment Fragment_MenuUtama.
      */
-    public static MenuDataFragment newInstance(String param1, String param2) {
-        MenuDataFragment fragment = new MenuDataFragment();
+    public static Fragment_MenuUtama newInstance(String param1, String param2) {
+        Fragment_MenuUtama fragment = new Fragment_MenuUtama();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,17 +70,54 @@ public class MenuDataFragment extends Fragment {
         }
     }
 
+    private int BARCODE_READER_REQUEST_CODE = 1;
+    EditText idEdit;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_menu_data, container, false);
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == BARCODE_READER_REQUEST_CODE){
+            if(resultCode == CommonStatusCodes.SUCCESS){
+                if(data != null){
+                    Barcode barcode = (Barcode) data.getParcelableExtra(Activity_BarcodeCapture.BarcodeObject);
+                    Point[] p = barcode.cornerPoints;
+                    idEdit.setText(barcode.displayValue);
+                }
+                else{
+                    idEdit.setText("Kode QR belum terdeteksi");
+                }
+            }
+            else{
+                Toast.makeText(getActivity(), "Terjadi kesalahan saat membaca kode QR", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
+
+        idEdit = (EditText) v.findViewById(R.id.id_edit);
+
+        Button absenButton = (Button) v.findViewById(R.id.absen_button);
+        absenButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), TambahActivity.class));
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), idEdit.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
+
+        Button qrButton = (Button) v.findViewById(R.id.qr_button);
+        qrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                idEdit = (EditText) v.findViewById(R.id.id_edit);
+                startActivityForResult(new Intent(getActivity(), Activity_BarcodeCapture.class), BARCODE_READER_REQUEST_CODE);
+            }
+        });
+
         return v;
     }
 

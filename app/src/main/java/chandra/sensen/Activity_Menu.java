@@ -1,39 +1,25 @@
 package chandra.sensen;
 
-import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 
-public class MenuActivity extends AppCompatActivity implements
-        MenuUtamaFragment.OnFragmentInteractionListener,
-        MenuAbsensiFragment.OnFragmentInteractionListener,
-        MenuDataFragment.OnFragmentInteractionListener,
-        MenuAdminFragment.OnFragmentInteractionListener{
+public class Activity_Menu extends AppCompatActivity implements
+        Fragment_MenuUtama.OnFragmentInteractionListener,
+        Fragment_MenuAbsensi.OnFragmentInteractionListener,
+        Fragment_MenuData.OnFragmentInteractionListener,
+        Fragment_MenuAdmin.OnFragmentInteractionListener{
 
     // create an action bar button
     @Override
@@ -48,7 +34,7 @@ public class MenuActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.logout_button){
-            SharedPreferences.Editor prefEdit = MenuActivity.this.getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE).edit();
+            SharedPreferences.Editor prefEdit = Activity_Menu.this.getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE).edit();
             prefEdit.clear();
             prefEdit.commit();
             finish();
@@ -56,7 +42,7 @@ public class MenuActivity extends AppCompatActivity implements
         if(id == R.id.info_button){
             LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
             View view = layoutInflater.inflate(R.layout.dialog_info, null, false);
-            final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(MenuActivity.this);
+            final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(Activity_Menu.this);
             alertDialogBuilder.setView(view);
 //            alertDialogBuilder.setCancelable(false).setNegativeButton("Kembali", new DialogInterface.OnClickListener() {
 //                @Override
@@ -93,28 +79,28 @@ public class MenuActivity extends AppCompatActivity implements
                 ContextCompat.getColor(this, android.R.color.black),
                 ContextCompat.getColor(this, android.R.color.white)
         );
-        tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
+        tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getIcon().setColorFilter(ContextCompat.getColor(Activity_Menu.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.menu_pager);
-        final chandra.sensen.PagerAdapter adapter = new chandra.sensen.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final Adapter_Pager adapter = new Adapter_Pager(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                tab.getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
+                tab.getIcon().setColorFilter(ContextCompat.getColor(Activity_Menu.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                tab.getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.black), PorterDuff.Mode.SRC_IN);
+                tab.getIcon().setColorFilter(ContextCompat.getColor(Activity_Menu.this, android.R.color.black), PorterDuff.Mode.SRC_IN);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                tab.getIcon().setColorFilter(ContextCompat.getColor(MenuActivity.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
+                tab.getIcon().setColorFilter(ContextCompat.getColor(Activity_Menu.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
             }
         });
     }

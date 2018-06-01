@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class UbahActivity extends AppCompatActivity {
+public class Activity_UbahUmat extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

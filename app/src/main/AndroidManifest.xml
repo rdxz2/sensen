@@ -3,9 +3,9 @@
     package="chandra.sensen">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- <uses-permission android:name="android.permission.VIBRATE"/> -->
-    <!-- <uses-permission android:name="android.permission.INTERNET"/> -->
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_foreground"
@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity_Login"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,13 +23,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".Activity_Menu"
             android:label="Menu" />
-        <activity android:name=".TambahActivity" />
-        <activity android:name=".UbahActivity" />
-        <activity android:name=".TambahAdminActivity" />
+        <activity android:name=".Activity_TambahUmat" />
+        <activity android:name=".Activity_UbahUmat" />
+        <activity android:name=".Activity_TambahAdmin" />
         <activity
-            android:name=".BarcodeCaptureActivity"
+            android:name=".Activity_BarcodeCapture"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
 

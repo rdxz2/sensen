@@ -9,7 +9,7 @@
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
     android:orientation="vertical"
-    tools:context="chandra.sensen.TambahAdminActivity">
+    tools:context="chandra.sensen.Activity_TambahAdmin">
 
     <TextView
         android:text="Tambah Admin"

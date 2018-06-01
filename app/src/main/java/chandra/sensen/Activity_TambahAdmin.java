@@ -1,7 +1,6 @@
 package chandra.sensen;
 
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,9 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-public class TambahAdminActivity extends AppCompatActivity {
+public class Activity_TambahAdmin extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +33,14 @@ public class TambahAdminActivity extends AppCompatActivity {
                 //DATA BENER
                 if((usernameEdit.getText().toString().length()>=5 && usernameEdit.getText().toString().length()<20) && (passwordEdit.getText().toString().length()>=5)){
                     //MASUKIN DATA KE DB
-                    AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(TambahAdminActivity.this);
+                    AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(Activity_TambahAdmin.this);
                     SQLiteDatabase db = AdminDbHelper.getWritableDatabase();
 
                     ContentValues values = new ContentValues();
                     values.put(AdminContract.AdminEntry.COLUMN_NAME_USERNAME, usernameEdit.getText().toString());
                     values.put(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD, passwordEdit.getText().toString());
                     long newRowId = db.insert(AdminContract.AdminEntry.TABLE_NAME, null, values);
-                    Toast.makeText(TambahAdminActivity.this, "Admin '" + usernameEdit.getText().toString() + "' telah ditambahkan", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_TambahAdmin.this, "Admin '" + usernameEdit.getText().toString() + "' telah ditambahkan", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else{
