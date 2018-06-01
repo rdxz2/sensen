@@ -2,25 +2,19 @@ package chandra.sensen;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-public class LoginActivity extends AppCompatActivity {
+public class Activity_Login extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(LoginActivity.this);
+                AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(Activity_Login.this);
                 SQLiteDatabase db = AdminDbHelper.getReadableDatabase();
 
                 Cursor cursor = db.query(
@@ -67,10 +61,10 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     prefEdit.putBoolean("REMEMBER_ME", remembermeCheckBox.isChecked());
                     prefEdit.commit();
-                    startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+                    startActivity(new Intent(Activity_Login.this, Activity_Menu.class));
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "Masukkan nama admin dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Activity_Login.this, "Masukkan nama admin dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -81,6 +75,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
 
         SharedPreferences pref = getSharedPreferences("LOGIN_PREFERENCES", MODE_PRIVATE);
-        if(pref.getString("ACCESS_LEVEL", "").equals("ADMIN")) startActivity(new Intent(LoginActivity.this, MenuActivity.class));
+        if(pref.getString("ACCESS_LEVEL", "").equals("ADMIN")) startActivity(new Intent(Activity_Login.this, Activity_Menu.class));
     }
 }

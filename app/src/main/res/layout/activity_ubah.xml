@@ -8,7 +8,7 @@
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
-    tools:context="chandra.sensen.UbahActivity">
+    tools:context="chandra.sensen.Activity_UbahUmat">
 
     <TextView
         android:text="Ubah Data"

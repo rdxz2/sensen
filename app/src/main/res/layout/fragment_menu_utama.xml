@@ -9,7 +9,7 @@
     android:paddingRight="20dp"
     android:paddingBottom="20dp"
     android:orientation="vertical"
-    tools:context=".MenuUtamaFragment">
+    tools:context=".Fragment_MenuUtama">
 
 <!--    <TextView
         android:text="Menu Utama"

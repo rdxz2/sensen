@@ -46,7 +46,7 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-public final class BarcodeCaptureActivity extends AppCompatActivity
+public final class Activity_BarcodeCapture extends AppCompatActivity
         implements BarcodeTracker.BarcodeGraphicTrackerCallback {
 
     private static final String TAG = "Barcode-reader";
