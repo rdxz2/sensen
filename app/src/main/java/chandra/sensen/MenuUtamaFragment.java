@@ -85,6 +85,9 @@ public class MenuUtamaFragment extends Fragment{
         }
     }
 
+    private int BARCODE_READER_REQUEST_CODE = 1;
+    EditText idEdit;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == BARCODE_READER_REQUEST_CODE){
@@ -106,9 +109,6 @@ public class MenuUtamaFragment extends Fragment{
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-    private int BARCODE_READER_REQUEST_CODE = 1;
-    EditText idEdit;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
