@@ -95,24 +95,24 @@ public class Fragment_MenuAdmin extends Fragment {
         super.onResume();
 
         //SAMBUNG KE DB
-        AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(getActivity());
+        Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(getActivity());
         final SQLiteDatabase db = AdminDbHelper.getReadableDatabase();
 
         //SET CURSOR
         String[] projection = {
-                AdminContract.AdminEntry._ID,
-                AdminContract.AdminEntry.COLUMN_NAME_USERNAME,
-                AdminContract.AdminEntry.COLUMN_NAME_PASSWORD
+                Contract_Admin.AdminEntry._ID,
+                Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME,
+                Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD
         };
-        final Cursor cursor = db.query(AdminContract.AdminEntry.TABLE_NAME, projection, null, null, null, null, null);
+        final Cursor cursor = db.query(Contract_Admin.AdminEntry.TABLE_NAME, projection, null, null, null, null, null);
 
         //SET KONTEN LISTVIEW
         ArrayList<String> str = new ArrayList();
         cursor.moveToFirst();
         do {
             str.add(String.format("%d - %s",
-                    cursor.getInt(cursor.getColumnIndex(AdminContract.AdminEntry._ID)),
-                    cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME))
+                    cursor.getInt(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)),
+                    cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME))
             ));
         } while (cursor.moveToNext());
 
@@ -136,7 +136,7 @@ public class Fragment_MenuAdmin extends Fragment {
                 //SET USERNAME DI EDITTEXT
                 cursor.moveToPosition(position);
                 EditText usernameEdit = (EditText) view2.findViewById(R.id.username_edit);
-                usernameEdit.setText(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME)));
+                usernameEdit.setText(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)));
 
                 //BUTTON UBAH
                 Button ubahButton = (Button) view2.findViewById(R.id.ubah_button);
@@ -146,18 +146,17 @@ public class Fragment_MenuAdmin extends Fragment {
                         EditText passwordlamaEdit = (EditText) view2.findViewById(R.id.password_lama_edit);
                         EditText passwordbaruEdit = (EditText) view2.findViewById(R.id.password_baru_edit);
                         //PASSWORD BENER
-                        if(passwordlamaEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                        if(passwordlamaEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             ContentValues contentValues = new ContentValues();
-                            contentValues.put(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD, passwordbaruEdit.getText().toString());
-                            String selection = String.format("%s = ?", AdminContract.AdminEntry._ID);
-                            String[] selectionArgs = {Integer.toString(cursor.getInt(cursor.getColumnIndex(AdminContract.AdminEntry._ID)))};
-                            Log.d("tag id", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry._ID)));
+                            contentValues.put(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD, passwordbaruEdit.getText().toString());
+                            String selection = String.format("%s = ?", Contract_Admin.AdminEntry._ID);
+                            String[] selectionArgs = {Integer.toString(cursor.getInt(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)))};
+                            Log.d("tag id", cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)));
                             Log.d("tag passwordlama", passwordlamaEdit.getText().toString());
-                            Log.d("tag passwordlamacursor", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)));
+                            Log.d("tag passwordlamacursor", cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)));
                             Log.d("tag passwordbaru", contentValues.toString());
-                            int count = db.update(AdminContract.AdminEntry.TABLE_NAME, contentValues, selection, selectionArgs);
+                            int count = db.update(Contract_Admin.AdminEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                             Toast.makeText(getActivity(), "Kata sandi telah berhasil diubah", Toast.LENGTH_SHORT).show();
-//                            Log.d("tag passwordbarucursor", cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)));
                             onResume();
                             alertDialog.hide();
                         }
@@ -192,7 +191,7 @@ public class Fragment_MenuAdmin extends Fragment {
                 //SET USERNAME DI EDITTEXT
                 cursor.moveToPosition(i);
                 TextView passwordText = (TextView) view2.findViewById(R.id.confirm_text);
-                passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
+                passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
 
                 //BUTTON HAPUS
                 Button hapusButton = (Button) view2.findViewById(R.id.hapus_button);
@@ -201,9 +200,9 @@ public class Fragment_MenuAdmin extends Fragment {
                     public void onClick(View view) {
                         EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
                         //PASSWORD BENER
-                        if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                        if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             //TODO: hapus dari database
-                            Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(AdminContract.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
                             alertDialog.hide();
                             onResume();
                         }

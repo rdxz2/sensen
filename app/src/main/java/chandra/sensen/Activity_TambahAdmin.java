@@ -33,13 +33,13 @@ public class Activity_TambahAdmin extends AppCompatActivity {
                 //DATA BENER
                 if((usernameEdit.getText().toString().length()>=5 && usernameEdit.getText().toString().length()<20) && (passwordEdit.getText().toString().length()>=5)){
                     //MASUKIN DATA KE DB
-                    AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(Activity_TambahAdmin.this);
+                    Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(Activity_TambahAdmin.this);
                     SQLiteDatabase db = AdminDbHelper.getWritableDatabase();
 
                     ContentValues values = new ContentValues();
-                    values.put(AdminContract.AdminEntry.COLUMN_NAME_USERNAME, usernameEdit.getText().toString());
-                    values.put(AdminContract.AdminEntry.COLUMN_NAME_PASSWORD, passwordEdit.getText().toString());
-                    long newRowId = db.insert(AdminContract.AdminEntry.TABLE_NAME, null, values);
+                    values.put(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME, usernameEdit.getText().toString());
+                    values.put(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD, passwordEdit.getText().toString());
+                    long newRowId = db.insert(Contract_Admin.AdminEntry.TABLE_NAME, null, values);
                     Toast.makeText(Activity_TambahAdmin.this, "Admin '" + usernameEdit.getText().toString() + "' telah ditambahkan", Toast.LENGTH_SHORT).show();
                     finish();
                 }

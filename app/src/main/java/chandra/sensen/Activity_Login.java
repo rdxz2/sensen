@@ -35,13 +35,13 @@ public class Activity_Login extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View view) {
-                AdminContract.AdminDbHelper AdminDbHelper = new AdminContract.AdminDbHelper(Activity_Login.this);
+                Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(Activity_Login.this);
                 SQLiteDatabase db = AdminDbHelper.getReadableDatabase();
 
                 Cursor cursor = db.query(
-                        AdminContract.AdminEntry.TABLE_NAME,
-                        new String[] {AdminContract.AdminEntry.COLUMN_NAME_USERNAME, AdminContract.AdminEntry.COLUMN_NAME_PASSWORD},
-                        String.format("%s = ? AND %s = ?", AdminContract.AdminEntry.COLUMN_NAME_USERNAME, AdminContract.AdminEntry.COLUMN_NAME_PASSWORD),
+                        Contract_Admin.AdminEntry.TABLE_NAME,
+                        new String[] {Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME, Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD},
+                        String.format("%s = ? AND %s = ?", Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME, Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD),
                         new String[] {usernameEdit.getText().toString(), passwordEdit.getText().toString()},
                         null,
                         null,

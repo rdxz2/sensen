@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
  * Created by rd on 24/04/2018.
  */
 
-public class AdminContract {
+public class Contract_Admin {
 
     public static  final String SQL_CREATE_ACCOUNTS = String.format(
             "CREATE TABLE %s(%s, %s, %s)",
@@ -20,7 +20,7 @@ public class AdminContract {
     );
     public static final String SQL_DELETE_ACCOUNTS = String.format("DROP TABLE IF EXISTS %s", AdminEntry.TABLE_NAME);
 
-    private AdminContract(){}
+    private Contract_Admin(){}
 
     public static class AdminEntry implements BaseColumns {
         public static final String TABLE_NAME = "admin";

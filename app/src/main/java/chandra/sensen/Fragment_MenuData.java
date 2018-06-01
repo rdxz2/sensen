@@ -3,6 +3,7 @@ package chandra.sensen;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,19 +79,8 @@ public class Fragment_MenuData extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_data, container, false);
 
-//        mRecyclerView = (RecyclerView) getActivity().findViewById(R.id.my_recycler_view);
-//        // use this setting to improve performance if you know that changes
-//        // in content do not change the layout size of the RecyclerView
-//        mRecyclerView.setHasFixedSize(true);
-//        // use a linear layout manager
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        // specify an adapter (see also next example)
-//        mAdapter = new MyAdapter(myDataset);
-//        mRecyclerView.setAdapter(mAdapter);
-
         //FAB
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_fab);
+        FloatingActionButton fab = v.findViewById(R.id.tambah_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,54 +88,54 @@ public class Fragment_MenuData extends Fragment {
             }
         });
 
-//        new ListUmat().execute();
+        new ListUmat().execute();
 
         return v;
     }
 
-//    ListView umatList;
-//
-//    class ListUmat extends AsyncTask<Void, Void, ArrayList<HashMap<String, String>>> {
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
-//            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
-//            String jsonString = service.responseBody;
-//            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
-//            try {
-//                JSONArray umatArray = new JSONArray(jsonString);
-//                for (int i = 0; i<umatArray.length(); i++){
-//                    JSONObject umatObject = umatArray.getJSONObject(i);
-//                    //TODO: biodata yang lain
-//                    String idumat = umatObject.getString("idumat");
-//                    String nama = umatObject.getString("nama");
-//                    HashMap<String, String> umat = new HashMap<>();
-//                    umat.put("idumat", idumat);
-//                    umat.put("nama", nama);
-//                    umats.add(umat);
-//                }
-//            }
-//            catch (JSONException e){e.printStackTrace();}
-//            return umats;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<HashMap<String, String>> umats) {
-//            super.onPostExecute(umats);
-//            umatList = (ListView) Fragment_MenuData.this.getView().findViewById(R.id.data_list);
-//            umatList.setAdapter(new SimpleAdapter(
-//                getActivity(),
-//                umats,
-//                android.R.layout.simple_list_item_2,
-//                new String[]{"idumat", "nama"},
-//                new int[]{android.R.id.text1, android.R.id.text2,}
-//            ));
-//        }
-//    }
+    ListView umatList;
+
+    class ListUmat extends AsyncTask<Void, Void, ArrayList<HashMap<String, String>>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
+            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
+            String jsonString = service.responseBody;
+            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
+            try {
+                JSONArray umatArray = new JSONArray(jsonString);
+                for (int i = 0; i<umatArray.length(); i++){
+                    JSONObject umatObject = umatArray.getJSONObject(i);
+                    //TODO: biodata yang lain
+                    String idumat = umatObject.getString("idumat");
+                    String nama = umatObject.getString("nama");
+                    HashMap<String, String> umat = new HashMap<>();
+                    umat.put("idumat", idumat);
+                    umat.put("nama", nama);
+                    umats.add(umat);
+                }
+            }
+            catch (JSONException e){e.printStackTrace();}
+            return umats;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> umats) {
+            super.onPostExecute(umats);
+            umatList = (ListView) Fragment_MenuData.this.getView().findViewById(R.id.data_list);
+            umatList.setAdapter(new SimpleAdapter(
+                getActivity(),
+                umats,
+                android.R.layout.simple_list_item_2,
+                new String[]{"idumat", "nama"},
+                new int[]{android.R.id.text1, android.R.id.text2,}
+            ));
+        }
+    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
