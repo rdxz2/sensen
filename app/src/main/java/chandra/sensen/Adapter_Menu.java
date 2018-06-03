@@ -8,11 +8,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  * Created by rd on 25/04/2018.
  */
 
-public class Adapter_Pager extends FragmentStatePagerAdapter{
+public class Adapter_Menu extends FragmentStatePagerAdapter{
 
     int mNoOfTabs;
 
-    public Adapter_Pager(FragmentManager fm, int NumberOfTabs){
+    public Adapter_Menu(FragmentManager fm, int NumberOfTabs){
         super(fm);
         this.mNoOfTabs = NumberOfTabs;
     }

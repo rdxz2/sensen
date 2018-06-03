@@ -82,7 +82,7 @@ public class Activity_Menu extends AppCompatActivity implements
         tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getIcon().setColorFilter(ContextCompat.getColor(Activity_Menu.this, android.R.color.white), PorterDuff.Mode.SRC_IN);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.menu_pager);
-        final Adapter_Pager adapter = new Adapter_Pager(getSupportFragmentManager(), tabLayout.getTabCount());
+        final Adapter_Menu adapter = new Adapter_Menu(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
         viewPager.setOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 

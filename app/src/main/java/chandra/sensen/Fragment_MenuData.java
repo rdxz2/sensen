@@ -7,20 +7,32 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,14 +56,6 @@ public class Fragment_MenuData extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_MenuData.
-     */
     public static Fragment_MenuData newInstance(String param1, String param2) {
         Fragment_MenuData fragment = new Fragment_MenuData();
         Bundle args = new Bundle();
@@ -70,14 +74,17 @@ public class Fragment_MenuData extends Fragment {
         }
     }
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView recyclerView;
+    private Adapter_MenuData adapter_menuData;
+    private ArrayList<Contract_Umat> umat_list = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_data, container, false);
+
+        //CARD
+        new listingUmat().execute();
+        recyclerView = (RecyclerView) v.findViewById(R.id.dataumat_recycler);
 
         //FAB
         FloatingActionButton fab = v.findViewById(R.id.tambah_fab);
@@ -88,54 +95,96 @@ public class Fragment_MenuData extends Fragment {
             }
         });
 
-        new ListUmat().execute();
+        //DAPETIN DATA
+//        new ListUmat().execute();
 
         return v;
     }
 
-    ListView umatList;
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 
-    class ListUmat extends AsyncTask<Void, Void, ArrayList<HashMap<String, String>>> {
+    class listingUmat extends AsyncTask<String, Void, Boolean>{
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
+        protected Boolean doInBackground(String... params) {
+            try{
+                HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/TampilData.php").openConnection();
+                connection.setRequestMethod("POST");
+                connection.connect();
 
-        @Override
-        protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
-            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
-            String jsonString = service.responseBody;
-            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
-            try {
-                JSONArray umatArray = new JSONArray(jsonString);
-                for (int i = 0; i<umatArray.length(); i++){
-                    JSONObject umatObject = umatArray.getJSONObject(i);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder stringBuilder = new StringBuilder();
+
+                String line;
+                while((line = reader.readLine()) != null) stringBuilder.append(line);
+
+                JSONArray umatArray = new JSONArray(stringBuilder.toString());
+
+                for(int a = 0; a < umatArray.length(); a++){
+                    JSONObject umatObject = umatArray.getJSONObject(a);
+                    umat_list.add(new Contract_Umat(umatObject.getString("nama"), umatObject.getString("idumat")));
                     //TODO: biodata yang lain
-                    String idumat = umatObject.getString("idumat");
-                    String nama = umatObject.getString("nama");
-                    HashMap<String, String> umat = new HashMap<>();
-                    umat.put("idumat", idumat);
-                    umat.put("nama", nama);
-                    umats.add(umat);
                 }
-            }
-            catch (JSONException e){e.printStackTrace();}
-            return umats;
+
+                connection.disconnect();
+            } catch (IOException |JSONException e) {e.printStackTrace();}
+            return false;
         }
 
         @Override
-        protected void onPostExecute(ArrayList<HashMap<String, String>> umats) {
-            super.onPostExecute(umats);
-            umatList = (ListView) Fragment_MenuData.this.getView().findViewById(R.id.data_list);
-            umatList.setAdapter(new SimpleAdapter(
-                getActivity(),
-                umats,
-                android.R.layout.simple_list_item_2,
-                new String[]{"idumat", "nama"},
-                new int[]{android.R.id.text1, android.R.id.text2,}
-            ));
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            adapter_menuData = new Adapter_MenuData(umat_list);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            recyclerView.setAdapter(adapter_menuData);
         }
     }
+
+//    class ListUmat extends AsyncTask<Void, Void, ArrayList<HashMap<String, String>>> {
+//        @Override
+//        protected void onPreExecute() {
+//            super.onPreExecute();
+//        }
+//
+//        @Override
+//        protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
+//            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
+//            String jsonString = service.responseBody;
+//            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
+//            try {
+//                JSONArray umatArray = new JSONArray(jsonString);
+//                for (int i = 0; i<umatArray.length(); i++){
+//                    JSONObject umatObject = umatArray.getJSONObject(i);
+//                    String idumat = umatObject.getString("idumat");
+//                    String nama = umatObject.getString("nama");
+//                    HashMap<String, String> umat = new HashMap<>();
+//                    umat.put("idumat", idumat);
+//                    umat.put("nama", nama);
+//                    umats.add(umat);
+//                }
+//            }
+//            catch (JSONException e){e.printStackTrace();}
+//            return umats;
+//        }
+//
+//        ListView umatList;
+//
+//        @Override
+//        protected void onPostExecute(ArrayList<HashMap<String, String>> umats) {
+//            super.onPostExecute(umats);
+//            umatList = (ListView) Fragment_MenuData.this.getView().findViewById(R.id.data_list);
+//            umatList.setAdapter(new SimpleAdapter(
+//                getActivity(),
+//                umats,
+//                android.R.layout.simple_list_item_2,
+//                new String[]{"idumat", "nama"},
+//                new int[]{android.R.id.text1, android.R.id.text2,}
+//            ));
+//        }
+//    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -171,4 +220,5 @@ public class Fragment_MenuData extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
 }
