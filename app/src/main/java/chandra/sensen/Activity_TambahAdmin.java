@@ -17,21 +17,34 @@ public class Activity_TambahAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_admin);
 
-        final TextView usernameText = (TextView) findViewById(R.id.username_text);
-        final TextView passwordText = (TextView) findViewById(R.id.password_text);
+        final TextView usernameText = findViewById(R.id.username_text);
+        final TextView passwordText = findViewById(R.id.password_text);
 
-        Button tambahButton = (Button) findViewById(R.id.tambah_button);
+        Button tambahButton = findViewById(R.id.tambah_button);
         tambahButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 usernameText.setVisibility(View.GONE);
                 passwordText.setVisibility(View.GONE);
 
-                EditText usernameEdit = (EditText) findViewById(R.id.username_edit);
-                EditText passwordEdit = (EditText) findViewById(R.id.password_edit);
+                EditText usernameEdit = findViewById(R.id.username_edit);
+                EditText passwordEdit = findViewById(R.id.password_edit);
+
+                boolean bener = true;
+
+                //USERNAME SALAH
+                if(!(usernameEdit.getText().toString().length()>=5 && usernameEdit.getText().toString().length()<20) || usernameEdit.getText().toString().length()==0){
+                    usernameText.setVisibility(View.VISIBLE);
+                    bener = false;
+                }
+                //PASSWORD SALAH
+                if(passwordEdit.getText().toString().length()<=5 || passwordEdit.getText().toString().length()==0){
+                    passwordText.setVisibility(View.VISIBLE);
+                    bener = false;
+                }
 
                 //DATA BENER
-                if((usernameEdit.getText().toString().length()>=5 && usernameEdit.getText().toString().length()<20) && (passwordEdit.getText().toString().length()>=5)){
+                if(bener){
                     //MASUKIN DATA KE DB
                     Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(Activity_TambahAdmin.this);
                     SQLiteDatabase db = AdminDbHelper.getWritableDatabase();
@@ -43,20 +56,10 @@ public class Activity_TambahAdmin extends AppCompatActivity {
                     Toast.makeText(Activity_TambahAdmin.this, "Admin '" + usernameEdit.getText().toString() + "' telah ditambahkan", Toast.LENGTH_SHORT).show();
                     finish();
                 }
-                else{
-                    //USERNAME SALAH
-                    if(!(usernameEdit.getText().toString().length()>=5 && usernameEdit.getText().toString().length()<20) || usernameEdit.getText().toString().length()==0){
-                        usernameText.setVisibility(View.VISIBLE);
-                    }
-                    //PASSWORD SALAH
-                    if(passwordEdit.getText().toString().length()<=5 || passwordEdit.getText().toString().length()==0){
-                        passwordText.setVisibility(View.VISIBLE);
-                    }
-                }
             }
         });
 
-        Button batalButton = (Button) findViewById(R.id.batal_button);
+        Button batalButton = findViewById(R.id.batal_button);
         batalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
