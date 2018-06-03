@@ -28,13 +28,6 @@
 
     <Space android:layout_width="match_parent" android:layout_height="10dp"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/dataumat_recycler"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/tambah_fab"
         android:layout_width="wrap_content"
@@ -44,6 +37,14 @@
         android:layout_alignParentBottom="true"
         android:clickable="true"
         android:src="@drawable/ic_person_add_black_24dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/dataumat_recycler"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
 
 
 

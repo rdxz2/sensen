@@ -82,10 +82,6 @@ public class Fragment_MenuData extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_data, container, false);
 
-        //CARD
-        new listingUmat().execute();
-        recyclerView = (RecyclerView) v.findViewById(R.id.dataumat_recycler);
-
         //FAB
         FloatingActionButton fab = v.findViewById(R.id.tambah_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -104,32 +100,27 @@ public class Fragment_MenuData extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        //CARD
+        new listingUmat().execute();
+        recyclerView = (RecyclerView) getActivity().findViewById(R.id.dataumat_recycler);
     }
 
     class listingUmat extends AsyncTask<String, Void, Boolean>{
         @Override
         protected Boolean doInBackground(String... params) {
-            try{
-                HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/TampilData.php").openConnection();
-                connection.setRequestMethod("POST");
-                connection.connect();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
-
-                String line;
-                while((line = reader.readLine()) != null) stringBuilder.append(line);
-
-                JSONArray umatArray = new JSONArray(stringBuilder.toString());
-
-                for(int a = 0; a < umatArray.length(); a++){
-                    JSONObject umatObject = umatArray.getJSONObject(a);
-                    umat_list.add(new Contract_Umat(umatObject.getString("nama"), umatObject.getString("idumat")));
-                    //TODO: biodata yang lain
+            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
+            String jsonString = service.responseBody;
+            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
+            try {
+                JSONArray umatArray = new JSONArray(jsonString);
+                for (int i = 0; i<umatArray.length(); i++){
+                    JSONObject umatObject = umatArray.getJSONObject(i);
+//                    umat_list.add(new Contract_Umat(umatObject.getString("idumat"), umatObject.getString("nama"), umatObject.getString("tgl_lahir"), umatObject.getString("alamat")));
+                    umat_list.add(new Contract_Umat(umatObject.getString("idumat"), umatObject.getString("nama")));
                 }
-
-                connection.disconnect();
-            } catch (IOException |JSONException e) {e.printStackTrace();}
+            }
+            catch (JSONException e){e.printStackTrace();}
             return false;
         }
 

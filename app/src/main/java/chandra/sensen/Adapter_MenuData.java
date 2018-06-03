@@ -1,10 +1,13 @@
 package chandra.sensen;
 
+import android.content.ContentValues;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +31,7 @@ public class Adapter_MenuData extends RecyclerView.Adapter<Adapter_MenuData.Menu
     @Override
     public void onBindViewHolder(MenuDataViewHolder holder, int position) {
         holder.nama_text.setText(umat_list.get(position).getNama());
-        holder.id_text.setText(umat_list.get(position).getId());
+        holder.id_text.setText(umat_list.get(position).getIdUmat());
     }
 
     @Override
@@ -39,15 +42,14 @@ public class Adapter_MenuData extends RecyclerView.Adapter<Adapter_MenuData.Menu
     class MenuDataViewHolder extends RecyclerView.ViewHolder{
         TextView id_text;
         TextView nama_text;
-        MenuDataViewHolder(View umat_view){
+        MenuDataViewHolder(final View umat_view){
             super(umat_view);
             nama_text = (TextView) umat_view.findViewById(R.id.nama_text);
             id_text = (TextView) umat_view.findViewById(R.id.id_text);
             umat_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    int pos = getAdapterPosition();
-                    Snackbar.make(view, "asd", Snackbar.LENGTH_SHORT).show();
+
                 }
             });
         }

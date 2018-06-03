@@ -151,10 +151,6 @@ public class Fragment_MenuAdmin extends Fragment {
                             contentValues.put(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD, passwordbaruEdit.getText().toString());
                             String selection = String.format("%s = ?", Contract_Admin.AdminEntry._ID);
                             String[] selectionArgs = {Integer.toString(cursor.getInt(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)))};
-                            Log.d("tag id", cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)));
-                            Log.d("tag passwordlama", passwordlamaEdit.getText().toString());
-                            Log.d("tag passwordlamacursor", cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)));
-                            Log.d("tag passwordbaru", contentValues.toString());
                             int count = db.update(Contract_Admin.AdminEntry.TABLE_NAME, contentValues, selection, selectionArgs);
                             Toast.makeText(getActivity(), "Kata sandi telah berhasil diubah", Toast.LENGTH_SHORT).show();
                             onResume();

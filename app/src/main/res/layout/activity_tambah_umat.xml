@@ -38,12 +38,12 @@
                     android:layout_weight="1"
                     android:paddingRight="8dp"/>
                 <EditText
-                    android:id="@+id/id_edit"
+                    android:id="@+id/idumat_edit"
                     android:layout_width="0dp"
                     android:clickable="false"
                     android:editable="false"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
+                    android:layout_weight="3"/>
             </TableRow>
             <TableRow>
                 <TextView
@@ -56,10 +56,24 @@
                     android:paddingRight="8dp"/>
                 <EditText
                     android:id="@+id/nama_edit"
+                    android:focusedByDefault="true"
                     android:fontFamily="casual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
+                    android:layout_weight="3"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/nama_alert_text"
+                    android:text="  *Panjang nama harus antara 5 sampai 20 karakter"
+                    android:visibility="gone"
+                    android:textColor="#FF0000"
+                    android:background="@color/colorAccent"
+                    android:layout_marginLeft="40dp"
+                    android:paddingLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
             </TableRow>
             <TableRow>
                 <TextView
@@ -77,11 +91,24 @@
                     android:fontFamily="casual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
+                    android:layout_weight="3"/>
             </TableRow>
             <TableRow>
                 <TextView
-                    android:text="No. Handphone"
+                    android:id="@+id/alamat_alert_text"
+                    android:text="  *Mohon isi alamat"
+                    android:visibility="gone"
+                    android:textColor="#FF0000"
+                    android:background="@color/colorAccent"
+                    android:layout_marginLeft="40dp"
+                    android:paddingLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Tgl. Lahir"
                     android:fontFamily="casual"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -89,11 +116,25 @@
                     android:layout_weight="1"
                     android:paddingRight="8dp"/>
                 <EditText
-                    android:id="@+id/nohp_edit"
+                    android:id="@+id/tgl_lahir_edit"
                     android:fontFamily="casual"
+                    android:focusable="false"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"/>
+                    android:layout_weight="3"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:id="@+id/tgl_lahir_alert_text"
+                    android:text="  *Mohon isi tanggal lahir"
+                    android:visibility="gone"
+                    android:textColor="#FF0000"
+                    android:background="@color/colorAccent"
+                    android:layout_marginLeft="40dp"
+                    android:paddingLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
             </TableRow>
             <Space
                 android:layout_width="match_parent"
