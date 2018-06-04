@@ -3,16 +3,11 @@ package chandra.sensen;
 public class Contract_Umat {
     private String idumat, nama, tgl_lahir, alamat;
 
-//    public Contract_Umat(String idumat, String nama, String tgl_lahir, String alamat){
-////        this.idumat = idumat;
-////        this.nama = nama;
-////        this.tgl_lahir = tgl_lahir;
-////        this.alamat = alamat;
-////    }
-
-    public Contract_Umat(String idumat, String nama){
+    public Contract_Umat(String idumat, String nama, String tgl_lahir, String alamat){
         this.idumat = idumat;
         this.nama = nama;
+        this.tgl_lahir = tgl_lahir;
+        this.alamat = alamat;
     }
 
     public String getIdUmat(){return idumat; }

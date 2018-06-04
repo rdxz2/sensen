@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:text="Informasi Umat"
+        android:textSize="23dp"
+        android:textAlignment="center"
+        android:fontFamily="casual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:id="@+id/foto_image"
+        android:layout_gravity="center"
+        android:layout_width="200px"
+        android:layout_height="200px" />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="10dp" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TextView
+                android:text="ID Umat: "
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:paddingRight="8dp"/>
+            <TextView
+                android:id="@+id/idumat_text"
+                android:focusedByDefault="true"
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Nama: "
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:paddingRight="8dp"/>
+            <TextView
+                android:id="@+id/nama_text"
+                android:focusedByDefault="true"
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Alamat: "
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:paddingRight="8dp"/>
+            <TextView
+                android:id="@+id/alamat_text"
+                android:focusedByDefault="true"
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:text="Tgl. Lahir: "
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_weight="1"
+                android:paddingRight="8dp"/>
+            <TextView
+                android:id="@+id/tgl_lahir_text"
+                android:focusedByDefault="true"
+                android:fontFamily="casual"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"/>
+        </TableRow>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <Button
+            android:id="@+id/kembali_button"
+            android:text="kembali"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_gravity="center"/>
+    </TableLayout>
+
+</LinearLayout>

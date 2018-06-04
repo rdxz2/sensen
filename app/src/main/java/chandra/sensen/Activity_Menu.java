@@ -41,15 +41,9 @@ public class Activity_Menu extends AppCompatActivity implements
         }
         if(id == R.id.info_button){
             LayoutInflater layoutInflater = LayoutInflater.from(getApplicationContext());
-            View view = layoutInflater.inflate(R.layout.dialog_info, null, false);
+            View view = layoutInflater.inflate(R.layout.dialog_info_aplikasi, null, false);
             final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(Activity_Menu.this);
             alertDialogBuilder.setView(view);
-//            alertDialogBuilder.setCancelable(false).setNegativeButton("Kembali", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
             final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
             alertDialog.show();
 

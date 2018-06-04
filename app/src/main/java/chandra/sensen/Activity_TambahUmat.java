@@ -1,18 +1,14 @@
 package chandra.sensen;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,10 +22,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 public class Activity_TambahUmat extends AppCompatActivity {
@@ -48,8 +41,8 @@ public class Activity_TambahUmat extends AppCompatActivity {
 
         final Calendar calendar = Calendar.getInstance();
 
-        //TANGGAL AWAL
-        tgl_lahir_edit = (EditText) findViewById(R.id.tgl_lahir_edit);
+        //TANGGAL
+        tgl_lahir_edit = findViewById(R.id.tgl_lahir_edit);
         final DatePickerDialog.OnDateSetListener dateAwal = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -68,12 +61,12 @@ public class Activity_TambahUmat extends AppCompatActivity {
             }
         });
 
-        final TextView nama_alert_text = (TextView) findViewById(R.id.nama_alert_text);
-        final TextView alamat_alert_text = (TextView) findViewById(R.id.alamat_alert_text);
-        final TextView tgl_lahir_alert_text = (TextView) findViewById(R.id.tgl_lahir_alert_text);
+        final TextView nama_alert_text = findViewById(R.id.nama_alert_text);
+        final TextView alamat_alert_text = findViewById(R.id.alamat_alert_text);
+        final TextView tgl_lahir_alert_text = findViewById(R.id.tgl_lahir_alert_text);
 
         //BUTTON TAMBAH
-        Button tambahButton = (Button) findViewById(R.id.tambah_button);
+        Button tambahButton = findViewById(R.id.tambah_button);
         tambahButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,32 +74,36 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 alamat_alert_text.setVisibility(View.GONE);
                 tgl_lahir_alert_text.setVisibility(View.GONE);
 
-                idumat_edit = (EditText) findViewById(R.id.idumat_edit);
-                nama_edit = (EditText) findViewById(R.id.nama_edit);
-                alamat_edit = (EditText) findViewById(R.id.alamat_edit);
+                idumat_edit = findViewById(R.id.idumat_edit);
+                nama_edit = findViewById(R.id.nama_edit);
+                alamat_edit = findViewById(R.id.alamat_edit);
 
-                //BENER
-                if(true){
-                    new tambahUmat().execute(idumat_edit.getText().toString(), nama_edit.getText().toString(), tgl_lahir_edit.getText().toString(), alamat_edit.getText().toString());
+                boolean bener = true;
+
+                //NAMA SALAH
+                if(!((idumat_edit.getText().toString().length() >=5 ) && (idumat_edit.getText().toString().length() <= 20))){
+                    nama_alert_text.setVisibility(View.VISIBLE);
+                    bener = false;
                 }
-                else{
-                    //NAMA SALAH
-                    if(!((idumat_edit.getText().toString().length() >=5 ) && (idumat_edit.getText().toString().length() <= 20))){
-                        nama_alert_text.setVisibility(View.VISIBLE);
-                    }
-                    //ALAMAT SALAH
-                    if(alamat_edit.getText().toString().equals("")){
-                        alamat_alert_text.setVisibility(View.VISIBLE);
-                    }
-                    //TANGGAL LAHIR SALAH
-                    if(tgl_lahir_edit.getText().toString().equals("")){
-                        tgl_lahir_alert_text.setVisibility(View.VISIBLE);
-                    }
+                //ALAMAT SALAH
+                if(alamat_edit.getText().toString().equals("")){
+                    alamat_alert_text.setVisibility(View.VISIBLE);
+                    bener = false;
+                }
+                //TANGGAL LAHIR SALAH
+                if(tgl_lahir_edit.getText().toString().equals("")){
+                    tgl_lahir_alert_text.setVisibility(View.VISIBLE);
+                    bener = false;
+                }
+                //BENER
+                if(bener) {
+                    //MASUKIN DATA KE DB
+                    new tambahUmat().execute(idumat_edit.getText().toString(), nama_edit.getText().toString(), tgl_lahir_edit.getText().toString(), alamat_edit.getText().toString());
                 }
             }
         });
 
-        Button batalButton = (Button) findViewById(R.id.batal_button);
+        Button batalButton = findViewById(R.id.batal_button);
         batalButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,14 +112,12 @@ public class Activity_TambahUmat extends AppCompatActivity {
         });
     }
 
-    //TODO: dapetin idumat
     void cekIdUmat(){
         new Thread(new Runnable() {
             @Override
             public void run() {
                 Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
                 String jsonString = service.responseBody;
-                ArrayList<HashMap<String, String>> umats = new ArrayList<>();
                 try {
                     JSONArray umatArray = new JSONArray(jsonString);
                     JSONObject umatObject = umatArray.getJSONObject(umatArray.length()-1);
@@ -133,12 +128,10 @@ public class Activity_TambahUmat extends AppCompatActivity {
                     Activity_TambahUmat.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            idumat_edit = (EditText) findViewById(R.id.idumat_edit);
+                            idumat_edit = findViewById(R.id.idumat_edit);
                             idumat_edit.setText(idumat_str);
                         }
                     });
-                    for (int i = 0; i<umatArray.length(); i++){
-                    }
                 }
                 catch (JSONException e){e.printStackTrace();}
             }
@@ -146,7 +139,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
     }
 
     //TODO: tambah umat
-    class tambahUmat extends AsyncTask<String, Void, Boolean> {
+    static class tambahUmat extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
             try{
@@ -173,7 +166,6 @@ public class Activity_TambahUmat extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            Toast.makeText(Activity_TambahUmat.this, aBoolean ? "ya" : "ga", Toast.LENGTH_SHORT).show();
         }
     }
 }
