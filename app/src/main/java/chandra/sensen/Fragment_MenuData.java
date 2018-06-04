@@ -117,6 +117,7 @@ public class Fragment_MenuData extends Fragment {
                 for (int i = 0; i<umatArray.length(); i++){
                     JSONObject umatObject = umatArray.getJSONObject(i);
                     umat_list.add(new Contract_Umat(umatObject.getString("idumat"), umatObject.getString("nama"), umatObject.getString("tgl_lahir"), umatObject.getString("alamat")));
+//                    umat_list.add(new Contract_Umat(umatObject.getString("idumat"), umatObject.getString("nama")));
                 }
             }
             catch (JSONException e){e.printStackTrace();}

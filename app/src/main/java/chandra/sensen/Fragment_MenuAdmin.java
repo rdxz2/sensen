@@ -67,6 +67,8 @@ public class Fragment_MenuAdmin extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_admin, container, false);
 
+        //TODO: checking jumlah admin
+
         //FAB
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -75,8 +77,6 @@ public class Fragment_MenuAdmin extends Fragment {
                 startActivity(new Intent(getActivity(), Activity_TambahAdmin.class));
             }
         });
-
-//        cursor.close();
 
         return v;
     }

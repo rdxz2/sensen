@@ -50,6 +50,7 @@ public class Adapter_MenuData extends RecyclerView.Adapter<Adapter_MenuData.Menu
             umat_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //INIT
                     int pos = getAdapterPosition();
                     TextView idumat_text = view.findViewById(R.id.idumat_text);
                     TextView nama_text = view.findViewById(R.id.nama_text);

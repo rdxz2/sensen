@@ -112,6 +112,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
         });
     }
 
+    //AMBIL ID
     void cekIdUmat(){
         new Thread(new Runnable() {
             @Override
@@ -138,6 +139,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
         }).start();
     }
 
+    //TAMBAH UMAT
     //TODO: tambah umat
     static class tambahUmat extends AsyncTask<String, Void, Boolean> {
         @Override

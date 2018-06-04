@@ -24,12 +24,11 @@ public class Activity_TambahAdmin extends AppCompatActivity {
         tambahButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //INIT
                 usernameText.setVisibility(View.GONE);
                 passwordText.setVisibility(View.GONE);
-
                 EditText usernameEdit = findViewById(R.id.username_edit);
                 EditText passwordEdit = findViewById(R.id.password_edit);
-
                 boolean bener = true;
 
                 //USERNAME SALAH
@@ -59,6 +58,7 @@ public class Activity_TambahAdmin extends AppCompatActivity {
             }
         });
 
+        //BUTTON BATAL
         Button batalButton = findViewById(R.id.batal_button);
         batalButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -10,6 +10,11 @@ public class Contract_Umat {
         this.alamat = alamat;
     }
 
+//    public Contract_Umat(String idumat, String nama){
+//        this.idumat = idumat;
+//        this.nama = nama;
+//    }
+
     public String getIdUmat(){return idumat; }
     public void setIdUmat(String nama){this.idumat = idumat; }
 
