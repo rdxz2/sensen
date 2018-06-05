@@ -9,43 +9,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Fragment_MenuData.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Fragment_MenuData#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Fragment_MenuData extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -108,7 +85,6 @@ public class Fragment_MenuData extends Fragment {
 
         //KALO ADA KONEKSI INTERNET
         if(isConnected){
-            Toast.makeText(getActivity(), "Koneksi internet terdeteksi", Toast.LENGTH_SHORT).show();
             fab.setVisibility(View.VISIBLE);
             new listingUmat().execute();
             recyclerView = getActivity().findViewById(R.id.dataumat_recycler);
@@ -141,7 +117,7 @@ public class Fragment_MenuData extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            adapter_menuData = new Adapter_MenuData(umat_list);
+            adapter_menuData = new Adapter_MenuData(umat_list, getContext());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_menuData);

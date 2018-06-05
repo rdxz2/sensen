@@ -1,6 +1,7 @@
 package chandra.sensen;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,13 +39,15 @@ public class Activity_UbahUmat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ubah_umat);
 
+        //INIT
         idumat_edit = findViewById(R.id.idumat_edit);
         nama_edit = findViewById(R.id.nama_edit);
         alamat_edit = findViewById(R.id.alamat_edit);
         final TextView alamat_alert_text = findViewById(R.id.alamat_alert_text);
         final TextView tgl_lahir_alert_text = findViewById(R.id.tgl_lahir_alert_text);
 
-        cekIdUmat();
+        //CEK ID UMAT
+//        cekIdUmat();
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -55,7 +59,7 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "MM/dd/yy";
+                String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 tgl_lahir_edit.setText(sdf.format(calendar.getTime()));
             }
@@ -67,6 +71,13 @@ public class Activity_UbahUmat extends AppCompatActivity {
             }
         });
 
+        //SET & TAMPILIN DATA UMAT YANG SEKARANG
+        idumat_edit.setText(getIntent().getStringExtra("IDUMAT"));
+        nama_edit.setText(getIntent().getStringExtra("NAMA"));
+        alamat_edit.setText(getIntent().getStringExtra("ALAMAT"));
+        tgl_lahir_edit.setText(getIntent().getStringExtra("TGL_LAHIR"));
+
+        //BUTTON UBAH
         Button ubahButton = findViewById(R.id.ubah_button);
         ubahButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,10 +101,12 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 if(bener) {
                     //MASUKIN DATA KE DB
                     new ubahUmat().execute(idumat_edit.getText().toString(), nama_edit.getText().toString(), tgl_lahir_edit.getText().toString(), alamat_edit.getText().toString());
+                    finish();
                 }
             }
         });
 
+        //BUTTON BATAL
         Button batalButton = findViewById(R.id.batal_button);
         batalButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,34 +116,20 @@ public class Activity_UbahUmat extends AppCompatActivity {
         });
     }
 
-    void cekIdUmat(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
-                String jsonString = service.responseBody;
-                try {
-                    JSONArray umatArray = new JSONArray(jsonString);
-                    JSONObject umatObject = umatArray.getJSONObject(umatArray.length()-1);
-                    String idumat = umatObject.getString("idumat");
-                    int idumat_int = Integer.parseInt(idumat.substring(2));
-                    idumat_int++;
-                    final String idumat_str = Integer.toString(idumat_int);
-                    Activity_UbahUmat.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            idumat_edit = findViewById(R.id.idumat_edit);
-                            idumat_edit.setText(idumat_str);
-                        }
-                    });
-                }
-                catch (JSONException e){e.printStackTrace();}
-            }
-        }).start();
-    }
-
     //TODO: ubah umat
-    static class ubahUmat extends AsyncTask<String, Void, Boolean> {
+    class ubahUmat extends AsyncTask<String, Void, Boolean> {
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(Activity_UbahUmat.this);
+            progressDialog.setMessage("Menambahkan data");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             try{
@@ -138,11 +137,10 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 String nama = params[1];
                 String tgl_lahir = params[1];
                 String alamat = params[1];
-                //TODO: linknya
-                HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/InputData.php").openConnection();
+                HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/UpdateData.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();
-                connection.getOutputStream().write(String.format("idumat=%s&nama=%s&tgl_lahir=%s&alamat=%s", idumat, nama, tgl_lahir, alamat).getBytes());
+                connection.getOutputStream().write(String.format("IDUmat=%s&Nama=%s&Tgl_lahir=%s&alamat=%s", idumat, nama, tgl_lahir, alamat).getBytes());
                 InputStream input = new BufferedInputStream(connection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 StringBuilder stringBuilder = new StringBuilder();
@@ -151,13 +149,22 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 connection.disconnect();
                 return Boolean.valueOf(stringBuilder.toString());
             } catch (IOException e) {e.printStackTrace();}
-
             return false;
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+
+            progressDialog.hide();
+
+            if(aBoolean){
+                Toast.makeText(Activity_UbahUmat.this, "Data berhasil diubah", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Toast.makeText(Activity_UbahUmat.this, "Data gagal diubah", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

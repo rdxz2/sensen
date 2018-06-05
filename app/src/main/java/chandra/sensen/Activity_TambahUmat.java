@@ -1,6 +1,7 @@
 package chandra.sensen;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,7 +51,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "MM/dd/yy";
+                String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 tgl_lahir_edit.setText(sdf.format(calendar.getTime()));
             }
@@ -141,7 +143,20 @@ public class Activity_TambahUmat extends AppCompatActivity {
 
     //TAMBAH UMAT
     //TODO: tambah umat
-    static class tambahUmat extends AsyncTask<String, Void, Boolean> {
+    class tambahUmat extends AsyncTask<String, Void, Boolean> {
+
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(Activity_TambahUmat.this);
+            progressDialog.setMessage("Menambahkan data");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             try{
@@ -161,13 +176,22 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 connection.disconnect();
                 return Boolean.valueOf(stringBuilder.toString());
             } catch (IOException e) {e.printStackTrace();}
-
             return false;
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+
+            progressDialog.hide();
+
+            if(aBoolean){
+                Toast.makeText(Activity_TambahUmat.this, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Toast.makeText(Activity_TambahUmat.this, "Data gagal ditambahkan", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

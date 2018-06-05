@@ -84,7 +84,7 @@ public class Fragment_MenuAbsensi extends Fragment {
                 calendarAkhir.set(Calendar.YEAR, year);
                 calendarAkhir.set(Calendar.MONTH, monthOfYear);
                 calendarAkhir.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                String myFormat = "MM/dd/yy";
+                String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
                 if(!calendarAwal.after(calendarAkhir)){
                     tanggalakhirEdit.setText(sdf.format(calendarAkhir.getTime()));
