@@ -39,6 +39,7 @@ public class Fragment_MenuAbsensi extends Fragment {
         return fragment;
     }
 
+    //ASDASDASD
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +121,8 @@ public class Fragment_MenuAbsensi extends Fragment {
 
         return v;
     }
+
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

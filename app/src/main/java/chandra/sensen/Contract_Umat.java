@@ -10,14 +10,6 @@ public class Contract_Umat {
         this.alamat = alamat;
     }
 
-//    public Contract_Umat(String idumat, String nama, String tgl_lahir, String alamat, String foto){
-//        this.idumat = idumat;
-//        this.nama = nama;
-//        this.tgl_lahir = tgl_lahir;
-//        this.alamat = alamat;
-//        this.foto = foto;
-//    }
-
     public String getIdUmat(){return idumat; }
     public void setIdUmat(String nama){this.idumat = idumat; }
 
