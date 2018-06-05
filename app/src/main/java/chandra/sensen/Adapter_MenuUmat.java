@@ -1,28 +1,23 @@
 package chandra.sensen;
 
-import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Adapter_MenuData extends RecyclerView.Adapter<Adapter_MenuData.MenuDataViewHolder>{
+public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.MenuDataViewHolder>{
 
     private ArrayList<Contract_Umat> umat_list;
     private Context context;
 
-    Adapter_MenuData(ArrayList<Contract_Umat> umat_list, Context context){
+    Adapter_MenuUmat(ArrayList<Contract_Umat> umat_list, Context context){
         this.umat_list = umat_list;
         this.context = context;
     }

@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Fragment_MenuData extends Fragment {
+public class Fragment_MenuUmat extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -31,12 +31,12 @@ public class Fragment_MenuData extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public Fragment_MenuData() {
+    public Fragment_MenuUmat() {
         // Required empty public constructor
     }
 
-    public static Fragment_MenuData newInstance(String param1, String param2) {
-        Fragment_MenuData fragment = new Fragment_MenuData();
+    public static Fragment_MenuUmat newInstance(String param1, String param2) {
+        Fragment_MenuUmat fragment = new Fragment_MenuUmat();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -54,7 +54,7 @@ public class Fragment_MenuData extends Fragment {
     }
 
     private RecyclerView recyclerView;
-    private Adapter_MenuData adapter_menuData;
+    private Adapter_MenuUmat adapter_menuUmat;
     private ArrayList<Contract_Umat> umat_list = new ArrayList<>();
 
     @Override
@@ -117,10 +117,10 @@ public class Fragment_MenuData extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            adapter_menuData = new Adapter_MenuData(umat_list, getContext());
+            adapter_menuUmat = new Adapter_MenuUmat(umat_list, getContext());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setAdapter(adapter_menuData);
+            recyclerView.setAdapter(adapter_menuUmat);
         }
     }
 

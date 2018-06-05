@@ -18,7 +18,7 @@ import android.widget.Button;
 public class Activity_Menu extends AppCompatActivity implements
         Fragment_MenuUtama.OnFragmentInteractionListener,
         Fragment_MenuAbsensi.OnFragmentInteractionListener,
-        Fragment_MenuData.OnFragmentInteractionListener,
+        Fragment_MenuUmat.OnFragmentInteractionListener,
         Fragment_MenuAdmin.OnFragmentInteractionListener{
 
     // create an action bar button
@@ -66,7 +66,7 @@ public class Activity_Menu extends AppCompatActivity implements
         final TabLayout tabLayout = (TabLayout) findViewById(R.id.menu_tab);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_home_black_24dp).setText("Utama"));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_grid_on_black_24dp).setText("Absensi"));
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_group_black_24dp).setText("Data"));
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_group_black_24dp).setText("Umat"));
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_settings_black_24dp).setText("Admin"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         tabLayout.setTabTextColors(

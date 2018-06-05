@@ -27,8 +27,8 @@ public class Adapter_Menu extends FragmentStatePagerAdapter{
                 Fragment_MenuAbsensi fragment_menuAbsensi = new Fragment_MenuAbsensi();
                 return fragment_menuAbsensi;
             case 2:
-                Fragment_MenuData fragment_menuData = new Fragment_MenuData();
-                return fragment_menuData;
+                Fragment_MenuUmat fragment_menuUmat = new Fragment_MenuUmat();
+                return fragment_menuUmat;
             case 3:
                 Fragment_MenuAdmin fragment_menuAdmin = new Fragment_MenuAdmin();
                 return fragment_menuAdmin;

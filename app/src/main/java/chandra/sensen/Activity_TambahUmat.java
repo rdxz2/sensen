@@ -167,7 +167,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/InputData.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();
-                connection.getOutputStream().write(String.format("idumat=%s&nama=%s&tgl_lahir=%s&alamat=%s", idumat, nama, tgl_lahir, alamat).getBytes());
+                connection.getOutputStream().write(String.format("IDUmat=%s&Nama=%s&Tgl_lahir=%s&alamat=%s", idumat, nama, tgl_lahir, alamat).getBytes());
                 InputStream input = new BufferedInputStream(connection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 StringBuilder stringBuilder = new StringBuilder();

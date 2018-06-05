@@ -110,7 +110,7 @@ public class Fragment_MenuAbsensi extends Fragment {
             public void onClick(View view) {
                 if(!(cariEdit.getText().toString().equals("") && tanggalawalEdit.getText().toString().equals("") && tanggalakhirEdit.getText().toString().equals(""))){
                     //CARI
-
+                    //TODO: cari berdasarkan tanggal
                 }
                 else{
                     Toast.makeText(getActivity(), "Isi terlebih dahulu data-data di atas", Toast.LENGTH_SHORT).show();
@@ -120,6 +120,9 @@ public class Fragment_MenuAbsensi extends Fragment {
 
         return v;
     }
+
+    //TODO: tampilin semua data (per hari)
+
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
