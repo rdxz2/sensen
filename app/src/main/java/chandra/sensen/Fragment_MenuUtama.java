@@ -26,12 +26,6 @@ import com.google.android.gms.vision.barcode.Barcode;
  */
 public class Fragment_MenuUtama extends Fragment{
 
-//    SurfaceView surfaceView;
-//    BarcodeDetector barcodeDetector;
-//    CameraSource cameraSource;
-//    final int RequestCameraPermissionID = 1001;
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -44,14 +38,6 @@ public class Fragment_MenuUtama extends Fragment{
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Fragment_MenuUtama.
-     */
     public static Fragment_MenuUtama newInstance(String param1, String param2) {
         Fragment_MenuUtama fragment = new Fragment_MenuUtama();
         Bundle args = new Bundle();
@@ -101,7 +87,8 @@ public class Fragment_MenuUtama extends Fragment{
 
         idEdit = (EditText) v.findViewById(R.id.id_edit);
 
-        Button absenButton = (Button) v.findViewById(R.id.absen_button);
+        //BUTTON ABSEN
+        Button absenButton = v.findViewById(R.id.absen_button);
         absenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,11 +96,12 @@ public class Fragment_MenuUtama extends Fragment{
             }
         });
 
-        Button qrButton = (Button) v.findViewById(R.id.qr_button);
+        //BUTTON SCAN QR
+        Button qrButton = v.findViewById(R.id.qr_button);
         qrButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                idEdit = (EditText) v.findViewById(R.id.id_edit);
+                idEdit = v.findViewById(R.id.id_edit);
                 startActivityForResult(new Intent(getActivity(), Activity_BarcodeCapture.class), BARCODE_READER_REQUEST_CODE);
             }
         });
@@ -133,8 +121,7 @@ public class Fragment_MenuUtama extends Fragment{
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -144,16 +131,6 @@ public class Fragment_MenuUtama extends Fragment{
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

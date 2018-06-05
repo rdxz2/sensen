@@ -122,7 +122,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 try {
                     JSONArray umatArray = new JSONArray(jsonString);
                     JSONObject umatObject = umatArray.getJSONObject(umatArray.length()-1);
-                    String idumat = umatObject.getString("idumat");
+                    String idumat = umatObject.getString("IDUmat");
                     int idumat_int = Integer.parseInt(idumat.substring(2));
                     idumat_int++;
                     final String idumat_str = Integer.toString(idumat_int);

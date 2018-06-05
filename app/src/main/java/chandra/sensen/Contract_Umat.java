@@ -1,7 +1,7 @@
 package chandra.sensen;
 
 public class Contract_Umat {
-    private String idumat, nama, tgl_lahir, alamat;
+    private String idumat = "", nama = "", tgl_lahir = "", alamat = "", foto = "";
 
     public Contract_Umat(String idumat, String nama, String tgl_lahir, String alamat){
         this.idumat = idumat;
@@ -10,9 +10,12 @@ public class Contract_Umat {
         this.alamat = alamat;
     }
 
-//    public Contract_Umat(String idumat, String nama){
+//    public Contract_Umat(String idumat, String nama, String tgl_lahir, String alamat, String foto){
 //        this.idumat = idumat;
 //        this.nama = nama;
+//        this.tgl_lahir = tgl_lahir;
+//        this.alamat = alamat;
+//        this.foto = foto;
 //    }
 
     public String getIdUmat(){return idumat; }
@@ -26,5 +29,8 @@ public class Contract_Umat {
 
     public String getAlamat(){return alamat; }
     public void setAlamat(String alamat){this.alamat = alamat; }
+
+    public String getFoto(){return foto;}
+    public void setFoto(String foto){this.foto = foto; }
 
 }

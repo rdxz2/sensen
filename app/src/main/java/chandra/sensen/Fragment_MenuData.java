@@ -2,6 +2,8 @@ package chandra.sensen;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -82,18 +84,6 @@ public class Fragment_MenuData extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_data, container, false);
 
-        //FAB
-        FloatingActionButton fab = v.findViewById(R.id.tambah_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), Activity_TambahUmat.class));
-            }
-        });
-
-        //DAPETIN DATA
-//        new ListUmat().execute();
-
         return v;
     }
 
@@ -101,9 +91,33 @@ public class Fragment_MenuData extends Fragment {
     public void onResume() {
         super.onResume();
 
-        //CARD
-        new listingUmat().execute();
-        recyclerView = (RecyclerView) getActivity().findViewById(R.id.dataumat_recycler);
+        //CEK KOONEKSI INTERNET
+        ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+
+        //FAB
+        FloatingActionButton fab = getActivity().findViewById(R.id.tambah_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), Activity_TambahUmat.class));
+            }
+        });
+        fab.setVisibility(View.GONE);
+
+        //KALO ADA KONEKSI INTERNET
+        if(isConnected){
+            Toast.makeText(getActivity(), "Koneksi internet terdeteksi", Toast.LENGTH_SHORT).show();
+            fab.setVisibility(View.VISIBLE);
+            new listingUmat().execute();
+            recyclerView = getActivity().findViewById(R.id.dataumat_recycler);
+        }
+        //KALO GAADA KONEKSI INTERNET
+        else{
+            Toast.makeText(getActivity(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     class listingUmat extends AsyncTask<String, Void, Boolean>{
@@ -111,13 +125,13 @@ public class Fragment_MenuData extends Fragment {
         protected Boolean doInBackground(String... params) {
             Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
             String jsonString = service.responseBody;
-            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
             try {
                 JSONArray umatArray = new JSONArray(jsonString);
                 for (int i = 0; i<umatArray.length(); i++){
                     JSONObject umatObject = umatArray.getJSONObject(i);
-                    umat_list.add(new Contract_Umat(umatObject.getString("idumat"), umatObject.getString("nama"), umatObject.getString("tgl_lahir"), umatObject.getString("alamat")));
-//                    umat_list.add(new Contract_Umat(umatObject.getString("idumat"), umatObject.getString("nama")));
+                    umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
+//                    umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat"), umatObject.getString("foto")));
+//                    Log.d("UMAT LIST", umat_list.get(i).getIdUmat());
                 }
             }
             catch (JSONException e){e.printStackTrace();}
@@ -133,49 +147,6 @@ public class Fragment_MenuData extends Fragment {
             recyclerView.setAdapter(adapter_menuData);
         }
     }
-
-//    class ListUmat extends AsyncTask<Void, Void, ArrayList<HashMap<String, String>>> {
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected ArrayList<HashMap<String, String>> doInBackground(Void... params) {
-//            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
-//            String jsonString = service.responseBody;
-//            ArrayList<HashMap<String, String>> umats = new ArrayList<>();
-//            try {
-//                JSONArray umatArray = new JSONArray(jsonString);
-//                for (int i = 0; i<umatArray.length(); i++){
-//                    JSONObject umatObject = umatArray.getJSONObject(i);
-//                    String idumat = umatObject.getString("idumat");
-//                    String nama = umatObject.getString("nama");
-//                    HashMap<String, String> umat = new HashMap<>();
-//                    umat.put("idumat", idumat);
-//                    umat.put("nama", nama);
-//                    umats.add(umat);
-//                }
-//            }
-//            catch (JSONException e){e.printStackTrace();}
-//            return umats;
-//        }
-//
-//        ListView umatList;
-//
-//        @Override
-//        protected void onPostExecute(ArrayList<HashMap<String, String>> umats) {
-//            super.onPostExecute(umats);
-//            umatList = (ListView) Fragment_MenuData.this.getView().findViewById(R.id.data_list);
-//            umatList.setAdapter(new SimpleAdapter(
-//                getActivity(),
-//                umats,
-//                android.R.layout.simple_list_item_2,
-//                new String[]{"idumat", "nama"},
-//                new int[]{android.R.id.text1, android.R.id.text2,}
-//            ));
-//        }
-//    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -198,16 +169,6 @@ public class Fragment_MenuData extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

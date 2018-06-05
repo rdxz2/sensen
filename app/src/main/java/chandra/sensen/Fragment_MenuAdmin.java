@@ -62,12 +62,11 @@ public class Fragment_MenuAdmin extends Fragment {
         }
     }
 
+    int jum;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_admin, container, false);
-
-        //TODO: checking jumlah admin
 
         //FAB
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_fab);
@@ -84,6 +83,9 @@ public class Fragment_MenuAdmin extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        //TODO: checking jumlah admin -> hapus admin
+        jum = 0;
 
         //SAMBUNG KE DB
         Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(getActivity());
@@ -105,6 +107,7 @@ public class Fragment_MenuAdmin extends Fragment {
                     cursor.getInt(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)),
                     cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME))
             ));
+            jum++;
         } while (cursor.moveToNext());
 
         //ARRAY ADAPTER
@@ -167,52 +170,60 @@ public class Fragment_MenuAdmin extends Fragment {
         adminList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //DIALOG BOX
-                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                final View view2 = layoutInflater.inflate(R.layout.dialog_hapus_admin, null, false);
-                final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                alertDialogBuilder.setView(view2);
-                final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
+                int jum_temp = jum - 1;
+                if(!(jum_temp <= 0)){
+                    //DIALOG BOX
+                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                    final View view2 = layoutInflater.inflate(R.layout.dialog_hapus_admin, null, false);
+                    final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                    alertDialogBuilder.setView(view2);
+                    final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
 
-                //SET USERNAME DI EDITTEXT
-                cursor.moveToPosition(i);
-                TextView passwordText = (TextView) view2.findViewById(R.id.confirm_text);
-                passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
+                    //SET USERNAME DI EDITTEXT
+                    cursor.moveToPosition(i);
+                    TextView passwordText = (TextView) view2.findViewById(R.id.confirm_text);
+                    passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
 
-                //BUTTON HAPUS
-                Button hapusButton = (Button) view2.findViewById(R.id.hapus_button);
-                hapusButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
-                        //PASSWORD BENER
-                        if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
-                            //TODO: hapus dari database
-                            Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
+                    //BUTTON HAPUS
+                    Button hapusButton = (Button) view2.findViewById(R.id.hapus_button);
+                    hapusButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
+                            //PASSWORD BENER
+                            if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                                //TODO: hapus dari database
+                                Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
+                                alertDialog.hide();
+                                onResume();
+                            }
+                            //PASSWORD SALAH
+                            else{
+                                Toast.makeText(getActivity(), "Masukkan kata sandi yang benar", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                    //BUTTON BATAL
+                    Button batalButton = (Button) view2.findViewById(R.id.batal_button);
+                    batalButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
                             alertDialog.hide();
-                            onResume();
                         }
-                        //PASSWORD SALAH
-                        else{
-                            Toast.makeText(getActivity(), "Masukkan kata sandi yang benar", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                //BUTTON BATAL
-                Button batalButton = (Button) view2.findViewById(R.id.batal_button);
-                batalButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.hide();
-                    }
-                });
+                    });
+                }
+                else{
+                    Toast.makeText(getActivity(), "Jumlah admin minimal adalah 1", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
 
         //TAMPILIN LISTVIEW
         adminList.setAdapter(strList);
+
+        db.close();
     }
 
     public void onButtonPressed(Uri uri) {
@@ -227,8 +238,7 @@ public class Fragment_MenuAdmin extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -238,16 +248,6 @@ public class Fragment_MenuAdmin extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
