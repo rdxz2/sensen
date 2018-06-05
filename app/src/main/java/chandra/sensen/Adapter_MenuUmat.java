@@ -31,8 +31,8 @@ public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.Menu
 
     @Override
     public void onBindViewHolder(MenuDataViewHolder holder, int position) {
-        holder.nama_text.setText("ID Umat\t: " + umat_list.get(position).getNama());
-        holder.id_text.setText("Nama\t: " + umat_list.get(position).getIdUmat());
+        holder.id_text.setText("ID Umat\t: " + umat_list.get(position).getIdUmat());
+        holder.nama_text.setText("Nama\t\t\t\t: " + umat_list.get(position).getNama());
     }
 
     @Override

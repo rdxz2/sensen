@@ -63,6 +63,7 @@ public class Fragment_MenuAdmin extends Fragment {
     }
 
     int jum;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -83,7 +84,6 @@ public class Fragment_MenuAdmin extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         //TODO: checking jumlah admin -> hapus admin
         jum = 0;
 

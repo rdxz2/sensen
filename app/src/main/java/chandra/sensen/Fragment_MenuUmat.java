@@ -1,5 +1,6 @@
 package chandra.sensen;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -67,8 +68,7 @@ public class Fragment_MenuUmat extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
-        //CEK KOONEKSI INTERNET
+        //CEK KONEKSI INTERNET
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -93,10 +93,20 @@ public class Fragment_MenuUmat extends Fragment {
         else{
             Toast.makeText(getActivity(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     class listingUmat extends AsyncTask<String, Void, Boolean>{
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Mengambil data umat");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
@@ -117,6 +127,7 @@ public class Fragment_MenuUmat extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            progressDialog.hide();
             adapter_menuUmat = new Adapter_MenuUmat(umat_list, getContext());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
