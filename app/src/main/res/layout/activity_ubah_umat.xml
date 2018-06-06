@@ -12,6 +12,7 @@
 
     <TextView
         android:text="Ubah Data"
+        android:fontFamily="casual"
         android:textAlignment="center"
         android:textSize="25dp"
         android:layout_width="match_parent"
@@ -28,6 +29,7 @@
             android:paddingRight="8dp"/>
         <EditText
             android:id="@+id/idumat_edit"
+            android:fontFamily="casual"
             android:textColor="@color/common_google_signin_btn_text_dark_disabled"
             android:focusable="false"
             android:clickable="false"
@@ -47,11 +49,11 @@
             android:paddingRight="8dp"/>
         <EditText
             android:id="@+id/nama_edit"
+            android:fontFamily="casual"
             android:textColor="@color/common_google_signin_btn_text_dark_disabled"
             android:focusable="false"
             android:clickable="false"
             android:editable="false"
-            android:fontFamily="casual"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"/>
@@ -133,12 +135,14 @@
     <TableRow>
         <Button
             android:id="@+id/batal_button"
+            android:fontFamily="casual"
             android:text="batal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/ubah_button"
+            android:fontFamily="casual"
             android:text="ubah"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

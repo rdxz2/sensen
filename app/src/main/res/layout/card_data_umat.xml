@@ -25,6 +25,7 @@
             android:layout_rowSpan="2"/>
         <TextView
             android:id="@+id/id_text"
+            android:text="ID Umat: "
             android:fontFamily="casual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
             android:layout_row="0"/>
         <TextView
             android:id="@+id/nama_text"
+            android:text="Nama: "
             android:fontFamily="casual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

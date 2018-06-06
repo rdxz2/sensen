@@ -9,18 +9,11 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.CircularProgressDrawable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
@@ -33,7 +26,10 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -60,7 +56,6 @@ public class Fragment_MenuAbsensi extends Fragment {
         return fragment;
     }
 
-    //ASDASDASD
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,8 +71,7 @@ public class Fragment_MenuAbsensi extends Fragment {
     HashMap<String, List<String>> absensi_list;
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_absensi, container, false);
 
         final Calendar calendarAwal = Calendar.getInstance();
@@ -152,7 +146,7 @@ public class Fragment_MenuAbsensi extends Fragment {
         //KALO ADA KONEKSI INTERNET
         if(isConnected){
             expandableListView = (ExpandableListView) getActivity().findViewById(R.id.absensi_expandable);
-            absensi_list = DataPump_MenuAbsensi.getData();
+            absensi_list = new HashMap<>();
             new listingAbsensi().execute();
         }
         //KALO GAADA KONEKSI INTERNET
@@ -179,10 +173,43 @@ public class Fragment_MenuAbsensi extends Fragment {
             String jsonString = service.responseBody;
             try {
                 JSONArray absensiArray = new JSONArray(jsonString);
-                for (int i = 0; i<absensiArray.length(); i++){
-                    JSONObject absensiObject = absensiArray.getJSONObject(i);
-                    absensi_list.add(new Contract_Absensi(absensiObject.getString("IDAbsen"), absensiObject.getString("Tanggal_absen"), absensiObject.getString("IDUmat"), absensiObject.getString("Nama")));
+
+                //LISTING TANGGAL ABSEN & NAMA
+                //TODO: BENERIN NILAI X
+
+                String tanggal_temp = "";
+                String[] tanggal_nodup = new String[absensiArray.length()];
+                String[] tanggal = new String[absensiArray.length()];
+                String[] nama = new String[absensiArray.length()];
+                for(int a = 0, x = 0; a<absensiArray.length(); a++){
+                    JSONObject absensiObject = absensiArray.getJSONObject(a);
+                    tanggal[a] = absensiObject.getString("Tanggal_absen");
+                    nama[a] = absensiObject.getString("Nama");
+                    //KALO TANGGAL GAADA DI LIST
+                    if(!(tanggal_temp.contains(tanggal[a]))){
+                        tanggal_temp = tanggal_temp + " " + tanggal[a];
+                        tanggal_nodup[x] = tanggal[a];
+                        x++;
+                    }
+                    Log.d("NILAI X", Integer.toString(x));
                 }
+
+                //SORT DESCENDING
+                Arrays.sort(tanggal_nodup, Collections.reverseOrder());
+
+                //GROUPING NAMA KE TANGGAL ABSEN
+                Log.d("TANGGAL NODUP LENGTH", Integer.toString(tanggal_nodup.length));
+                for(int a = 0; a<tanggal_nodup.length; a++){
+                    List<String> nama_list = new ArrayList<>();
+                    for(int b = 0; b<absensiArray.length(); b++){
+                        if(tanggal[b].equals(tanggal_nodup[a])){
+                            nama_list.add(nama[b]);
+                        }
+                    }
+                    absensi_list.put(tanggal_nodup[a], nama_list);
+                }
+
+                Log.d("ABSENSI LIST", absensi_list.toString());
             }
             catch (JSONException e){e.printStackTrace();}
             return false;
@@ -191,8 +218,7 @@ public class Fragment_MenuAbsensi extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            progressDialog.hide();
-
+            progressDialog.dismiss();
             tanggal_list = new ArrayList<String>(absensi_list.keySet());
             expandableListAdapter = new Adapter_MenuAbsensi(getContext(), tanggal_list, absensi_list);
             expandableListView.setAdapter(expandableListAdapter);
@@ -209,7 +235,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                 @Override
                 public void onGroupCollapse(int groupPosition) {
                     Toast.makeText(getActivity(), tanggal_list.get(groupPosition) + " List Collapsed.", Toast.LENGTH_SHORT).show();
-
                 }
             });
 

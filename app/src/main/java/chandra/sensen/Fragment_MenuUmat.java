@@ -60,7 +60,7 @@ public class Fragment_MenuUmat extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_menu_data, container, false);
+        View v = inflater.inflate(R.layout.fragment_menu_umat, container, false);
 
         return v;
     }
@@ -116,8 +116,6 @@ public class Fragment_MenuUmat extends Fragment {
                 for (int i = 0; i<umatArray.length(); i++){
                     JSONObject umatObject = umatArray.getJSONObject(i);
                     umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
-//                    umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat"), umatObject.getString("foto")));
-//                    Log.d("UMAT LIST", umat_list.get(i).getIdUmat());
                 }
             }
             catch (JSONException e){e.printStackTrace();}
@@ -127,7 +125,7 @@ public class Fragment_MenuUmat extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            progressDialog.hide();
+            progressDialog.dismiss();
             adapter_menuUmat = new Adapter_MenuUmat(umat_list, getContext());
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);

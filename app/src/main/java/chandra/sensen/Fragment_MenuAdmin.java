@@ -65,8 +65,7 @@ public class Fragment_MenuAdmin extends Fragment {
     int jum;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_admin, container, false);
 
         //FAB

@@ -182,9 +182,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-
-            progressDialog.hide();
-
+            progressDialog.dismiss();
             if(aBoolean){
                 Toast.makeText(Activity_TambahUmat.this, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                 finish();

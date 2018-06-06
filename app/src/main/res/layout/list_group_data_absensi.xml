@@ -11,9 +11,10 @@
 
     <TextView
         android:id="@+id/tanggal_absensi_text"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:text="Tanggal: "
+        android:fontFamily="casual"
+        android:textStyle="bold"
+        android:paddingLeft="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

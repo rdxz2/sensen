@@ -53,7 +53,7 @@
             android:id="@+id/absensi_expandable"
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:indicatorRight="?android:attr/expandableListPreferredItemIndicatorLeft"
+            android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="0.5dp" />
     </LinearLayout>

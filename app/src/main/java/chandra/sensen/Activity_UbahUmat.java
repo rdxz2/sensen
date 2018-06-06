@@ -123,7 +123,6 @@ public class Activity_UbahUmat extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             progressDialog = new ProgressDialog(Activity_UbahUmat.this);
             progressDialog.setMessage("Menambahkan data");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -155,9 +154,7 @@ public class Activity_UbahUmat extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-
-            progressDialog.hide();
-
+            progressDialog.dismiss();
             if(aBoolean){
                 Toast.makeText(Activity_UbahUmat.this, "Data berhasil diubah", Toast.LENGTH_SHORT).show();
                 finish();
