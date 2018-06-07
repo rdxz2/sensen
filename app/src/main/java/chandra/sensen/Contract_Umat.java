@@ -22,7 +22,6 @@ public class Contract_Umat {
     public String getAlamat(){return alamat; }
     public void setAlamat(String alamat){this.alamat = alamat; }
 
-    public String getFoto(){return foto;}
+    public String getFoto(){return foto; }
     public void setFoto(String foto){this.foto = foto; }
-
 }

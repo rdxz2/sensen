@@ -12,9 +12,12 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -57,6 +60,7 @@ public class Fragment_MenuUmat extends Fragment {
     private RecyclerView recyclerView;
     private Adapter_MenuUmat adapter_menuUmat;
     private ArrayList<Contract_Umat> umat_list = new ArrayList<>();
+    private ArrayList<Contract_Umat> umat_list_filtered = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -115,7 +119,7 @@ public class Fragment_MenuUmat extends Fragment {
                 JSONArray umatArray = new JSONArray(jsonString);
                 for (int i = 0; i<umatArray.length(); i++){
                     JSONObject umatObject = umatArray.getJSONObject(i);
-                    umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
+                    if(umatObject.getString("flag").equals("1")) umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
                 }
             }
             catch (JSONException e){e.printStackTrace();}
@@ -130,6 +134,24 @@ public class Fragment_MenuUmat extends Fragment {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_menuUmat);
+
+            EditText cariEdit = getActivity().findViewById(R.id.cari_edit);
+            cariEdit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
         }
     }
 

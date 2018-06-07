@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,14 +17,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Fragment_MenuUtama.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Fragment_MenuUtama#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class Fragment_MenuUtama extends Fragment{
 
     private static final String ARG_PARAM1 = "param1";
@@ -83,7 +84,7 @@ public class Fragment_MenuUtama extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
+        View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
 
         idEdit = (EditText) v.findViewById(R.id.id_edit);
 
@@ -92,7 +93,7 @@ public class Fragment_MenuUtama extends Fragment{
         absenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), idEdit.getText().toString(), Toast.LENGTH_SHORT).show();
+                new inputAbsen().execute(idEdit.getText().toString().substring(0, 5));
             }
         });
 
@@ -101,12 +102,40 @@ public class Fragment_MenuUtama extends Fragment{
         qrButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                idEdit = v.findViewById(R.id.id_edit);
                 startActivityForResult(new Intent(getActivity(), Activity_BarcodeCapture.class), BARCODE_READER_REQUEST_CODE);
             }
         });
 
         return v;
+    }
+
+    class inputAbsen extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try {
+                String idumat = params[0];
+                HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/AbsenInput.php").openConnection();
+                connection.setRequestMethod("POST");
+                connection.connect();
+                connection.getOutputStream().write(String.format("IDUmat=%s", idumat).getBytes());
+                InputStream input = new BufferedInputStream(connection.getInputStream());
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) stringBuilder.append(line);
+                connection.disconnect();
+                return Boolean.valueOf(stringBuilder.toString());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            Toast.makeText(getActivity(), aBoolean ? "sukses" : "gagal", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onButtonPressed(Uri uri) {

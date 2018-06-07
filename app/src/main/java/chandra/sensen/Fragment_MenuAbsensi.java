@@ -14,10 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -69,6 +72,7 @@ public class Fragment_MenuAbsensi extends Fragment {
     ExpandableListAdapter expandableListAdapter;
     List<String> tanggal_list;
     HashMap<String, List<String>> absensi_list;
+    ArrayList<Contract_Umat> umat_list;
     
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -130,7 +134,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                 new DatePickerDialog(getActivity(), dateAkhir, calendarAkhir.get(Calendar.YEAR), calendarAkhir.get(Calendar.MONTH), calendarAkhir.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
         return v;
     }
 
@@ -147,6 +150,7 @@ public class Fragment_MenuAbsensi extends Fragment {
         if(isConnected){
             expandableListView = (ExpandableListView) getActivity().findViewById(R.id.absensi_expandable);
             absensi_list = new HashMap<>();
+            umat_list = new ArrayList<Contract_Umat>();
             new listingAbsensi().execute();
         }
         //KALO GAADA KONEKSI INTERNET
@@ -171,45 +175,45 @@ public class Fragment_MenuAbsensi extends Fragment {
         protected Boolean doInBackground(String... params) {
             Service_WebService service = new Service_WebService("http://absenpadum.top/DataAbsensi.php","GET","");
             String jsonString = service.responseBody;
+            Service_WebService service2 = new Service_WebService("http://absenpadum.top/TampilData.php", "GET", "");
+            String jsonString2 = service2.responseBody;
             try {
                 JSONArray absensiArray = new JSONArray(jsonString);
+                JSONArray umatArray = new JSONArray(jsonString2);
 
-                //LISTING TANGGAL ABSEN & NAMA
-                //TODO: BENERIN NILAI X
+                ArrayList<String> tanggal_nodup = new ArrayList<>(), nama_nodup = new ArrayList<>();
+                String[] tanggal = new String[absensiArray.length()], nama = new String[absensiArray.length()];
 
-                String tanggal_temp = "";
-                String[] tanggal_nodup = new String[absensiArray.length()];
-                String[] tanggal = new String[absensiArray.length()];
-                String[] nama = new String[absensiArray.length()];
-                for(int a = 0, x = 0; a<absensiArray.length(); a++){
+                //LISTING DATA ABSENSI
+                for(int a = 0; a < absensiArray.length(); a++){
                     JSONObject absensiObject = absensiArray.getJSONObject(a);
                     tanggal[a] = absensiObject.getString("Tanggal_absen");
                     nama[a] = absensiObject.getString("Nama");
-                    //KALO TANGGAL GAADA DI LIST
-                    if(!(tanggal_temp.contains(tanggal[a]))){
-                        tanggal_temp = tanggal_temp + " " + tanggal[a];
-                        tanggal_nodup[x] = tanggal[a];
-                        x++;
-                    }
-                    Log.d("NILAI X", Integer.toString(x));
+                    //GROUPING TANGGAL ABSENSI
+                    if(tanggal_nodup.size() == 0 || !tanggal_nodup.contains(tanggal[a])) tanggal_nodup.add(tanggal[a]);
+                    if(nama_nodup.size() == 0 || !nama_nodup.contains(nama[a])) nama_nodup.add(nama[a]);
                 }
+                Log.d("TANGGAL NODUP", tanggal_nodup.toString());
+                Log.d("NAMA NODUP", nama_nodup.toString());
 
                 //SORT DESCENDING
-                Arrays.sort(tanggal_nodup, Collections.reverseOrder());
+                Collections.sort(tanggal_nodup, Collections.reverseOrder());
 
-                //GROUPING NAMA KE TANGGAL ABSEN
-                Log.d("TANGGAL NODUP LENGTH", Integer.toString(tanggal_nodup.length));
-                for(int a = 0; a<tanggal_nodup.length; a++){
-                    List<String> nama_list = new ArrayList<>();
-                    for(int b = 0; b<absensiArray.length(); b++){
-                        if(tanggal[b].equals(tanggal_nodup[a])){
-                            nama_list.add(nama[b]);
-                        }
+                //LISTING DATA UMAT
+                for(int a = 0; a < umatArray.length(); a++){
+                    JSONObject umatObject = umatArray.getJSONObject(a);
+                    //GROUPING UMAT
+                    if(nama_nodup.contains(umatObject.getString("Nama"))){
+                        umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
                     }
-                    absensi_list.put(tanggal_nodup[a], nama_list);
                 }
 
-                Log.d("ABSENSI LIST", absensi_list.toString());
+                //GROUPING NAMA KE TANGGAL ABSEN
+                for(int a = 0; a<tanggal_nodup.size(); a++){
+                    List<String> nama_list = new ArrayList<>();
+                    for(int b = 0; b<absensiArray.length(); b++) if(tanggal[b].equals(tanggal_nodup.get(a))) nama_list.add(nama[b]);
+                    absensi_list.put(tanggal_nodup.get(a), nama_list);
+                }
             }
             catch (JSONException e){e.printStackTrace();}
             return false;
@@ -222,33 +226,68 @@ public class Fragment_MenuAbsensi extends Fragment {
             tanggal_list = new ArrayList<String>(absensi_list.keySet());
             expandableListAdapter = new Adapter_MenuAbsensi(getContext(), tanggal_list, absensi_list);
             expandableListView.setAdapter(expandableListAdapter);
-            expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-
-                @Override
-                public void onGroupExpand(int groupPosition) {
-                    Toast.makeText(getActivity(), tanggal_list.get(groupPosition) + " List Expanded.", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
-
-                @Override
-                public void onGroupCollapse(int groupPosition) {
-                    Toast.makeText(getActivity(), tanggal_list.get(groupPosition) + " List Collapsed.", Toast.LENGTH_SHORT).show();
-                }
-            });
-
             expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                 @Override
                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                    Toast.makeText(getActivity(), tanggal_list.get(groupPosition) + " -> " + absensi_list.get(tanggal_list.get(groupPosition)).get(childPosition), Toast.LENGTH_SHORT).show();
+                    //DIALOG BOX
+                    LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+                    final View view2 = layoutInflater.inflate(R.layout.dialog_info_umat, null, false);
+                    final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+                    alertDialogBuilder.setView(view2);
+                    final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+
+                    //INIT
+                    final int pos = childPosition;
+                    TextView idumat_text = view2.findViewById(R.id.idumat_text);
+                    TextView nama_text = view2.findViewById(R.id.nama_text);
+                    TextView alamat_text = view2.findViewById(R.id.alamat_text);
+                    TextView tgl_lahir_text = view2.findViewById(R.id.tgl_lahir_text);
+                    ImageView foto_image = view2.findViewById(R.id.foto_image);
+
+                    //SET SEMUA TEXTVIEW & IMAGEVIEW
+                    for(int a = 0; a< umat_list.size(); a++){
+                        final Contract_Umat c = umat_list.get(a);
+                        if(c.getNama().equals(absensi_list.get(tanggal_list.get(groupPosition)).get(childPosition))){
+                            idumat_text.setText(c.getIdUmat());
+                            nama_text.setText(c.getNama());
+                            alamat_text.setText(c.getAlamat());
+                            tgl_lahir_text.setText(c.getTglLahir());
+                            if(!c.getFoto().equals("")){
+                                //TODO: TAMBAH FOTO
+
+                            }
+
+                            //BUTTON UBAH
+                            Button ubahButton = view2.findViewById(R.id.ubah_button);
+                            ubahButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent i = new Intent(view.getContext(), Activity_UbahUmat.class);
+                                    i.putExtra("IDUMAT", c.getIdUmat());
+                                    i.putExtra("NAMA", c.getNama());
+                                    i.putExtra("TGL_LAHIR", c.getTglLahir());
+                                    i.putExtra("ALAMAT", c.getAlamat());
+                                    startActivity(i);
+                                }
+                            });
+
+                            //BUTTON KEMBALI
+                            Button kembaliButton = view2.findViewById(R.id.kembali_button);
+                            kembaliButton.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    alertDialog.hide();
+                                }
+                            });
+                            break;
+                        }
+                    }
                     return false;
                 }
             });
-
         }
     }
-
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
