@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,13 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -93,7 +97,8 @@ public class Fragment_MenuUtama extends Fragment{
         absenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new inputAbsen().execute(idEdit.getText().toString().substring(0, 5));
+                String id = idEdit.getText().toString();
+                new inputAbsen().execute(id);
             }
         });
 
@@ -112,12 +117,13 @@ public class Fragment_MenuUtama extends Fragment{
     class inputAbsen extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... params) {
+            String idumat = params[0];
             try {
-                String idumat = params[0];
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/AbsenInput.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();
                 connection.getOutputStream().write(String.format("IDUmat=%s", idumat).getBytes());
+                Log.d("DOINBACKRGOUND", "IDUMAT = " + idumat);
                 InputStream input = new BufferedInputStream(connection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 StringBuilder stringBuilder = new StringBuilder();
@@ -129,12 +135,15 @@ public class Fragment_MenuUtama extends Fragment{
                 e.printStackTrace();
             }
             return false;
+//            Service_WebService service_webService = new Service_WebService("http://absenpadum.top/AbsenInput.php", "POST", String.format("IDUmat=%s", idumat));
+//            Log.d("IDUMAT", idumat);
+//            String successString = service_webService.responseBody;
+//            return new Boolean(successString);
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            Toast.makeText(getActivity(), aBoolean ? "sukses" : "gagal", Toast.LENGTH_SHORT).show();
         }
     }
 

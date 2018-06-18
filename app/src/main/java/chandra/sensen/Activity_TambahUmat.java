@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -126,13 +127,12 @@ public class Activity_TambahUmat extends AppCompatActivity {
                     JSONObject umatObject = umatArray.getJSONObject(umatArray.length()-1);
                     String idumat = umatObject.getString("IDUmat");
                     int idumat_int = Integer.parseInt(idumat.substring(2));
-                    idumat_int++;
-                    final String idumat_str = Integer.toString(idumat_int);
+                    final int idumat_int2 = idumat_int + 1;
                     Activity_TambahUmat.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             idumat_edit = findViewById(R.id.idumat_edit);
-                            idumat_edit.setText(idumat_str);
+                            idumat_edit.setText(String.format("DD%04d", idumat_int2));
                         }
                     });
                 }
@@ -150,7 +150,6 @@ public class Activity_TambahUmat extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
             progressDialog = new ProgressDialog(Activity_TambahUmat.this);
             progressDialog.setMessage("Menambahkan data");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -159,11 +158,11 @@ public class Activity_TambahUmat extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
+            String idumat = params[0];
+            String nama = params[1];
+            String tgl_lahir = params[2];
+            String alamat = params[3];
             try{
-                String idumat = params[0];
-                String nama = params[1];
-                String tgl_lahir = params[1];
-                String alamat = params[1];
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/InputData.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();

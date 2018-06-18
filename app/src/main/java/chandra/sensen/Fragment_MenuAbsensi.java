@@ -193,10 +193,8 @@ public class Fragment_MenuAbsensi extends Fragment {
                     if(tanggal_nodup.size() == 0 || !tanggal_nodup.contains(tanggal[a])) tanggal_nodup.add(tanggal[a]);
                     if(nama_nodup.size() == 0 || !nama_nodup.contains(nama[a])) nama_nodup.add(nama[a]);
                 }
-                Log.d("TANGGAL NODUP", tanggal_nodup.toString());
-                Log.d("NAMA NODUP", nama_nodup.toString());
 
-                //SORT DESCENDING
+                //SORT TANGGAL (DESCENDING)
                 Collections.sort(tanggal_nodup, Collections.reverseOrder());
 
                 //LISTING DATA UMAT

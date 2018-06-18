@@ -12,6 +12,7 @@ import java.net.URL;
  */
 
 public class Service_WebService {
+
     public String responseBody;
 
     public Service_WebService(String urlString, String method, String params){
@@ -20,17 +21,11 @@ public class Service_WebService {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(method);
             connection.connect();
-            if (method == "POST"){
-                connection.getOutputStream().write(params.getBytes());
-            }
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream())
-            );
+            if (method == "POST") connection.getOutputStream().write(params.getBytes());
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder lines = new StringBuilder();
             String line;
-            while ((line = reader.readLine()) != null){
-                lines.append(line);
-            }
+            while ((line = reader.readLine()) != null){lines.append(line);}
             responseBody = lines.toString();
         }
         catch (MalformedURLException e){
