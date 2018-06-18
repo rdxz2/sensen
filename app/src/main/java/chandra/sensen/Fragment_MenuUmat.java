@@ -12,12 +12,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -61,6 +59,7 @@ public class Fragment_MenuUmat extends Fragment {
     private Adapter_MenuUmat adapter_menuUmat;
     private ArrayList<Contract_Umat> umat_list = new ArrayList<>();
     private ArrayList<Contract_Umat> umat_list_filtered = new ArrayList<>();
+    SearchView dataumatSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -72,6 +71,10 @@ public class Fragment_MenuUmat extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        //KOSONGIN LIST DULU (KLO GAK NANTI DATANYA KEDOBEL)
+        umat_list.clear();
+
         //CEK KONEKSI INTERNET
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
@@ -131,27 +134,24 @@ public class Fragment_MenuUmat extends Fragment {
             super.onPostExecute(aBoolean);
             progressDialog.dismiss();
             adapter_menuUmat = new Adapter_MenuUmat(umat_list, getContext());
+
+            dataumatSearch = getActivity().findViewById(R.id.dataumat_search);
+            dataumatSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    adapter_menuUmat.getFilter().filter(s);
+                    return false;
+                }
+            });
+
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_menuUmat);
-
-            EditText cariEdit = getActivity().findViewById(R.id.cari_edit);
-            cariEdit.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
         }
     }
 

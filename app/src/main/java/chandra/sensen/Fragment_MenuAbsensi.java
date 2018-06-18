@@ -148,9 +148,9 @@ public class Fragment_MenuAbsensi extends Fragment {
 
         //KALO ADA KONEKSI INTERNET
         if(isConnected){
-            expandableListView = (ExpandableListView) getActivity().findViewById(R.id.absensi_expandable);
+            expandableListView = getActivity().findViewById(R.id.absensi_expandable);
             absensi_list = new HashMap<>();
-            umat_list = new ArrayList<Contract_Umat>();
+            umat_list = new ArrayList<>();
             new listingAbsensi().execute();
         }
         //KALO GAADA KONEKSI INTERNET

@@ -2,25 +2,27 @@ package chandra.sensen;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.MenuDataViewHolder>{
+public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.MenuDataViewHolder> implements Filterable{
 
-    private ArrayList<Contract_Umat> umat_list;
+    public ArrayList<Contract_Umat> umat_list, filter_list;
     private Context context;
+    CustomFilter filter;
 
     Adapter_MenuUmat(ArrayList<Contract_Umat> umat_list, Context context){
         this.umat_list = umat_list;
+        this.filter_list = umat_list;
         this.context = context;
     }
 
@@ -104,5 +106,13 @@ public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.Menu
                 }
             });
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        if(filter == null){
+            filter = new CustomFilter(filter_list, this);
+        }
+        return filter;
     }
 }

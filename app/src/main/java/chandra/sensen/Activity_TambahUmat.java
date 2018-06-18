@@ -144,7 +144,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
     //TAMBAH UMAT
     //TODO: tambah umat
     class tambahUmat extends AsyncTask<String, Void, Boolean> {
-
+        boolean sukses = false;
         ProgressDialog progressDialog;
 
         @Override
@@ -173,6 +173,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 String line;
                 while((line = reader.readLine()) != null) stringBuilder.append(line);
                 connection.disconnect();
+                sukses = true;
                 return Boolean.valueOf(stringBuilder.toString());
             } catch (IOException e) {e.printStackTrace();}
             return false;
@@ -182,7 +183,7 @@ public class Activity_TambahUmat extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             progressDialog.dismiss();
-            if(aBoolean){
+            if(sukses){
                 Toast.makeText(Activity_TambahUmat.this, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                 finish();
             }

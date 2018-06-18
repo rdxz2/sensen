@@ -27,16 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <EditText
-            android:id="@+id/cari_edit"
-            android:hint="Kata Kunci"
-            android:maxLines="1"
-            android:drawableStart="@drawable/ic_search_black_24dp"
-            android:drawablePadding="8dp"
-            android:fontFamily="casual"
+        <android.support.v7.widget.SearchView
+            android:id="@+id/dataumat_search"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        <Space android:layout_width="match_parent" android:layout_height="10dp"/>
+            android:layout_height="wrap_content"
+            app:defaultQueryHint="Cari umat"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/dataumat_recycler"
             android:scrollbars="vertical"
