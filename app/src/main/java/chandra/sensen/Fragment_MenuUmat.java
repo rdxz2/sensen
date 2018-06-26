@@ -71,15 +71,12 @@ public class Fragment_MenuUmat extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         //KOSONGIN LIST DULU (KLO GAK NANTI DATANYA KEDOBEL)
         umat_list.clear();
-
         //CEK KONEKSI INTERNET
         ConnectivityManager connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
         //FAB TAMBAH UMAT
         FloatingActionButton fab = getActivity().findViewById(R.id.tambah_umat_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +86,6 @@ public class Fragment_MenuUmat extends Fragment {
             }
         });
         fab.setVisibility(View.GONE);
-
         //KALO ADA KONEKSI INTERNET
         if(isConnected){
             fab.setVisibility(View.VISIBLE);

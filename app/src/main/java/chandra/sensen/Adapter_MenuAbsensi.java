@@ -1,38 +1,31 @@
 package chandra.sensen;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
+import android.os.Build;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.opencsv.CSVWriter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,34 +40,8 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         this.context = context;
         this.tanggal_list = tanggal_list;
         this.absensi_list = absensi_list;
-    }
-    
-    @Override
-    public Object getChild(int listPosition, int expandedListPosition) {
-        return this.absensi_list.get(this.tanggal_list.get(listPosition)).get(expandedListPosition);
-    }
-
-    @Override
-    public long getChildId(int listPosition, int expandedListPosition) {
-        return expandedListPosition;
-    }
-
-    @Override
-    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        final String nama_umat_absen = (String) getChild(listPosition, expandedListPosition);
-        if (convertView == null) {
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.list_item_data_absensi, null);
-        }
-        TextView nama_umat_absenView = (TextView) convertView.findViewById(R.id.nama_text);
-        nama_umat_absenView.setTypeface(Typeface.create("casual", Typeface.NORMAL));
-        nama_umat_absenView.setText(nama_umat_absen);
-        return convertView;
-    }
-
-    @Override
-    public int getChildrenCount(int listPosition) {
-        return this.absensi_list.get(this.tanggal_list.get(listPosition)).size();
+        //SORT TANGGAL
+        Collections.sort(tanggal_list, Collections.reverseOrder());
     }
 
     @Override
@@ -91,6 +58,10 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
     public long getGroupId(int listPosition) {
         return listPosition;
     }
+
+    private String nama_file = "", tanggal_absen2 = "";
+    private List<String> umat_list = new ArrayList<>();
+    private List<Contract_Export> export_list = new ArrayList<>();
 
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,View convertView, ViewGroup parent) {
@@ -122,13 +93,16 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
                 exportButton2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        for(int a = 0; a < absensi_list.size(); a++){
-                            if(absensi_list.containsKey(tanggal_absen)){
-                                Toast.makeText(context, absensi_list.get(tanggal_absen).toString(), Toast.LENGTH_SHORT).show();
+                        for(String key : absensi_list.keySet()){
+                            if(key.equals(tanggal_absen)){
+                                tanggal_absen2 = tanggal_absen;
                                 nama_file = "ABSENSI TANGGAL " + tanggal_absen;
+                                umat_list = absensi_list.get(tanggal_absen);
+                                new export_absensi().execute();
                                 break;
                             }
                         }
+                        alertDialog.hide();
                     }
                 });
                 //BUTTON KEMBALI
@@ -144,10 +118,8 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         return convertView;
     }
 
-    String nama_file = "";
-
-    //CLASS LISTING UMAT -> BUAT AMBIL SELURUH DATA UMAT
-    class listingUmat extends AsyncTask<String, Void, Boolean> {
+    //CLASS EXPORT ABSENSI -> BUAT EXPORT DATA ABSENSI TANGGAL YANG DIPILIH KE FORMAT CSV
+    class export_absensi extends AsyncTask<String, Void, Boolean> {
         ProgressDialog progressDialog;
 
         @Override
@@ -163,13 +135,14 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         @Override
         protected Boolean doInBackground(String... params) {
             //WEB SERVICE
-            Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
+            Service_WebService service = new Service_WebService("http://absenpadum.top/DataAbsensi.php","GET","");
             String jsonString = service.responseBody;
             try {
-                JSONArray umatArray = new JSONArray(jsonString);
-                for (int i = 0; i<umatArray.length(); i++){
-                    JSONObject umatObject = umatArray.getJSONObject(i);
-
+                JSONArray exportArray = new JSONArray(jsonString);
+                for (int i = 0; i<exportArray.length(); i++){
+                    //DAPETIN DATA ABSENSI
+                    JSONObject exportObject = exportArray.getJSONObject(i);
+                    if(umat_list.contains(exportObject.getString("Nama")) && exportObject.getString("Tanggal_absen").equals(tanggal_absen2)) export_list.add(new Contract_Export(exportObject.getString("IDAbsen"), exportObject.getString("IDUmat"), exportObject.getString("Nama")));
                 }
             }
             catch (JSONException e){e.printStackTrace();}
@@ -180,19 +153,106 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             progressDialog.dismiss();
-
-            try (
-                    Writer writer = new BufferedWriter(new FileWriter("./" + nama_file + ".csv"));
-                    CSVWriter csvWriter = new CSVWriter(writer, CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER, CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
-            ) {
-                String[] headerRecord = {"IDAbsen", "IDUmat", "Nama"};
-                csvWriter.writeNext(headerRecord);
-                for(int a=0; a<)
-                    csvWriter.writeNext(new String[]{"Sundar Pichai ♥", "sundar.pichai@gmail.com", "+1-1111111111", "India"});
-                    csvWriter.writeNext(new String[]{"Satya Nadella", "satya.nadella@outlook.com", "+1-1111111112", "India"});
+            //REQUEST STORAGE PERMISSION
+            final int REQUEST = 112;
+            if (Build.VERSION.SDK_INT >= 23) {
+                String[] PERMISSIONS = {android.Manifest.permission.READ_EXTERNAL_STORAGE,android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                if (!hasPermissions(context, PERMISSIONS)) {
+                    ActivityCompat.requestPermissions((Activity) context, PERMISSIONS, REQUEST );
+                } else {
+                    export_final();
+                }
+            } else {
+                export_final();
             }
-            catch (IOException e){e.printStackTrace();}
         }
+    }
+
+    private void export_final(){
+        //WRITE DATA KE FORMAT CSV
+        final String filename = "/" + nama_file + ".csv";
+        if (!Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {return;}
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), filename);
+        try {
+            if(file.exists()) file.delete();
+            file.createNewFile();
+            //INIT
+            String COMMA_DELIMITER = ",";
+            String NEW_LINE_SEPARATOR = "\n";
+            String FILE_HEADER = "IDAbsen, IDmat, Nama";
+            //MASUKIN DATA" OBJEK KE LIST BARU
+            for(int a = 0 ; a < export_list.size(); a++){
+                List export = new ArrayList();
+                export.add(export_list.get(a));
+            }
+            FileWriter fileWriter = null;
+            try {
+                //MULAI TULIS ISI DARI FILE CSV
+                fileWriter = new FileWriter(file);
+                fileWriter.append(FILE_HEADER.toString());
+                fileWriter.append(NEW_LINE_SEPARATOR);
+                //TULIS SETIAP OBJEK
+                for (Contract_Export export_lists : export_list) {
+                    fileWriter.append(String.valueOf(export_lists.getIdabsen()));
+                    fileWriter.append(COMMA_DELIMITER);
+                    fileWriter.append(export_lists.getIdUmat());
+                    fileWriter.append(COMMA_DELIMITER);
+                    fileWriter.append(export_lists.getNama());
+                    fileWriter.append(NEW_LINE_SEPARATOR);
+                }
+                Toast.makeText(context, "Data absensi tanggal " + tanggal_absen2 + " telah berhasil di-export.", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(context, "Terjadi kesalahan saat meng-export data.", Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            } finally {
+                try {
+                    fileWriter.flush();
+                    fileWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch (IOException e){e.printStackTrace();}
+    }
+
+    private static boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public Object getChild(int listPosition, int expandedListPosition) {
+        return this.absensi_list.get(this.tanggal_list.get(listPosition)).get(expandedListPosition);
+    }
+
+    @Override
+    public long getChildId(int listPosition, int expandedListPosition) {
+        return expandedListPosition;
+    }
+
+    @Override
+    public View getChildView(int listPosition, final int expandedListPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+        final String nama_umat_absen = (String) getChild(listPosition, expandedListPosition);
+        if (convertView == null) {
+            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(R.layout.list_item_data_absensi, null);
+        }
+        TextView nama_umat_absenView = (TextView) convertView.findViewById(R.id.nama_text);
+        nama_umat_absenView.setTypeface(Typeface.create("casual", Typeface.NORMAL));
+        nama_umat_absenView.setText(nama_umat_absen);
+        return convertView;
+    }
+
+    @Override
+    public int getChildrenCount(int listPosition) {
+        return this.absensi_list.get(this.tanggal_list.get(listPosition)).size();
     }
 
     @Override

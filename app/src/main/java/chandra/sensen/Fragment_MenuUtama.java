@@ -86,6 +86,8 @@ public class Fragment_MenuUtama extends Fragment{
         }
     }
 
+    String id = "";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
@@ -97,7 +99,7 @@ public class Fragment_MenuUtama extends Fragment{
         absenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String id = idEdit.getText().toString();
+                id = idEdit.getText().toString();
                 new inputAbsen().execute(id);
             }
         });
@@ -141,8 +143,8 @@ public class Fragment_MenuUtama extends Fragment{
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if(berhasil) Toast.makeText(getActivity(), "berhasil", Toast.LENGTH_SHORT).show();
-            else Toast.makeText(getActivity(), "gagal", Toast.LENGTH_SHORT).show();
+            if(berhasil) Toast.makeText(getActivity(), id + " berhasil diabsen", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(getActivity(), "Gagal melakukan absen", Toast.LENGTH_SHORT).show();
             idEdit.setText("");
         }
     }
