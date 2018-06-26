@@ -9,13 +9,27 @@
     android:paddingBottom="15dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tanggal_absensi_text"
-        android:text="Tanggal: "
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:paddingLeft="15dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tanggal_absensi_text"
+            android:text="Tanggal: "
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:paddingLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/export_button"
+            android:layout_alignParentRight="true"
+            android:text="export"
+            android:fontFamily="casual"
+            android:drawableLeft="@drawable/ic_clear_all_black_24dp"
+            android:drawablePadding="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </RelativeLayout>
 
 </LinearLayout>
