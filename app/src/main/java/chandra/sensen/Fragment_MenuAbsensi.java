@@ -3,6 +3,7 @@ package chandra.sensen;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -284,6 +285,35 @@ public class Fragment_MenuAbsensi extends Fragment {
                     return false;
                 }
             });
+            Button exportButton = getActivity().findViewById(R.id.export_button);
+            exportButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String tanggal_diexport = "";
+                    //DIALOG BOX
+//                    LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+//                    final View view2 = layoutInflater.inflate(R.layout.dialog_export_absensi, null, false);
+                    final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getContext());
+//                    alertDialogBuilder.setView(view2);
+                    alertDialogBuilder.setTitle("Export Data");
+                    alertDialogBuilder.setMessage(String.format("Apakah Anda yakin ingin meng-export data absensi untuk tanggala %s ?", tanggal_diexport));
+                    alertDialogBuilder.setPositiveButton("YA", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getActivity(), "ya", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    alertDialogBuilder.setNegativeButton("TIDAK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(getActivity(), "ga", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                }
+            });
+
         }
     }
 
