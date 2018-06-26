@@ -23,14 +23,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Fragment_MenuAdmin.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Fragment_MenuAdmin#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Fragment_MenuAdmin extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -67,16 +59,14 @@ public class Fragment_MenuAdmin extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_admin, container, false);
-
         //FAB
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_fab);
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_admin_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), Activity_TambahAdmin.class));
             }
         });
-
         return v;
     }
 
@@ -85,11 +75,9 @@ public class Fragment_MenuAdmin extends Fragment {
         super.onResume();
         //TODO: checking jumlah admin -> hapus admin
         jum = 0;
-
         //SAMBUNG KE DB
         Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(getActivity());
         final SQLiteDatabase db = AdminDbHelper.getReadableDatabase();
-
         //SET CURSOR
         String[] projection = {
                 Contract_Admin.AdminEntry._ID,
@@ -97,7 +85,6 @@ public class Fragment_MenuAdmin extends Fragment {
                 Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD
         };
         final Cursor cursor = db.query(Contract_Admin.AdminEntry.TABLE_NAME, projection, null, null, null, null, null);
-
         //SET KONTEN LISTVIEW
         ArrayList<String> str = new ArrayList();
         cursor.moveToFirst();
@@ -108,13 +95,11 @@ public class Fragment_MenuAdmin extends Fragment {
             ));
             jum++;
         } while (cursor.moveToNext());
-
         //ARRAY ADAPTER
         ArrayAdapter<String> strList = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1);
         for(int x=0; x<str.size(); x++) strList.add(str.get(x));
         ListView adminList = (ListView) getActivity().findViewById(R.id.admin_list);
-
-        //SAAT ITEM DIKLIK
+        //SAAT ITEM DIKLIK -> TAMPILIN DATA ADMIN
         adminList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
@@ -125,12 +110,10 @@ public class Fragment_MenuAdmin extends Fragment {
                 alertDialogBuilder.setView(view2);
                 final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-
                 //SET USERNAME DI EDITTEXT
                 cursor.moveToPosition(position);
                 EditText usernameEdit = (EditText) view2.findViewById(R.id.username_edit);
                 usernameEdit.setText(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)));
-
                 //BUTTON UBAH
                 Button ubahButton = (Button) view2.findViewById(R.id.ubah_button);
                 ubahButton.setOnClickListener(new View.OnClickListener() {
@@ -165,63 +148,59 @@ public class Fragment_MenuAdmin extends Fragment {
                 });
             }
         });
-        //SAAT ITEM DIKLIK PANJANG
+        //SAAT ITEM DIKLIK PANJANG -> DELETE
         adminList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                int jum_temp = jum - 1;
-                if(!(jum_temp <= 0)){
-                    //DIALOG BOX
-                    LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-                    final View view2 = layoutInflater.inflate(R.layout.dialog_hapus_admin, null, false);
-                    final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-                    alertDialogBuilder.setView(view2);
-                    final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-
-                    //SET USERNAME DI EDITTEXT
-                    cursor.moveToPosition(i);
-                    TextView passwordText = (TextView) view2.findViewById(R.id.confirm_text);
-                    passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
-
-                    //BUTTON HAPUS
-                    Button hapusButton = (Button) view2.findViewById(R.id.hapus_button);
-                    hapusButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
-                            //PASSWORD BENER
-                            if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                final int jum_temp = jum - 1;
+                //DIALOG BOX
+                LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+                final View view2 = layoutInflater.inflate(R.layout.dialog_hapus_admin, null, false);
+                final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+                alertDialogBuilder.setView(view2);
+                final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                //SET USERNAME DI EDITTEXT
+                cursor.moveToPosition(i);
+                TextView passwordText = (TextView) view2.findViewById(R.id.confirm_text);
+                passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
+                //BUTTON HAPUS
+                Button hapusButton = (Button) view2.findViewById(R.id.hapus_button);
+                hapusButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
+                        //PASSWORD BENER
+                        if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
+                            if(!(jum_temp <= 0)){
                                 //TODO: hapus dari database
                                 Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
                                 alertDialog.hide();
                                 onResume();
                             }
-                            //PASSWORD SALAH
                             else{
-                                Toast.makeText(getActivity(), "Masukkan kata sandi yang benar", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Jumlah admin minimal adalah 1", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    });
-                    //BUTTON BATAL
-                    Button batalButton = (Button) view2.findViewById(R.id.batal_button);
-                    batalButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            alertDialog.hide();
+                        //PASSWORD SALAH
+                        else{
+                            Toast.makeText(getActivity(), "Masukkan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                         }
-                    });
-                }
-                else{
-                    Toast.makeText(getActivity(), "Jumlah admin minimal adalah 1", Toast.LENGTH_SHORT).show();
-                }
+                    }
+                });
+                //BUTTON BATAL
+                Button batalButton = (Button) view2.findViewById(R.id.batal_button);
+                batalButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.hide();
+                    }
+                });
                 return false;
             }
         });
-
         //TAMPILIN LISTVIEW
         adminList.setAdapter(strList);
-
         db.close();
     }
 

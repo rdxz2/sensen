@@ -12,7 +12,7 @@
     tools:context=".Fragment_MenuAbsensi">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/tambah_fab"
+        android:id="@+id/tambah_umat_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/ll"

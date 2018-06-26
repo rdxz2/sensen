@@ -32,14 +32,14 @@ dependencies {
     implementation 'com.android.support:design:26.0.0-alpha1'
 //    implementation 'com.google.android.gms:play-services:11.0.4'
 
-    implementation 'com.google.android.gms:play-services-vision:11.8.0' //BARCODE
+    implementation 'com.google.android.gms:play-services-vision:11.8.0' //BARCODE SCANNER
 
     implementation 'com.android.support:recyclerview-v7:26.1.0' //RECYCLERVIEW
     implementation 'com.android.support:cardview-v7:26.1.0' //CARDVIEW
     implementation 'com.github.bumptech.glide:glide:3.7.0' //GLIDE
     implementation 'com.android.support:design:26.1.0' //DESIGN
 
-    implementation 'com.github.abdymm:androidcsv:0.1.5' //EXPORT CSV
+    implementation 'com.opencsv:opencsv:4.0' //CSV WRITER
 }
 
 apply plugin: 'com.google.gms.google-services'

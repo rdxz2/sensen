@@ -235,7 +235,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                     alertDialogBuilder.setView(view2);
                     final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
                     alertDialog.show();
-
                     //INIT
                     final int pos = childPosition;
                     TextView idumat_text = view2.findViewById(R.id.idumat_text);
@@ -243,7 +242,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                     TextView alamat_text = view2.findViewById(R.id.alamat_text);
                     TextView tgl_lahir_text = view2.findViewById(R.id.tgl_lahir_text);
                     ImageView foto_image = view2.findViewById(R.id.foto_image);
-
                     //SET SEMUA TEXTVIEW & IMAGEVIEW
                     for(int a = 0; a< umat_list.size(); a++){
                         final Contract_Umat c = umat_list.get(a);
@@ -252,11 +250,9 @@ public class Fragment_MenuAbsensi extends Fragment {
                             nama_text.setText(c.getNama());
                             alamat_text.setText(c.getAlamat());
                             tgl_lahir_text.setText(c.getTglLahir());
-                            if(!c.getFoto().equals("")){
-                                //TODO: TAMBAH FOTO
-
-                            }
-
+//                            if(!c.getFoto().equals("")){
+//
+//                            }
                             //BUTTON UBAH
                             Button ubahButton = view2.findViewById(R.id.ubah_button);
                             ubahButton.setOnClickListener(new View.OnClickListener() {
@@ -270,7 +266,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                                     startActivity(i);
                                 }
                             });
-
                             //BUTTON KEMBALI
                             final Button kembaliButton = view2.findViewById(R.id.kembali_button);
                             kembaliButton.setOnClickListener(new View.OnClickListener() {
@@ -285,17 +280,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                     return false;
                 }
             });
-
-            Button exportButton = (Button) getActivity().findViewById(R.id.export_button);
-            exportButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-
-
-                }
-            });
-
         }
     }
 

@@ -13,7 +13,7 @@
     tools:context=".Fragment_MenuAdmin">
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/tambah_fab"
+        android:id="@+id/tambah_admin_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"

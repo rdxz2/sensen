@@ -81,7 +81,7 @@ public class Fragment_MenuUmat extends Fragment {
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
         //FAB TAMBAH UMAT
-        FloatingActionButton fab = getActivity().findViewById(R.id.tambah_fab);
+        FloatingActionButton fab = getActivity().findViewById(R.id.tambah_umat_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
