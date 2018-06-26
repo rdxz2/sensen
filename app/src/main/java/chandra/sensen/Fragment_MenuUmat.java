@@ -80,7 +80,7 @@ public class Fragment_MenuUmat extends Fragment {
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 
-        //FAB
+        //FAB TAMBAH UMAT
         FloatingActionButton fab = getActivity().findViewById(R.id.tambah_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,12 +102,14 @@ public class Fragment_MenuUmat extends Fragment {
         }
     }
 
+    //CLASS LISTING UMAT -> BUAT AMBIL SELURUH DATA UMAT
     class listingUmat extends AsyncTask<String, Void, Boolean>{
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            //TAMPILIN PROGRESS DIALOG
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Mengambil data umat");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -116,12 +118,14 @@ public class Fragment_MenuUmat extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
+            //WEB SERVICE
             Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
             String jsonString = service.responseBody;
             try {
                 JSONArray umatArray = new JSONArray(jsonString);
                 for (int i = 0; i<umatArray.length(); i++){
                     JSONObject umatObject = umatArray.getJSONObject(i);
+                    //CUMA AMBIL DATA YANG GAK DI-DELETE (FLAGNYA 1)
                     if(umatObject.getString("flag").equals("1")) umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
                 }
             }

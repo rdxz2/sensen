@@ -115,6 +115,7 @@ public class Fragment_MenuUtama extends Fragment{
     }
 
     class inputAbsen extends AsyncTask<String, Void, Boolean> {
+        boolean berhasil = false;
         @Override
         protected Boolean doInBackground(String... params) {
             String idumat = params[0];
@@ -130,20 +131,19 @@ public class Fragment_MenuUtama extends Fragment{
                 String line;
                 while ((line = reader.readLine()) != null) stringBuilder.append(line);
                 connection.disconnect();
-                return Boolean.valueOf(stringBuilder.toString());
+                berhasil = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
             return false;
-//            Service_WebService service_webService = new Service_WebService("http://absenpadum.top/AbsenInput.php", "POST", String.format("IDUmat=%s", idumat));
-//            Log.d("IDUMAT", idumat);
-//            String successString = service_webService.responseBody;
-//            return new Boolean(successString);
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            if(berhasil) Toast.makeText(getActivity(), "berhasil", Toast.LENGTH_SHORT).show();
+            else Toast.makeText(getActivity(), "gagal", Toast.LENGTH_SHORT).show();
+            idEdit.setText("");
         }
     }
 
