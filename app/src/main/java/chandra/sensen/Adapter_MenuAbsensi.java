@@ -79,7 +79,7 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,View convertView, ViewGroup parent) {
-        String listTitle = (String) getGroup(listPosition);
+        final String listTitle = (String) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group_data_absensi, null);
@@ -87,6 +87,42 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         TextView listTitleTextView = (TextView) convertView.findViewById(R.id.tanggal_absensi_text);
         listTitleTextView.setTypeface(Typeface.create("casual", Typeface.BOLD));
         listTitleTextView.setText("Tanggal: " + listTitle);
+        Button exportButton1 = (Button) convertView.findViewById(R.id.export_button1);
+        exportButton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //DIALOG BOX
+                LayoutInflater layoutInflater = LayoutInflater.from(context);
+                final View view2 = layoutInflater.inflate(R.layout.dialog_export_absensi, null, false);
+                final android.support.v7.app.AlertDialog.Builder alertDialogBuilder = new android.support.v7.app.AlertDialog.Builder(context);
+                alertDialogBuilder.setView(view2);
+                final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+                //INIT
+                TextView exportText = view2.findViewById(R.id.export_text);
+                exportText.setText(String.format("Apakah Anda yakin ingin meng-export data pada tanggal %s ?", listTitle));
+
+                //BUTTON EXPORT
+                Button exportButton2 = view2.findViewById(R.id.export_button2);
+                exportButton2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
+
+                //BUTTON KEMBALI
+                Button kembaliButton = view2.findViewById(R.id.kembali_button);
+                kembaliButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.hide();
+                    }
+                });
+            }
+        });
         return convertView;
     }
 

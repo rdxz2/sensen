@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/export_button"
+            android:id="@+id/export_button1"
             android:layout_alignParentRight="true"
             android:text="export"
             android:fontFamily="casual"
