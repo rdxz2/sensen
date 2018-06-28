@@ -3,7 +3,6 @@ package chandra.sensen;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -11,23 +10,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.opencsv.CSVWriter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +26,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,6 +43,8 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         this.context = context;
         this.tanggal_list = tanggal_list;
         this.absensi_list = absensi_list;
+        //SORT TANGGAL
+        Collections.sort(tanggal_list, Collections.reverseOrder());
     }
 
     @Override
@@ -209,8 +203,9 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
                     fileWriter.append(export_lists.getNama());
                     fileWriter.append(NEW_LINE_SEPARATOR);
                 }
+                Toast.makeText(context, "Data absensi tanggal " + tanggal_absen2 + " telah berhasil di-export.", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
-                Toast.makeText(context, "Terjadi kesalahan saat meng-export data", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Terjadi kesalahan saat meng-export data.", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             } finally {
                 try {

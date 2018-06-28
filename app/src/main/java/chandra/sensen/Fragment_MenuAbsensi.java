@@ -37,6 +37,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Fragment_MenuAbsensi extends Fragment {
     private static final String ARG_PARAM1 = "param1";
@@ -74,7 +76,7 @@ public class Fragment_MenuAbsensi extends Fragment {
     List<String> tanggal_list;
     HashMap<String, List<String>> absensi_list;
     ArrayList<Contract_Umat> umat_list;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_absensi, container, false);
@@ -112,17 +114,21 @@ public class Fragment_MenuAbsensi extends Fragment {
                 calendarAkhir.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 String myFormat = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                //KALO TANGGAL AWAL < TANGGAL AKHIR (INPUT BENER)
                 if(!calendarAwal.after(calendarAkhir)){
                     tanggalakhirEdit.setText(sdf.format(calendarAkhir.getTime()));
+                    //KALO TANGGAL AWAL GA KOSONG
                     if(!tanggalawalEdit.getText().toString().equals("")){
                         //CARI
-                        //TODO: searching absen sesuai range tanggal
-                        Toast.makeText(getActivity(), "search", Toast.LENGTH_SHORT).show();
+                        new listingAbsensi().execute(tanggalawalEdit.getText().toString(), tanggalakhirEdit.getText().toString());
+                        tanggalawalEdit.setText("");
+                        tanggalakhirEdit.setText("");
                     }
                     else{
                         Toast.makeText(getActivity(), "Isi terlebih dahulu data-data di atas", Toast.LENGTH_SHORT).show();
                     }
                 }
+                //KALO TANGGAL AWAL > TANGGAL AKHIR (INPUT SALAH)
                 else {
                     Toast.makeText(getActivity(), "Tanggal awal harus sebelum tanggal akhir", Toast.LENGTH_SHORT).show();
                     tanggalakhirEdit.setText("");
@@ -152,7 +158,7 @@ public class Fragment_MenuAbsensi extends Fragment {
             expandableListView = getActivity().findViewById(R.id.absensi_expandable);
             absensi_list = new HashMap<>();
             umat_list = new ArrayList<>();
-            new listingAbsensi().execute();
+            new listingAbsensi().execute("0000-00-00", "9999-99-99");
         }
         //KALO GAADA KONEKSI INTERNET
         else{
@@ -174,30 +180,34 @@ public class Fragment_MenuAbsensi extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
+            //PARAMETER FILTER
+            String tanggal_awal = params[0];
+            String tanggal_akhir = params[1];
+            //INIT
+            umat_list.clear();
+            absensi_list.clear();
             Service_WebService service = new Service_WebService("http://absenpadum.top/DataAbsensi.php","GET","");
             String jsonString = service.responseBody;
             Service_WebService service2 = new Service_WebService("http://absenpadum.top/TampilData.php", "GET", "");
             String jsonString2 = service2.responseBody;
             try {
+                //INIT
                 JSONArray absensiArray = new JSONArray(jsonString);
                 JSONArray umatArray = new JSONArray(jsonString2);
-
                 ArrayList<String> tanggal_nodup = new ArrayList<>(), nama_nodup = new ArrayList<>();
                 String[] tanggal = new String[absensiArray.length()], nama = new String[absensiArray.length()];
-
                 //LISTING DATA ABSENSI
                 for(int a = 0; a < absensiArray.length(); a++){
                     JSONObject absensiObject = absensiArray.getJSONObject(a);
                     tanggal[a] = absensiObject.getString("Tanggal_absen");
                     nama[a] = absensiObject.getString("Nama");
-                    //GROUPING TANGGAL ABSENSI
-                    if(tanggal_nodup.size() == 0 || !tanggal_nodup.contains(tanggal[a])) tanggal_nodup.add(tanggal[a]);
-                    if(nama_nodup.size() == 0 || !nama_nodup.contains(nama[a])) nama_nodup.add(nama[a]);
+                    //FILTER TANGGAL
+                    if(absensiObject.getString("Tanggal_absen").compareTo(tanggal_awal) >= 0 && absensiObject.getString("Tanggal_absen").compareTo(tanggal_akhir) <= 0){
+                        //GROUPING TANGGAL ABSENSI
+                        if(tanggal_nodup.size() == 0 || !tanggal_nodup.contains(tanggal[a])) tanggal_nodup.add(tanggal[a]);
+                        if(nama_nodup.size() == 0 || !nama_nodup.contains(nama[a])) nama_nodup.add(nama[a]);
+                    }
                 }
-
-                //SORT TANGGAL (DESCENDING)
-                Collections.sort(tanggal_nodup, Collections.reverseOrder());
-
                 //LISTING DATA UMAT
                 for(int a = 0; a < umatArray.length(); a++){
                     JSONObject umatObject = umatArray.getJSONObject(a);
@@ -206,11 +216,12 @@ public class Fragment_MenuAbsensi extends Fragment {
                         umat_list.add(new Contract_Umat(umatObject.getString("IDUmat"), umatObject.getString("Nama"), umatObject.getString("Tgl_lahir"), umatObject.getString("alamat")));
                     }
                 }
-
                 //GROUPING NAMA KE TANGGAL ABSEN
-                for(int a = 0; a<tanggal_nodup.size(); a++){
+                for(int a = 0; a < tanggal_nodup.size(); a++){
                     List<String> nama_list = new ArrayList<>();
-                    for(int b = 0; b<absensiArray.length(); b++) if(tanggal[b].equals(tanggal_nodup.get(a))) nama_list.add(nama[b]);
+                    for(int b = 0; b < absensiArray.length(); b++){
+                        if(tanggal[b].equals(tanggal_nodup.get(a))) nama_list.add(nama[b]);
+                    }
                     absensi_list.put(tanggal_nodup.get(a), nama_list);
                 }
             }
