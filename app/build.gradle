@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0' //DESIGN
 
     implementation 'com.opencsv:opencsv:4.0' //CSV WRITER
+    implementation 'de.siegmar:fastcsv:1.0.2' //CSV WRITER
 }
 
 apply plugin: 'com.google.gms.google-services'

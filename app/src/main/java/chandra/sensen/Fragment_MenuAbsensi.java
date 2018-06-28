@@ -283,6 +283,7 @@ public class Fragment_MenuAbsensi extends Fragment {
         }
     }
 
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
