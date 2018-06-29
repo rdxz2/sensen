@@ -30,6 +30,7 @@ import java.util.Locale;
 
 public class Activity_TambahUmat extends AppCompatActivity {
 
+    //INIT
     private EditText idumat_edit;
     private EditText nama_edit;
     private EditText alamat_edit;
@@ -39,11 +40,10 @@ public class Activity_TambahUmat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tambah_umat);
-
+        //ISI ID UMAT
         cekIdUmat();
-
+        //INIT
         final Calendar calendar = Calendar.getInstance();
-
         //TANGGAL
         tgl_lahir_edit = findViewById(R.id.tgl_lahir_edit);
         final DatePickerDialog.OnDateSetListener dateAwal = new DatePickerDialog.OnDateSetListener() {
@@ -57,32 +57,30 @@ public class Activity_TambahUmat extends AppCompatActivity {
                 tgl_lahir_edit.setText(sdf.format(calendar.getTime()));
             }
         };
+        //SAAT TANGGAL LAHIR DIKLIK
         tgl_lahir_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DatePickerDialog(Activity_TambahUmat.this, dateAwal, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
+        //INIT
         final TextView nama_alert_text = findViewById(R.id.nama_alert_text);
         final TextView alamat_alert_text = findViewById(R.id.alamat_alert_text);
         final TextView tgl_lahir_alert_text = findViewById(R.id.tgl_lahir_alert_text);
-
         //BUTTON TAMBAH
         Button tambahButton = findViewById(R.id.tambah_button);
         tambahButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //INIT
                 nama_alert_text.setVisibility(View.GONE);
                 alamat_alert_text.setVisibility(View.GONE);
                 tgl_lahir_alert_text.setVisibility(View.GONE);
-
                 idumat_edit = findViewById(R.id.idumat_edit);
                 nama_edit = findViewById(R.id.nama_edit);
                 alamat_edit = findViewById(R.id.alamat_edit);
-
                 boolean bener = true;
-
                 //NAMA SALAH
                 if(!((idumat_edit.getText().toString().length() >=5 ) && (idumat_edit.getText().toString().length() <= 20))){
                     nama_alert_text.setVisibility(View.VISIBLE);
@@ -98,14 +96,13 @@ public class Activity_TambahUmat extends AppCompatActivity {
                     tgl_lahir_alert_text.setVisibility(View.VISIBLE);
                     bener = false;
                 }
-                //BENER
+                //BENER -> MASUKIN DATA KE DB
                 if(bener) {
-                    //MASUKIN DATA KE DB
                     new tambahUmat().execute(idumat_edit.getText().toString(), nama_edit.getText().toString(), tgl_lahir_edit.getText().toString(), alamat_edit.getText().toString());
                 }
             }
         });
-
+        //BUTTON BATAL
         Button batalButton = findViewById(R.id.batal_button);
         batalButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,14 +117,19 @@ public class Activity_TambahUmat extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                //INIT
                 Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
                 String jsonString = service.responseBody;
                 try {
                     JSONArray umatArray = new JSONArray(jsonString);
+                    //AMBIL DATA UMAT YANG PALING TERAKHIR (ID UMAT PALING BESAR)
                     JSONObject umatObject = umatArray.getJSONObject(umatArray.length()-1);
                     String idumat = umatObject.getString("IDUmat");
+                    //UBAH KE INT
                     int idumat_int = Integer.parseInt(idumat.substring(2));
+                    //TAMBAH 1
                     final int idumat_int2 = idumat_int + 1;
+                    //UPDATE ISI DARI EDITTEXT IDUMAT
                     Activity_TambahUmat.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -141,15 +143,16 @@ public class Activity_TambahUmat extends AppCompatActivity {
         }).start();
     }
 
-    //TAMBAH UMAT
-    //TODO: tambah umat
+    //CLASS TAMBAH UMAT
     class tambahUmat extends AsyncTask<String, Void, Boolean> {
+        //INIT
         boolean sukses = false;
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            //TAMPILIN PROGRESS DIALOG
             progressDialog = new ProgressDialog(Activity_TambahUmat.this);
             progressDialog.setMessage("Menambahkan data");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -158,11 +161,13 @@ public class Activity_TambahUmat extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... params) {
+            //INIT
             String idumat = params[0];
             String nama = params[1];
             String tgl_lahir = params[2];
             String alamat = params[3];
             try{
+                //KONEKSI KE SERVER -> BUAT TAMBAH UMAT
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/InputData.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();
@@ -183,10 +188,12 @@ public class Activity_TambahUmat extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             progressDialog.dismiss();
+            //KALO SUKSES
             if(sukses){
                 Toast.makeText(Activity_TambahUmat.this, "Data berhasil ditambahkan", Toast.LENGTH_SHORT).show();
                 finish();
             }
+            //KALO GA SUKSES
             else{
                 Toast.makeText(Activity_TambahUmat.this, "Data gagal ditambahkan", Toast.LENGTH_SHORT).show();
             }

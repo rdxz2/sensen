@@ -116,13 +116,16 @@ public class Activity_UbahUmat extends AppCompatActivity {
         });
     }
 
-    //TODO: ubah umat
+    //CLASS UBAH UMAT
     class ubahUmat extends AsyncTask<String, Void, Boolean> {
+        //INIT
         ProgressDialog progressDialog;
+        boolean sukses = false;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            //TAMPILIN PROGRESS DIALOG
             progressDialog = new ProgressDialog(Activity_UbahUmat.this);
             progressDialog.setMessage("Menambahkan data");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -132,10 +135,12 @@ public class Activity_UbahUmat extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(String... params) {
             try{
+                //INIT
                 String idumat = params[0];
                 String nama = params[1];
                 String tgl_lahir = params[1];
                 String alamat = params[1];
+                //KONEKSI KE SERVER -> BUAT UPDATE DATA UMAT
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/UpdateData.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();
@@ -146,6 +151,7 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 String line;
                 while((line = reader.readLine()) != null) stringBuilder.append(line);
                 connection.disconnect();
+                sukses = true;
                 return Boolean.valueOf(stringBuilder.toString());
             } catch (IOException e) {e.printStackTrace();}
             return false;
@@ -155,10 +161,12 @@ public class Activity_UbahUmat extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             progressDialog.dismiss();
-            if(aBoolean){
+            //KALO SUKSES
+            if(sukses){
                 Toast.makeText(Activity_UbahUmat.this, "Data berhasil diubah", Toast.LENGTH_SHORT).show();
                 finish();
             }
+            //KALO GAGAL
             else{
                 Toast.makeText(Activity_UbahUmat.this, "Data gagal diubah", Toast.LENGTH_SHORT).show();
             }

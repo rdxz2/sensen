@@ -77,9 +77,9 @@ public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.Menu
                 alamat_text.setText(umat_list.get(pos).getAlamat());
                 tgl_lahir_text.setText(umat_list.get(pos).getTglLahir());
                 //KALO ADA FOTO
-                if(!umat_list.get(pos).getFoto().equals("")){
-                    //TODO: TAMBAH FOTO
-                }
+//                if(!umat_list.get(pos).getFoto().equals("")){
+//
+//                }
 
                 //BUTTON UBAH
                 Button ubahButton = view2.findViewById(R.id.ubah_button);
