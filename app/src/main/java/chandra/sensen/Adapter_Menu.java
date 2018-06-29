@@ -25,8 +25,8 @@ public class Adapter_Menu extends FragmentStatePagerAdapter{
         switch (position){
             //MENU UTAMA
             case 0:
-                Fragment_MenuUtama framgent_menuUtama = new Fragment_MenuUtama();
-                return framgent_menuUtama;
+                Fragment_MenuUtama fragment_menuUtama = new Fragment_MenuUtama();
+                return fragment_menuUtama;
             //MENU ABSENSI
             case 1:
                 Fragment_MenuAbsensi fragment_menuAbsensi = new Fragment_MenuAbsensi();

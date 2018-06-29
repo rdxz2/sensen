@@ -6,40 +6,42 @@ import java.util.ArrayList;
 
 public class CustomFilter extends Filter {
 
+    //INIT
     Adapter_MenuUmat adapter;
-    ArrayList<Contract_Umat> filterList;
+    ArrayList<Contract_Umat> umat_filter;
 
-    public CustomFilter(ArrayList<Contract_Umat> filterList,Adapter_MenuUmat adapter){
-        this.adapter=adapter;
-        this.filterList=filterList;
+    //CONSTRUCTOR
+    public CustomFilter(ArrayList<Contract_Umat> umat_filter, Adapter_MenuUmat adapter){
+        this.adapter = adapter;
+        this.umat_filter = umat_filter;
     }
 
-    //FILTERING OCURS
+    //FILTERING DATA (SESUAI INPUT USER)
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
-        FilterResults results=new FilterResults();
-
-        //CHECK CONSTRAINT VALIDITY
-        if(constraint != null && constraint.length() > 0)
-        {
-            //CHANGE TO UPPER
-            constraint=constraint.toString().toUpperCase();
-            //STORE OUR FILTERED PLAYERS
-            ArrayList<Contract_Umat> filteredPlayers=new ArrayList<>();
-
-            for (int i=0;i<filterList.size();i++){
-                //CHECK
-                if(filterList.get(i).getNama().toUpperCase().contains(constraint) || filterList.get(i).getIdUmat().toUpperCase().contains(constraint)){
-                    //ADD PLAYER TO FILTERED PLAYERS
-                    filteredPlayers.add(filterList.get(i));
+        //INIT
+        FilterResults results = new FilterResults();
+        //CEK INPUTAN USER
+        if(constraint != null && constraint.length() > 0){
+            //UBAH KE UPPERCASE
+            constraint = constraint.toString().toUpperCase();
+            ArrayList<Contract_Umat> umat_filtered = new ArrayList<>();
+            //SEARCH DI umat_filter
+            for (int i = 0; i < umat_filter.size(); i++){
+                //KALO INPUTAN USER ADA DI NAMA/ID
+                if(umat_filter.get(i).getNama().toUpperCase().contains(constraint) || umat_filter.get(i).getIdUmat().toUpperCase().contains(constraint) || umat_filter.get(i).getTglLahir().toUpperCase().contains(constraint)){
+                    //MASUKIN KE umat_filter
+                    umat_filtered.add(umat_filter.get(i));
                 }
             }
-            results.count=filteredPlayers.size();
-            results.values=filteredPlayers;
+            //SET RESULT
+            results.count = umat_filtered.size();
+            results.values = umat_filtered;
         }
         else{
-            results.count=filterList.size();
-            results.values=filterList;
+            //SET RESULT (KOSONG)
+            results.count = umat_filter.size();
+            results.values = umat_filter;
         }
         return results;
     }
@@ -47,7 +49,6 @@ public class CustomFilter extends Filter {
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {
         adapter.umat_list = (ArrayList<Contract_Umat>) results.values;
-
         //REFRESH
         adapter.notifyDataSetChanged();
     }

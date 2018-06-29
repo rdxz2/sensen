@@ -55,16 +55,16 @@ public class Fragment_MenuUmat extends Fragment {
         }
     }
 
+    //INIT
     private RecyclerView recyclerView;
     private Adapter_MenuUmat adapter_menuUmat;
     private ArrayList<Contract_Umat> umat_list = new ArrayList<>();
-    private ArrayList<Contract_Umat> umat_list_filtered = new ArrayList<>();
     SearchView dataumatSearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //INFLATER
         View v = inflater.inflate(R.layout.fragment_menu_umat, container, false);
-
         return v;
     }
 
@@ -93,13 +93,12 @@ public class Fragment_MenuUmat extends Fragment {
             recyclerView = getActivity().findViewById(R.id.dataumat_recycler);
         }
         //KALO GAADA KONEKSI INTERNET
-        else{
-            Toast.makeText(getActivity(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
-        }
+        else Toast.makeText(getActivity(), "Tidak ada koneksi internet", Toast.LENGTH_SHORT).show();
     }
 
     //CLASS LISTING UMAT -> BUAT AMBIL SELURUH DATA UMAT
     class listingUmat extends AsyncTask<String, Void, Boolean>{
+        //INIT
         ProgressDialog progressDialog;
 
         @Override
@@ -114,7 +113,7 @@ public class Fragment_MenuUmat extends Fragment {
 
         @Override
         protected Boolean doInBackground(String... params) {
-            //WEB SERVICE
+            //WEB SERVICE (KONEKSI KE SERVER) -> BUAT DAPETIN DATA UMAT
             Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
             String jsonString = service.responseBody;
             try {
@@ -132,10 +131,13 @@ public class Fragment_MenuUmat extends Fragment {
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            //TUTUP PROGRESS DIALOG
             progressDialog.dismiss();
+            //BUAT CARDVIEW (ISINYA AMBIL DARI umat_list)
             adapter_menuUmat = new Adapter_MenuUmat(umat_list, getContext());
-
+            //SEARCH BAR
             dataumatSearch = getActivity().findViewById(R.id.dataumat_search);
+            //SAAT SEARCH BAR LAGI DIUTAK-ATIK
             dataumatSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String s) {
@@ -148,7 +150,7 @@ public class Fragment_MenuUmat extends Fragment {
                     return false;
                 }
             });
-
+            //RECYCLER VIEW (TEMPAT BUAT NARO CARDVIEW)
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter_menuUmat);

@@ -13,8 +13,10 @@ import java.net.URL;
 
 public class Service_WebService {
 
+    //INIT
     public String responseBody;
 
+    //CONSTRUCTOR
     public Service_WebService(String urlString, String method, String params){
         try{
             URL url = new URL(urlString);

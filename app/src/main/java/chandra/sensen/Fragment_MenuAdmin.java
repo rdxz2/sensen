@@ -58,9 +58,10 @@ public class Fragment_MenuAdmin extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //INFLATER
         View v = inflater.inflate(R.layout.fragment_menu_admin, container, false);
         //FAB
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.tambah_admin_fab);
+        FloatingActionButton fab = v.findViewById(R.id.tambah_admin_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,7 +74,7 @@ public class Fragment_MenuAdmin extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //TODO: checking jumlah admin -> hapus admin
+        //INIT
         jum = 0;
         //SAMBUNG KE DB
         Contract_Admin.AdminDbHelper AdminDbHelper = new Contract_Admin.AdminDbHelper(getActivity());
@@ -98,7 +99,7 @@ public class Fragment_MenuAdmin extends Fragment {
         //ARRAY ADAPTER
         ArrayAdapter<String> strList = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1);
         for(int x=0; x<str.size(); x++) strList.add(str.get(x));
-        ListView adminList = (ListView) getActivity().findViewById(R.id.admin_list);
+        ListView adminList = getActivity().findViewById(R.id.admin_list);
         //SAAT ITEM DIKLIK -> TAMPILIN DATA ADMIN
         adminList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,15 +113,15 @@ public class Fragment_MenuAdmin extends Fragment {
                 alertDialog.show();
                 //SET USERNAME DI EDITTEXT
                 cursor.moveToPosition(position);
-                EditText usernameEdit = (EditText) view2.findViewById(R.id.username_edit);
+                EditText usernameEdit = view2.findViewById(R.id.username_edit);
                 usernameEdit.setText(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)));
                 //BUTTON UBAH
-                Button ubahButton = (Button) view2.findViewById(R.id.ubah_button);
+                Button ubahButton = view2.findViewById(R.id.ubah_button);
                 ubahButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText passwordlamaEdit = (EditText) view2.findViewById(R.id.password_lama_edit);
-                        EditText passwordbaruEdit = (EditText) view2.findViewById(R.id.password_baru_edit);
+                        EditText passwordlamaEdit = view2.findViewById(R.id.password_lama_edit);
+                        EditText passwordbaruEdit = view2.findViewById(R.id.password_baru_edit);
                         //PASSWORD BENER
                         if(passwordlamaEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             ContentValues contentValues = new ContentValues();
@@ -139,7 +140,7 @@ public class Fragment_MenuAdmin extends Fragment {
                     }
                 });
                 //BUTTON BATAL
-                Button batalButton = (Button) view2.findViewById(R.id.batal_button);
+                Button batalButton = view2.findViewById(R.id.batal_button);
                 batalButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -162,14 +163,14 @@ public class Fragment_MenuAdmin extends Fragment {
                 alertDialog.show();
                 //SET USERNAME DI EDITTEXT
                 cursor.moveToPosition(i);
-                TextView passwordText = (TextView) view2.findViewById(R.id.confirm_text);
+                TextView passwordText = view2.findViewById(R.id.confirm_text);
                 passwordText.setText("Apakah Anda yakin ingin menghapus Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "'?");
                 //BUTTON HAPUS
-                Button hapusButton = (Button) view2.findViewById(R.id.hapus_button);
+                Button hapusButton = view2.findViewById(R.id.hapus_button);
                 hapusButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        EditText passwordEdit = (EditText) view2.findViewById(R.id.password_edit);
+                        EditText passwordEdit = view2.findViewById(R.id.password_edit);
                         //PASSWORD BENER
                         if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             if(!(jum_temp <= 0)){
@@ -189,7 +190,7 @@ public class Fragment_MenuAdmin extends Fragment {
                     }
                 });
                 //BUTTON BATAL
-                Button batalButton = (Button) view2.findViewById(R.id.batal_button);
+                Button batalButton = view2.findViewById(R.id.batal_button);
                 batalButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

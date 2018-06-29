@@ -62,7 +62,6 @@ public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.Menu
                 alertDialogBuilder.setView(view2);
                 final android.support.v7.app.AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
-
                 //INIT
                 final int pos = getAdapterPosition();
                 TextView idumat_text = view2.findViewById(R.id.idumat_text);
@@ -70,7 +69,6 @@ public class Adapter_MenuUmat extends RecyclerView.Adapter<Adapter_MenuUmat.Menu
                 TextView alamat_text = view2.findViewById(R.id.alamat_text);
                 TextView tgl_lahir_text = view2.findViewById(R.id.tgl_lahir_text);
                 ImageView foto_image = view2.findViewById(R.id.foto_image);
-
                 //SET SEMUA TEXTVIEW & IMAGEVIEW
                 idumat_text.setText(umat_list.get(pos).getIdUmat());
                 nama_text.setText(umat_list.get(pos).getNama());

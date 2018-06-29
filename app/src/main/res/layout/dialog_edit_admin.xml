@@ -59,7 +59,7 @@
         <TableRow>
             <Button
                 android:id="@+id/batal_button"
-                android:text="kembali"
+                android:text="batal"
                 android:fontFamily="casual"
                 android:textColor="@color/colorPrimary"
                 android:drawableStart="@drawable/ic_arrow_back_black_24dp"

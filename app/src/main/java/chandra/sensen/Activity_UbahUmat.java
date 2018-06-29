@@ -29,6 +29,7 @@ import java.util.Locale;
 
 public class Activity_UbahUmat extends AppCompatActivity {
 
+    //INIT
     private EditText idumat_edit;
     private EditText nama_edit;
     private EditText alamat_edit;
@@ -38,21 +39,15 @@ public class Activity_UbahUmat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ubah_umat);
-
         //INIT
         idumat_edit = findViewById(R.id.idumat_edit);
         nama_edit = findViewById(R.id.nama_edit);
         alamat_edit = findViewById(R.id.alamat_edit);
         final TextView alamat_alert_text = findViewById(R.id.alamat_alert_text);
         final TextView tgl_lahir_alert_text = findViewById(R.id.tgl_lahir_alert_text);
-
-        //CEK ID UMAT
-//        cekIdUmat();
-
         final Calendar calendar = Calendar.getInstance();
-
-        //TANGGAL AWAL
         tgl_lahir_edit = findViewById(R.id.tgl_lahir_edit);
+        //CALENDAR
         final DatePickerDialog.OnDateSetListener dateAwal = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -70,23 +65,20 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 new DatePickerDialog(Activity_UbahUmat.this, dateAwal, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
         //SET & TAMPILIN DATA UMAT YANG SEKARANG
         idumat_edit.setText(getIntent().getStringExtra("IDUMAT"));
         nama_edit.setText(getIntent().getStringExtra("NAMA"));
         alamat_edit.setText(getIntent().getStringExtra("ALAMAT"));
         tgl_lahir_edit.setText(getIntent().getStringExtra("TGL_LAHIR"));
-
         //BUTTON UBAH
         Button ubahButton = findViewById(R.id.ubah_button);
         ubahButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //INIT
                 alamat_alert_text.setVisibility(View.GONE);
                 tgl_lahir_alert_text.setVisibility(View.GONE);
-
                 boolean bener = true;
-
                 //ALAMAT SALAH
                 if(alamat_edit.getText().toString().equals("")){
                     alamat_alert_text.setVisibility(View.VISIBLE);
@@ -105,7 +97,6 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 }
             }
         });
-
         //BUTTON BATAL
         Button batalButton = findViewById(R.id.batal_button);
         batalButton.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +118,7 @@ public class Activity_UbahUmat extends AppCompatActivity {
             super.onPreExecute();
             //TAMPILIN PROGRESS DIALOG
             progressDialog = new ProgressDialog(Activity_UbahUmat.this);
-            progressDialog.setMessage("Menambahkan data");
+            progressDialog.setMessage("Mengubah data");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.show();
         }
@@ -138,8 +129,8 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 //INIT
                 String idumat = params[0];
                 String nama = params[1];
-                String tgl_lahir = params[1];
-                String alamat = params[1];
+                String tgl_lahir = params[2];
+                String alamat = params[3];
                 //KONEKSI KE SERVER -> BUAT UPDATE DATA UMAT
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/UpdateData.php").openConnection();
                 connection.setRequestMethod("POST");
@@ -167,9 +158,7 @@ public class Activity_UbahUmat extends AppCompatActivity {
                 finish();
             }
             //KALO GAGAL
-            else{
-                Toast.makeText(Activity_UbahUmat.this, "Data gagal diubah", Toast.LENGTH_SHORT).show();
-            }
+            else Toast.makeText(Activity_UbahUmat.this, "Data gagal diubah", Toast.LENGTH_SHORT).show();
         }
     }
 }

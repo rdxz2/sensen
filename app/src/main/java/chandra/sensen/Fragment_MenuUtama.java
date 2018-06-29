@@ -61,18 +61,22 @@ public class Fragment_MenuUtama extends Fragment{
         }
     }
 
+    //INIT
     private int BARCODE_READER_REQUEST_CODE = 1;
     EditText idEdit;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //CEK STATUS PENGOLAH BARCODE -> AMBIL DATA YANG DIKIRIM DARI Activity_BarcodeCapture
         if(requestCode == BARCODE_READER_REQUEST_CODE){
             if(resultCode == CommonStatusCodes.SUCCESS){
+                //KALO ADA DATA
                 if(data != null){
                     Barcode barcode = (Barcode) data.getParcelableExtra(Activity_BarcodeCapture.BarcodeObject);
                     Point[] p = barcode.cornerPoints;
                     idEdit.setText(barcode.displayValue);
                 }
+                //KALO GAADA DATA
                 else{
                     idEdit.setText("Kode QR belum terdeteksi");
                 }
@@ -86,14 +90,15 @@ public class Fragment_MenuUtama extends Fragment{
         }
     }
 
+    //INIT
     String id = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        //INFLATER
         View v = inflater.inflate(R.layout.fragment_menu_utama, container, false);
-
-        idEdit = (EditText) v.findViewById(R.id.id_edit);
-
+        //INIT
+        idEdit = v.findViewById(R.id.id_edit);
         //BUTTON ABSEN
         Button absenButton = v.findViewById(R.id.absen_button);
         absenButton.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +108,6 @@ public class Fragment_MenuUtama extends Fragment{
                 new inputAbsen().execute(id);
             }
         });
-
         //BUTTON SCAN QR
         Button qrButton = v.findViewById(R.id.qr_button);
         qrButton.setOnClickListener(new View.OnClickListener() {
@@ -112,28 +116,30 @@ public class Fragment_MenuUtama extends Fragment{
                 startActivityForResult(new Intent(getActivity(), Activity_BarcodeCapture.class), BARCODE_READER_REQUEST_CODE);
             }
         });
-
         return v;
     }
 
+    //CLASS INPUT ABSEN
     class inputAbsen extends AsyncTask<String, Void, Boolean> {
-        boolean berhasil = false;
+        //INIT
+        boolean sukses = false;
         @Override
         protected Boolean doInBackground(String... params) {
+            //INIT
             String idumat = params[0];
             try {
+                //KONEKSI KE SERVER -> BUAT INPUT ABSEN
                 HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/AbsenInput.php").openConnection();
                 connection.setRequestMethod("POST");
                 connection.connect();
                 connection.getOutputStream().write(String.format("IDUmat=%s", idumat).getBytes());
-                Log.d("DOINBACKRGOUND", "IDUMAT = " + idumat);
                 InputStream input = new BufferedInputStream(connection.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) stringBuilder.append(line);
                 connection.disconnect();
-                berhasil = true;
+                sukses = true;
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -143,8 +149,11 @@ public class Fragment_MenuUtama extends Fragment{
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            if(berhasil) Toast.makeText(getActivity(), id + " berhasil diabsen", Toast.LENGTH_SHORT).show();
+            //KALO SUKSES
+            if(sukses) Toast.makeText(getActivity(), id + " berhasil diabsen", Toast.LENGTH_SHORT).show();
+            //KALO GAGAL
             else Toast.makeText(getActivity(), "Gagal melakukan absen", Toast.LENGTH_SHORT).show();
+            //RESET EDITTEXT
             idEdit.setText("");
         }
     }

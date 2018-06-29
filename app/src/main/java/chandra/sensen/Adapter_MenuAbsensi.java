@@ -31,6 +31,7 @@ import java.util.List;
 
 public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
 
+    //INIT
     private Context context;
     private List<String> tanggal_list;
     private HashMap<String, List<String>> absensi_list;
@@ -59,21 +60,25 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         return listPosition;
     }
 
+    //INIT
     private String nama_file = "", tanggal_absen2 = "";
     private List<String> umat_list = new ArrayList<>();
     private List<Contract_Export> export_list = new ArrayList<>();
 
     @Override
     public View getGroupView(int listPosition, boolean isExpanded,View convertView, ViewGroup parent) {
+        //INIT
         final String tanggal_absen = (String) getGroup(listPosition);
         if (convertView == null) {
             LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.list_group_data_absensi, null);
         }
-        TextView tanggal_absenText = (TextView) convertView.findViewById(R.id.tanggal_absensi_text);
+        //INIT
+        TextView tanggal_absenText = convertView.findViewById(R.id.tanggal_absensi_text);
         tanggal_absenText.setTypeface(Typeface.create("casual", Typeface.BOLD));
         tanggal_absenText.setText("Tanggal: " + tanggal_absen);
-        Button exportButton1 = (Button) convertView.findViewById(R.id.export_button1);
+        //TOMBOL EXPORT
+        Button exportButton1 = convertView.findViewById(R.id.export_button1);
         exportButton1.setFocusable(false);
         exportButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,10 +186,10 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
             String NEW_LINE_SEPARATOR = "\n";
             String FILE_HEADER = "IDAbsen, IDmat, Nama";
             //MASUKIN DATA" OBJEK KE LIST BARU
-            for(int a = 0 ; a < export_list.size(); a++){
-                List export = new ArrayList();
-                export.add(export_list.get(a));
-            }
+//            for(int a = 0 ; a < export_list.size(); a++){
+//                List export = new ArrayList();
+//                export.add(export_list.get(a));
+//            }
             FileWriter fileWriter = null;
             try {
                 //MULAI TULIS ISI DARI FILE CSV

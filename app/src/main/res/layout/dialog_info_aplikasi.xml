@@ -1,115 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="15dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingBottom="15dp"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <TextView
-        android:text="Aplikasi Absensi Mobile"
-        android:textSize="20dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:textAlignment="center"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="@string/app_name"
-        android:textSize="25dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="@string/app_version"
-        android:textSize="12dp"
-        android:fontFamily="casual"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/logo_sidharta"
-        android:layout_gravity="center"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-    <TextView
-        android:text="Dibuat oleh:"
-        android:textSize="18dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="Jennifer Gabrielle"
-        android:textSize="15dp"
-        android:fontFamily="casual"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="Richard Dharmawan"
-        android:textSize="15dp"
-        android:fontFamily="casual"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="Steven Ricard"
-        android:textSize="15dp"
-        android:fontFamily="casual"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-    <TextView
-        android:text="Teknik Komputer"
-        android:textSize="15dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="Universitas Multimedia Nusantara"
-        android:textSize="15dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:text="2018"
-        android:textSize="15dp"
-        android:fontFamily="casual"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="10dp" />
-    <Button
-        android:id="@+id/kembali_button"
-        android:text="kembali"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_gravity="center"/>
+        android:paddingTop="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="15dp"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:text="Aplikasi Absensi Mobile"
+            android:textSize="20dp"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/app_name"
+            android:textSize="25dp"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/app_version"
+            android:textSize="12dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/logo_sidharta"
+            android:layout_gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <TextView
+            android:text="Dibuat oleh:"
+            android:textSize="18dp"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="Jennifer Gabrielle"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="Richard Dharmawan"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="Steven Ricard"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <TextView
+            android:text="Teknik Komputer"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="Universitas Multimedia Nusantara"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="2018"
+            android:textSize="15dp"
+            android:fontFamily="casual"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+        <Button
+            android:id="@+id/kembali_button"
+            android:text="kembali"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
-</LinearLayout>
+</ScrollView>

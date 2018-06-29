@@ -71,6 +71,7 @@ public class Fragment_MenuAbsensi extends Fragment {
         }
     }
 
+    //INIT
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> tanggal_list;
@@ -80,10 +81,9 @@ public class Fragment_MenuAbsensi extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_absensi, container, false);
-
+        //INIT
         final Calendar calendarAwal = Calendar.getInstance();
         final Calendar calendarAkhir = Calendar.getInstance();
-
         //TANGGAL AWAL
         final EditText tanggalawalEdit= (EditText) v.findViewById(R.id.tanggal_awal_edit);
         final DatePickerDialog.OnDateSetListener dateAwal = new DatePickerDialog.OnDateSetListener() {
@@ -103,7 +103,6 @@ public class Fragment_MenuAbsensi extends Fragment {
                 new DatePickerDialog(getActivity(), dateAwal, calendarAwal.get(Calendar.YEAR), calendarAwal.get(Calendar.MONTH), calendarAwal.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
-
         //TANGGAL AKHIR
         final EditText tanggalakhirEdit= (EditText) v.findViewById(R.id.tanggal_akhir_edit);
         final DatePickerDialog.OnDateSetListener dateAkhir = new DatePickerDialog.OnDateSetListener() {
@@ -121,11 +120,11 @@ public class Fragment_MenuAbsensi extends Fragment {
                     if(!tanggalawalEdit.getText().toString().equals("")){
                         //CARI
                         new listingAbsensi().execute(tanggalawalEdit.getText().toString(), tanggalakhirEdit.getText().toString());
-                        tanggalawalEdit.setText("");
-                        tanggalakhirEdit.setText("");
+//                        tanggalawalEdit.setText("");
+//                        tanggalakhirEdit.setText("");
                     }
                     else{
-                        Toast.makeText(getActivity(), "Isi terlebih dahulu data-data di atas", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Isi terlebih dahulu tanggal awal", Toast.LENGTH_SHORT).show();
                     }
                 }
                 //KALO TANGGAL AWAL > TANGGAL AKHIR (INPUT SALAH)
@@ -147,12 +146,10 @@ public class Fragment_MenuAbsensi extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
         //CEK KONEKSI INTERNET
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-
         //KALO ADA KONEKSI INTERNET
         if(isConnected){
             expandableListView = getActivity().findViewById(R.id.absensi_expandable);
@@ -167,11 +164,13 @@ public class Fragment_MenuAbsensi extends Fragment {
     }
 
     class listingAbsensi extends AsyncTask<String, Void, Boolean> {
+        //INIT
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            //TAMPILIN PROGRESS DIALOG
             progressDialog = new ProgressDialog(getActivity());
             progressDialog.setMessage("Mengambil data absen");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

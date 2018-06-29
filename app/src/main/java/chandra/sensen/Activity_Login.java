@@ -30,7 +30,7 @@ public class Activity_Login extends AppCompatActivity {
         passwordEdit.setText(pref.getString("PASSWORD", ""));
         remembermeCheckBox.setChecked(pref.getBoolean("REMEMBER_ME", false));
         //BUTTON LOGIN
-        Button loginButton = (Button) findViewById(R.id.login_button);
+        Button loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -63,12 +63,14 @@ public class Activity_Login extends AppCompatActivity {
                         prefEdit.clear();
                     }
                     prefEdit.commit();
+                    cursor.close();
                     startActivity(new Intent(Activity_Login.this, Activity_Menu.class));
                 }
                 //KALO GAADA DATA
                 else{
                     Toast.makeText(Activity_Login.this, "Masukkan nama admin dan kata sandi yang benar", Toast.LENGTH_SHORT).show();
                 }
+                cursor.close();
             }
         });
     }
