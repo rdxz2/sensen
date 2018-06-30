@@ -89,11 +89,11 @@ public class Fragment_MenuAdmin extends Fragment {
         //SET KONTEN LISTVIEW
         ArrayList<String> str = new ArrayList();
         cursor.moveToFirst();
+        int a = 0;
         do {
-            str.add(String.format("%d - %s",
-                    cursor.getInt(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)),
-                    cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME))
-            ));
+//            str.add(String.format("%d - %s", cursor.getInt(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID)), cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME))));
+            a++;
+            str.add(String.format("%d - %s", a, cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME))));
             jum++;
         } while (cursor.moveToNext());
         //ARRAY ADAPTER
@@ -174,7 +174,14 @@ public class Fragment_MenuAdmin extends Fragment {
                         //PASSWORD BENER
                         if(passwordEdit.getText().toString().equals(cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_PASSWORD)))){
                             if(!(jum_temp <= 0)){
-                                //TODO: hapus dari database
+                                //INIT
+                                Contract_Admin.AdminDbHelper AdminDbHelper1 = new Contract_Admin.AdminDbHelper(getActivity());
+                                SQLiteDatabase db = AdminDbHelper1.getReadableDatabase();
+                                String selection = String.format("%s = ?", Contract_Admin.AdminEntry._ID);
+                                String[] selectionArgs = {cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry._ID))};
+                                //DELETE
+                                db.delete(Contract_Admin.AdminEntry.TABLE_NAME, selection, selectionArgs);
+                                onResume();
                                 Toast.makeText(getActivity(), "Admin '" + cursor.getString(cursor.getColumnIndex(Contract_Admin.AdminEntry.COLUMN_NAME_USERNAME)) + "' telah dihapus", Toast.LENGTH_SHORT).show();
                                 alertDialog.hide();
                                 onResume();

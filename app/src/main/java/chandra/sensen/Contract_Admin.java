@@ -20,6 +20,7 @@ public class Contract_Admin {
     );
     public static final String SQL_DELETE_ACCOUNTS = String.format("DROP TABLE IF EXISTS %s", AdminEntry.TABLE_NAME);
 
+    //CONSTRUCTOR
     private Contract_Admin(){}
 
     public static class AdminEntry implements BaseColumns {

@@ -21,8 +21,11 @@ import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
 
 class BarcodeTracker extends Tracker<Barcode> {
+
+    //INIT
     private BarcodeGraphicTrackerCallback mListener;
 
+    //SAAT ADA BARCODE BARU TERDETEKSI
     public interface BarcodeGraphicTrackerCallback {
         void onDetectedQrCode(Barcode barcode);
     }

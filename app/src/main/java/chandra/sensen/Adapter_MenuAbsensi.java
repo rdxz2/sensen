@@ -221,6 +221,7 @@ public class Adapter_MenuAbsensi extends BaseExpandableListAdapter {
         catch (IOException e){e.printStackTrace();}
     }
 
+    //CEK APAKAH SUDAH ADA PERMISSION
     private static boolean hasPermissions(Context context, String... permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
             for (String permission : permissions) {
