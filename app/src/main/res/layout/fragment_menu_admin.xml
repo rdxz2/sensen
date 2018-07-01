@@ -9,7 +9,6 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingBottom="15dp"
-    android:orientation="vertical"
     tools:context=".Fragment_MenuAdmin">
 
     <android.support.design.widget.FloatingActionButton

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -60,7 +61,7 @@ public class Fragment_MenuAdmin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //INFLATER
         View v = inflater.inflate(R.layout.fragment_menu_admin, container, false);
-        //FAB
+        //FAB TAMBAH ADMIN
         FloatingActionButton fab = v.findViewById(R.id.tambah_admin_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

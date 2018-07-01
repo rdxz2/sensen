@@ -1,5 +1,6 @@
 package chandra.sensen;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -17,6 +18,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -122,25 +127,52 @@ public class Fragment_MenuUtama extends Fragment{
     //CLASS INPUT ABSEN
     class inputAbsen extends AsyncTask<String, Void, Boolean> {
         //INIT
-        boolean sukses = false;
+        boolean sukses = false, dapetumat = false;
+        String namaumat = "";
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            //TAMPILIN PROGRESS DIALOG
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Memasukkan absen");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.show();
+        }
+
         @Override
         protected Boolean doInBackground(String... params) {
             //INIT
             String idumat = params[0];
             try {
-                //KONEKSI KE SERVER -> BUAT INPUT ABSEN
-                HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/AbsenInput.php").openConnection();
-                connection.setRequestMethod("POST");
-                connection.connect();
-                connection.getOutputStream().write(String.format("IDUmat=%s", idumat).getBytes());
-                InputStream input = new BufferedInputStream(connection.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                StringBuilder stringBuilder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) stringBuilder.append(line);
-                connection.disconnect();
-                sukses = true;
-            } catch (IOException e) {
+                //WEB SERVICE (KONEKSI KE SERVER) -> BUAT DAPETIN DATA UMAT
+                Service_WebService service = new Service_WebService("http://absenpadum.top/TampilData.php","GET","");
+                String jsonString = service.responseBody;
+                JSONArray umatArray = new JSONArray(jsonString);
+                //CEK SEMUA UMAT
+                for (int i = 0; i<umatArray.length(); i++){
+                    JSONObject umatObject = umatArray.getJSONObject(i);
+                    //KALO IDUMAT TERDAFTAR DI DATABASE
+                    if(idumat.contains(umatObject.getString("IDUmat"))){
+                        namaumat = umatObject.getString("Nama");
+                        //KONEKSI KE SERVER -> BUAT INPUT ABSEN
+                        HttpURLConnection connection = (HttpURLConnection) new URL("http://absenpadum.top/AbsenInput.php").openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.connect();
+                        connection.getOutputStream().write(String.format("IDUmat=%s", idumat).getBytes());
+                        InputStream input = new BufferedInputStream(connection.getInputStream());
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                        StringBuilder stringBuilder = new StringBuilder();
+                        String line;
+                        while ((line = reader.readLine()) != null) stringBuilder.append(line);
+                        connection.disconnect();
+                        dapetumat = true;
+                        sukses = true;
+                        break;
+                    }
+                }
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
             return false;
@@ -149,10 +181,13 @@ public class Fragment_MenuUtama extends Fragment{
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
+            progressDialog.hide();
             //KALO SUKSES
-            if(sukses) Toast.makeText(getActivity(), id + " berhasil diabsen", Toast.LENGTH_SHORT).show();
-            //KALO GAGAL
-            else Toast.makeText(getActivity(), "Gagal melakukan absen", Toast.LENGTH_SHORT).show();
+            if(sukses) Toast.makeText(getActivity(), "'" + namaumat + "' berhasil diabsen.", Toast.LENGTH_SHORT).show();
+            //KALO GADAPET UMAT
+            else  if(!dapetumat) Toast.makeText(getActivity(), "ID umat tidak terdaftar.", Toast.LENGTH_SHORT).show();
+            //KALO GAGAL (DLL)
+            else Toast.makeText(getActivity(), "Gagal melakukan absen.", Toast.LENGTH_SHORT).show();
             //RESET EDITTEXT
             idEdit.setText("");
         }

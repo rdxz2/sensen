@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -150,8 +151,18 @@ public class Fragment_MenuAbsensi extends Fragment {
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        //FAB REFRESH ADBSENSI
+        FloatingActionButton fab = getActivity().findViewById(R.id.refresh_absensi_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new listingAbsensi().execute("0000-00-00", "9999-99-99");
+            }
+        });
+        fab.setVisibility(View.GONE);
         //KALO ADA KONEKSI INTERNET
         if(isConnected){
+            fab.setVisibility(View.VISIBLE);
             expandableListView = getActivity().findViewById(R.id.absensi_expandable);
             absensi_list = new HashMap<>();
             umat_list = new ArrayList<>();
