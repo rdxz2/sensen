@@ -102,6 +102,12 @@ public class Activity_Menu extends AppCompatActivity implements
         });
     }
 
+    //MATIIN TOMBOL BACK
+    @Override
+    public void onBackPressed() {
+
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
